@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using ReelJunkies.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -47,6 +48,12 @@ namespace ReelJunkies.Models.Database
         [NotMapped]
         [Display(Name = "Backdrop Image")]
         public IFormFile BackdropFile { get; set; }
+
+
+        public ICollection<MovieCollection> Collections { get; set; } = new HashSet<MovieCollection>();
+        public ICollection<MovieCast> Cast { get; set; } = new HashSet<MovieCast>();
+
+        public ICollection<MovieCrew> Crew { get; set; } = new HashSet<MovieCrew>();
 
     }
 }
