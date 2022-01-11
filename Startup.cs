@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using ReelJunkies.Data;
 using ReelJunkies.Models.Settings;
 using ReelJunkies.Services;
+using ReelJunkies.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,8 +44,14 @@ namespace ReelJunkies
 
             services.AddControllersWithViews();
 
-            //register and inject appsettings as stongly typed object
+            //register and inject a configured appsettings as stongly typed object
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            //this is needed bec TmDbMovieService uses and injected instance of http client
+            services.AddHttpClient();
+
+            //register movieservice
+            services.AddScoped<IRemoteMovieService, TmDbMovieService>();
 
             //register seed service
             services.AddTransient<SeedService>();
