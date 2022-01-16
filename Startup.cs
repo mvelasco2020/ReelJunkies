@@ -53,6 +53,10 @@ namespace ReelJunkies
             //register movieservice
             services.AddScoped<IRemoteMovieService, TmDbMovieService>();
 
+            //register datamapping service
+            services.AddScoped<IDataMappingService, TmDbMappingService>();
+
+
             //register seed service
             services.AddTransient<SeedService>();
         }
