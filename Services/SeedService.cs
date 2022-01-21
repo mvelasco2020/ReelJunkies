@@ -19,11 +19,13 @@ namespace ReelJunkies.Services
         //using IOPTIONS bec we are using configured instance of the appSettings
         public SeedService(IOptions<AppSettings> appSettings,
                                 ApplicationDbContext dbContext,
-                                RoleManager<IdentityRole> roleManager)
+                                RoleManager<IdentityRole> roleManager,
+                                UserManager<IdentityUser> userManager)
         {
             _appSettings = appSettings.Value;
             _dbContext = dbContext;
             _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         public async Task ManagedDataAsync()

@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Options;
+using ReelJunkies.Enums;
 using ReelJunkies.Models.Database;
 using ReelJunkies.Models.Settings;
 using ReelJunkies.Models.TmDb;
 using ReelJunkies.Services.Interfaces;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,7 +24,28 @@ namespace ReelJunkies.Services
         }
         public ActorDetail MapActorDetail(ActorDetail actor)
         {
-            throw new System.NotImplementedException();
+            //1. Image
+            actor.profile_path = BuildCastImage(actor.profile_path);
+
+            //2. Bio
+            if (string.IsNullOrEmpty(actor.biography))
+            {
+                actor.biography = "Not Available";
+            }
+
+            //Place of birth
+            if (string.IsNullOrEmpty(actor.place_of_birth))
+            {
+                actor.place_of_birth = "Not Available";
+            }
+
+            //Birthday
+            if (string.IsNullOrEmpty(actor.birthday))
+                actor.birthday = "Not Available";
+            else
+                actor.birthday = DateTime.Parse(actor.birthday).ToString("MMM dd, yyyy");
+
+            return actor;
         }
 
         public async Task<Movie> MapMovieDetailAsync(MovieDetail movie)
@@ -41,19 +64,106 @@ namespace ReelJunkies.Services
                     VoteAverage = movie.vote_average,
                     ReleaseDate = DateTime.Parse(movie.release_date),
                     TrailerUrl = BuildTrailerPath(movie.videos),
-                    Backdrop = await EncodeBackdropImageAsync(movie.backdrop_path)
+                    Backdrop = await EncodeBackdropImageAsync(movie.backdrop_path),
+                    BackDropType = BuildImageType(movie.poster_path),
+                    Poster = await EncodePosterImageAsync(movie.poster_path),
+                    PosterType = BuildImageType(movie.poster_path),
+                    Rating = GetRating(movie.release_dates)
                 };
+
+                var castMembers = movie.credits
+                                        .cast
+                                        .OrderByDescending(c => c.popularity)
+                                        .GroupBy(c => c.id)
+                                        .Select(g => g.FirstOrDefault())
+                                        .Take(20)
+                                        .ToList();
+
+                castMembers.ForEach(member =>
+                {
+                    newMovie.Cast.Add(new MovieCast()
+                    {
+                        CastId = member.id,
+                        Department = member.known_for_department,
+                        Name = member.name,
+                        Character = member.character,
+                        ImageUrl = BuildCastImage(member.profile_path),
+                    });
+                });
+
+
+                var crewMembers = movie.credits.crew
+                        .OrderByDescending(c => c.popularity)
+                        .GroupBy(c => c.id)
+                        .Select(g => g.FirstOrDefault())
+                        .Take(20)
+                        .ToList();
+
+
+                crewMembers.ForEach(member =>
+                {
+                    newMovie.Crew.Add(new MovieCrew()
+                    {
+                        CrewID = member.id,
+                        Department = member.department,
+                        Name = member.name,
+                        Job = member.job,
+                        ImageUrl = BuildCastImage(member.profile_path),
+                    });
+                });
+
+
             }
             catch (System.Exception ex)
             {
 
-                throw;
+                Console.WriteLine($"Exception in MapMovieDetailAsync: {ex.Message}");
             }
+
+            return newMovie;
         }
 
-        private Task<byte[]> EncodeBackdropImageAsync(string backdrop_path)
+        private string BuildCastImage(string profile_path)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(profile_path))
+                return _appSettings.ReelJunkiesSettings.DefaultCastImage;
+
+            return $"{_appSettings.TmDbSettings.BaseImagePath}/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}/{profile_path}";
+        }
+
+        private MovieRating GetRating(Release_Dates release_dates)
+        {
+            var movieRating = MovieRating.NR;
+            var certification = release_dates.results.FirstOrDefault(r => r.iso_3166_1 == "US");
+            if (certification is not null)
+            {
+                var apiRating = certification.release_dates.FirstOrDefault(c => c.certification != "")?.certification.Replace("-", "");
+                if (!string.IsNullOrEmpty(apiRating))
+                {
+                    movieRating = (MovieRating)Enum.Parse(typeof(MovieRating), apiRating, true);
+                }
+            }
+            return movieRating;
+        }
+
+        private async Task<byte[]> EncodePosterImageAsync(string path)
+        {
+            var posterPath = $"{_appSettings.TmDbSettings.BaseImagePath}/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}/{path}";
+            return await _imageService.EncodeImageURLAsync(posterPath);
+        }
+
+        private string BuildImageType(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+                return path;
+
+            return $"image/{Path.GetExtension(path).TrimStart('.')}";
+        }
+
+        private async Task<byte[]> EncodeBackdropImageAsync(string backdrop_path)
+        {
+            var backdropPath = $"{_appSettings.TmDbSettings.BaseImagePath}/{_appSettings.ReelJunkiesSettings.DefaultBackdropSize}/{backdrop_path}";
+            return await _imageService.EncodeImageURLAsync(backdrop_path);
         }
 
         private string BuildTrailerPath(Videos videos)

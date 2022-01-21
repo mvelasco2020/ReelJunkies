@@ -1,0 +1,7 @@
+﻿
+####### Services ##########
+TmdbMovie Service = responsible for calling tmdb api
+TmdbMappingService = mapping data from db to view
+ImageService = fetch and storing images from api or from user input
+##########################
+

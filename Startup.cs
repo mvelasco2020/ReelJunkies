@@ -40,7 +40,9 @@ namespace ReelJunkies
             //                                       options.SignIn.RequireConfirmedAccount = true)
             // .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+                                                            options.SignIn.RequireConfirmedEmail = true)
+                    .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
 
@@ -56,9 +58,13 @@ namespace ReelJunkies
             //register datamapping service
             services.AddScoped<IDataMappingService, TmDbMappingService>();
 
+            //register ImageService
+            services.AddSingleton<IImageService, ImageService>();
 
             //register seed service
             services.AddTransient<SeedService>();
+
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
