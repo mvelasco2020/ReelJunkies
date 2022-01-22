@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using ReelJunkies.Data;
+using ReelJunkies.Enums;
 using ReelJunkies.Models;
+using ReelJunkies.Models.ViewModels;
+using ReelJunkies.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,14 +18,39 @@ namespace ReelJunkies.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ApplicationDbContext _context;
+        private readonly IRemoteMovieService _tmdbMovieService;
+
+        public HomeController(ApplicationDbContext context,
+                              IRemoteMovieService tmdbMovieService,
+                              ILogger<HomeController> logger
+                              )
         {
+            _context = context;
+            _tmdbMovieService = tmdbMovieService;
             _logger = logger;
         }
 
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            return View();
+            const int count = 16;
+
+            var data = new VM_LandingPage()
+            {
+                CustomCollections = await _context
+                                           .Collection
+                                           .Include(c => c.MovieCollection)
+                                           .ThenInclude(m => m.Movie)
+                                           .ToListAsync(),
+                NowPlaying = await _tmdbMovieService.MovieSearchAsync(MovieCategory.now_playing, count),
+                Popular = await _tmdbMovieService.MovieSearchAsync(MovieCategory.popular, count),
+                TopRated = await _tmdbMovieService.MovieSearchAsync(MovieCategory.top_rated, count),
+                Upcomming = await _tmdbMovieService.MovieSearchAsync(MovieCategory.upcoming, count)
+
+            };
+
+            return View(data);
         }
 
         public IActionResult Privacy()
