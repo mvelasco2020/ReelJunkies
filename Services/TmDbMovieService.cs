@@ -26,7 +26,7 @@ namespace ReelJunkies.Services
             _httpClient = httpClient;
         }
 
-        public async Task<ActorDetail> ActorDetail(int id)
+        public async Task<ActorDetail> ActorDetailAsync(int id)
         {
             ActorDetail actorDetail = new();
 

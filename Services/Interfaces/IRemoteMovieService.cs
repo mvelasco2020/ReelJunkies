@@ -9,6 +9,6 @@ namespace ReelJunkies.Services.Interfaces
         Task<MovieDetail> MovieDetailAsync(int id);
         Task<MovieSearch> MovieSearchAsync(MovieCategory category, int count);
 
-        Task<ActorDetail> ActorDetail(int id);
+        Task<ActorDetail> ActorDetailAsync(int id);
     }
 }
