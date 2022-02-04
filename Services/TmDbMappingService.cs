@@ -50,26 +50,26 @@ namespace ReelJunkies.Services
 
         public async Task<Movie> MapMovieDetailAsync(MovieDetail movie)
         {
-            Movie newMovie = null;
+            Movie newMovie = new Movie();
 
             try
             {
-                newMovie = new Movie()
-                {
-                    TmDbMovieId = movie.id,
-                    Title = movie.title,
-                    TagLine = movie.tagline,
-                    Overview = movie.overview,
-                    RunTime = movie.runtime,
-                    VoteAverage = movie.vote_average,
-                    ReleaseDate = DateTime.Parse(movie.release_date),
-                    TrailerUrl = BuildTrailerPath(movie.videos),
-                    Backdrop = await EncodeBackdropImageAsync(movie.backdrop_path),
-                    BackDropType = BuildImageType(movie.poster_path),
-                    Poster = await EncodePosterImageAsync(movie.poster_path),
-                    PosterType = BuildImageType(movie.poster_path),
-                    Rating = GetRating(movie.release_dates)
-                };
+
+
+                newMovie.TmDbMovieId = movie.id;
+                newMovie.Title = movie.title;
+                newMovie.TagLine = movie.tagline;
+                newMovie.Overview = movie.overview;
+                newMovie.RunTime = movie.runtime;
+                newMovie.VoteAverage = movie.vote_average;
+                newMovie.ReleaseDate = DateTime.Parse(movie.release_date);
+                newMovie.TrailerUrl = BuildTrailerPath(movie.videos);
+                newMovie.Backdrop = await EncodeBackdropImageAsync(movie.backdrop_path);
+                newMovie.BackDropType = BuildImageType(movie.poster_path);
+                newMovie.Poster = await EncodePosterImageAsync(movie.poster_path);
+                newMovie.PosterType = BuildImageType(movie.poster_path);
+                newMovie.Rating = GetRating(movie.release_dates);
+
 
                 var castMembers = movie.credits
                                         .cast
@@ -163,7 +163,7 @@ namespace ReelJunkies.Services
         private async Task<byte[]> EncodeBackdropImageAsync(string backdrop_path)
         {
             var backdropPath = $"{_appSettings.TmDbSettings.BaseImagePath}/{_appSettings.ReelJunkiesSettings.DefaultBackdropSize}/{backdrop_path}";
-            return await _imageService.EncodeImageURLAsync(backdrop_path);
+            return await _imageService.EncodeImageURLAsync(backdropPath);
         }
 
         private string BuildTrailerPath(Videos videos)
