@@ -120,7 +120,9 @@ namespace ReelJunkies.Services
                     .results.ToList()
                     .ForEach(r =>
                     r.poster_path =
-                    $"{_appSettings.TmDbSettings.BaseImagePath}/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}/{r.poster_path}");
+                    $"{_appSettings.TmDbSettings.BaseImagePath}" +
+                    $"/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}" +
+                    $"/{r.poster_path}");
 
             }
 

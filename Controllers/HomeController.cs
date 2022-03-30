@@ -6,10 +6,7 @@ using ReelJunkies.Enums;
 using ReelJunkies.Models;
 using ReelJunkies.Models.ViewModels;
 using ReelJunkies.Services.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ReelJunkies.Controllers

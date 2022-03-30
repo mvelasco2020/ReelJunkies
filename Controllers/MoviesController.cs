@@ -6,7 +6,6 @@ using ReelJunkies.Data;
 using ReelJunkies.Models.Database;
 using ReelJunkies.Models.Settings;
 using ReelJunkies.Services.Interfaces;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 

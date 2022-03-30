@@ -128,7 +128,9 @@ namespace ReelJunkies.Services
             if (string.IsNullOrEmpty(profile_path))
                 return _appSettings.ReelJunkiesSettings.DefaultCastImage;
 
-            return $"{_appSettings.TmDbSettings.BaseImagePath}/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}/{profile_path}";
+            return $"{_appSettings.TmDbSettings.BaseImagePath}" +
+                $"/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}" +
+                $"/{profile_path}";
         }
 
         private MovieRating GetRating(Release_Dates release_dates)
@@ -137,7 +139,10 @@ namespace ReelJunkies.Services
             var certification = release_dates.results.FirstOrDefault(r => r.iso_3166_1 == "US");
             if (certification is not null)
             {
-                var apiRating = certification.release_dates.FirstOrDefault(c => c.certification != "")?.certification.Replace("-", "");
+                var apiRating = certification
+                                .release_dates
+                                .FirstOrDefault(c => c.certification != "")?
+                                .certification.Replace("-", "");
                 if (!string.IsNullOrEmpty(apiRating))
                 {
                     movieRating = (MovieRating)Enum.Parse(typeof(MovieRating), apiRating, true);
@@ -148,8 +153,12 @@ namespace ReelJunkies.Services
 
         private async Task<byte[]> EncodePosterImageAsync(string path)
         {
-            var posterPath = $"{_appSettings.TmDbSettings.BaseImagePath}/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}/{path}";
-            return await _imageService.EncodeImageURLAsync(posterPath);
+            var posterPath = $"{_appSettings.TmDbSettings.BaseImagePath}" +
+                             $"/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}" +
+                             $"/{path}";
+
+            return await _imageService
+                         .EncodeImageURLAsync(posterPath);
         }
 
         private string BuildImageType(string path)
@@ -162,8 +171,12 @@ namespace ReelJunkies.Services
 
         private async Task<byte[]> EncodeBackdropImageAsync(string backdrop_path)
         {
-            var backdropPath = $"{_appSettings.TmDbSettings.BaseImagePath}/{_appSettings.ReelJunkiesSettings.DefaultBackdropSize}/{backdrop_path}";
-            return await _imageService.EncodeImageURLAsync(backdropPath);
+            var backdropPath = $"{_appSettings.TmDbSettings.BaseImagePath}" +
+                               $"/{_appSettings.ReelJunkiesSettings.DefaultBackdropSize}" +
+                               $"/{backdrop_path}";
+
+            return await _imageService
+                         .EncodeImageURLAsync(backdropPath);
         }
 
         private string BuildTrailerPath(Videos videos)

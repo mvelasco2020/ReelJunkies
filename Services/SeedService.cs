@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using ReelJunkies.Data;
-using System.Linq;
-using ReelJunkies.Models.Settings;
-using System.Threading.Tasks;
 using ReelJunkies.Models.Database;
+using ReelJunkies.Models.Settings;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ReelJunkies.Services
 {
