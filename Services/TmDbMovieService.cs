@@ -107,24 +107,33 @@ namespace ReelJunkies.Services
             //create a client and execute request
             var client = _httpClient.CreateClient();
             var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
-            var response = await client.SendAsync(request);
-
-            //return the  Moviesearch object
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var deserialize = new DataContractJsonSerializer(typeof(MovieSearch));
-                using var responseStream = await response.Content.ReadAsStreamAsync();
-                movieSearch = (MovieSearch)deserialize.ReadObject(responseStream);
-                movieSearch.results = movieSearch.results.Take(count).ToArray();
-                movieSearch
-                    .results.ToList()
-                    .ForEach(r =>
-                    r.poster_path =
-                    $"{_appSettings.TmDbSettings.BaseImagePath}" +
-                    $"/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}" +
-                    $"/{r.poster_path}");
+
+                var response = await client.SendAsync(request);
+
+                //return the  Moviesearch object
+                if (response.IsSuccessStatusCode)
+                {
+                    var deserialize = new DataContractJsonSerializer(typeof(MovieSearch));
+                    using var responseStream = await response.Content.ReadAsStreamAsync();
+                    movieSearch = (MovieSearch)deserialize.ReadObject(responseStream);
+                    movieSearch.results = movieSearch.results.Take(count).ToArray();
+                    movieSearch
+                        .results.ToList()
+                        .ForEach(r =>
+                        r.poster_path =
+                        $"{_appSettings.TmDbSettings.BaseImagePath}" +
+                        $"/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}" +
+                        $"/{r.poster_path}");
+
+                }
+            }
+            catch (System.Exception)
+            {
 
             }
+
 
             return movieSearch;
 
