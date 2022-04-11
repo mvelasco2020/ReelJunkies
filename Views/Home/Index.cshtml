@@ -14,7 +14,7 @@
 
     .clampTitle {
         display: -webkit-box;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
@@ -45,93 +45,154 @@
             </div>
         </div>
     </div>
-
 </section>
 
 
-<section class="section section-inset-2">
-    <div class="container">
-        <h2 class="text-center mb-5">Top Box Office</h2>
+
+<!-- show something if result is not null-->
+<!-- TOP Box Office -->
+@{
+    if (Model.NowPlaying.results is not null)
+    {
+        <section class="section section-inset-2">
+            <div class="container">
+                <h2 class="text-center mb-5">Top Box Office</h2>
+                <div class="row row-45 justify-content-center">
+                    @foreach (var movie in Model.Popular.results)
+                    {
+                        <div class="col-9 col-sm-6 col-lg-3">
+                            <a asp-action="Details"
+                   asp-controller="Movies"
+                   asp-route-id="@movie.id">
+                                <div class="box-office-media">
+                                    <img src="@movie.poster_path" alt="">
+                                </div>
+                            </a>
+                            <div class="caption-1">
+                                <div class="caption-wrapper"></div>
+                            </div>
+                            <div class="poster-blog text-left">
+                                <h6 class="text-gray-900 offset-top-20">
+                                    <a href="shop-product.html"
+                               class="clampTitle">@movie.title</a>
+                                </h6>
+                                <p class="text-gray">@movie.release_date</p>
+                                <!--
+                                <div class="review">
+                                    <span class="icon fa-star icon-waring-2">
+                                    </span><span class="icon fa-star icon-waring-2"></span>
+                                    <span class="icon fa-star icon-waring-2"></span>
+                                    <span class="icon fa-star icon-waring-2"></span>
+                                    <span class="icon fa-star icon-waring-2 text-gray"></span>
+                                </div>
+                                -->
+                        <div class="price text-left">
+                                    <ul>
+                                        <li>Rating: @movie.vote_average</li>
+                                        <li class="trailerlinks">
+                                            <a data-movieid="@movie.id">
+                                                Watch Trailer
+                                            </a>
+                                            <!--
+                                            href="https://youtu.be/20bpjtCbCz0"
+                                            data-lightgallery="item"
+                                                                                        -->
+
+                                </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </section>
+
+        <!--
+
         <div class="row row-45 justify-content-center">
-            <div class="col-9 col-sm-6 col-lg-3">
-                <a href="shop-product.html">
-                    <div class="box-office-media"><img src="images/gallery-9.jpg" alt=""></div>
-                </a>
-                <div class="caption-1">
-                    <div class="caption-wrapper"></div>
-                </div>
-                <div class="poster-blog text-left">
-                    <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Halloween</a></h6>
-                    <p class="text-gray">2018, USA, Drama</p>
-                    <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2 text-gray"></span></div>
-                    <div class="price text-left">
-                        <ul>
-                            <li>$29.00</li>
-                            <li><a class="letter-spacing-2" href="#">BUY MOVIE</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-9 col-sm-6 col-lg-3">
-                <a href="shop-product.html">
-                    <div class="box-office-media"><img src="images/gallery-10.jpg" alt=""></div>
-                </a>
-                <div class="caption-1">
-                    <div class="caption-wrapper"></div>
-                </div>
-                <div class="poster-blog text-left">
-                    <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Venom</a></h6>
-                    <p class="text-gray">2018, USA, Action, Fantasy</p>
-                    <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
-                    <div class="price text-left">
-                        <ul>
-                            <li>$29.00</li>
-                            <li><a class="letter-spacing-2" href="#">BUY MOVIE</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-9 col-sm-6 col-lg-3">
-                <a href="shop-product.html">
-                    <div class="box-office-media"><img src="images/gallery-11.jpg" alt=""></div>
-                </a>
-                <div class="caption-1">
-                    <div class="caption-wrapper"></div>
-                </div>
-                <div class="poster-blog text-left">
-                    <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Hunter Killer</a></h6>
-                    <p class="text-gray">2018, USA, Action</p>
-                    <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
-                    <div class="price text-left">
-                        <ul>
-                            <li>$29.00</li>
-                            <li><a class="letter-spacing-2" href="#">BUY MOVIE</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-9 col-sm-6 col-lg-3">
-                <a href="shop-product.html">
-                    <div class="box-office-media"><img src="images/gallery-12.jpg" alt=""></div>
-                </a>
-                <div class="caption-1">
-                    <div class="caption-wrapper"></div>
-                </div>
-                <div class="poster-blog text-left">
-                    <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">What They Had</a></h6>
-                    <p class="text-gray">2018, USA, Adventure, Action</p>
-                    <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
-                    <div class="price text-left">
-                        <ul>
-                            <li>$29.00</li>
-                            <li><a class="letter-spacing-2" href="#">BUY MOVIE</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        <div class="col-9 col-sm-6 col-lg-3">
+        <a href="shop-product.html">
+        <div class="box-office-media"><img src="images/gallery-9.jpg" alt=""></div>
+        </a>
+        <div class="caption-1">
+        <div class="caption-wrapper"></div>
         </div>
-    </div>
-</section>
+        <div class="poster-blog text-left">
+        <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Halloween</a></h6>
+        <p class="text-gray">2018, USA, Drama</p>
+        <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2 text-gray"></span></div>
+        <div class="price text-left">
+        <ul>
+        <li>$29.00</li>
+        <li><a class="letter-spacing-2" href="#">BUY MOVIE</a></li>
+        </ul>
+        </div>
+        </div>
+        </div>
+        <div class="col-9 col-sm-6 col-lg-3">
+        <a href="shop-product.html">
+        <div class="box-office-media"><img src="images/gallery-10.jpg" alt=""></div>
+        </a>
+        <div class="caption-1">
+        <div class="caption-wrapper"></div>
+        </div>
+        <div class="poster-blog text-left">
+        <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Venom</a></h6>
+        <p class="text-gray">2018, USA, Action, Fantasy</p>
+        <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
+        <div class="price text-left">
+        <ul>
+        <li>$29.00</li>
+        <li><a class="letter-spacing-2" href="#">BUY MOVIE</a></li>
+        </ul>
+        </div>
+        </div>
+        </div>
+        <div class="col-9 col-sm-6 col-lg-3">
+        <a href="shop-product.html">
+        <div class="box-office-media"><img src="images/gallery-11.jpg" alt=""></div>
+        </a>
+        <div class="caption-1">
+        <div class="caption-wrapper"></div>
+        </div>
+        <div class="poster-blog text-left">
+        <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Hunter Killer</a></h6>
+        <p class="text-gray">2018, USA, Action</p>
+        <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
+        <div class="price text-left">
+        <ul>
+        <li>$29.00</li>
+        <li><a class="letter-spacing-2" href="#">BUY MOVIE</a></li>
+        </ul>
+        </div>
+        </div>
+        </div>
+        <div class="col-9 col-sm-6 col-lg-3">
+        <a href="shop-product.html">
+        <div class="box-office-media"><img src="images/gallery-12.jpg" alt=""></div>
+        </a>
+        <div class="caption-1">
+        <div class="caption-wrapper"></div>
+        </div>
+        <div class="poster-blog text-left">
+        <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">What They Had</a></h6>
+        <p class="text-gray">2018, USA, Adventure, Action</p>
+        <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
+        <div class="price text-left">
+        <ul>
+        <li>$29.00</li>
+        <li><a class="letter-spacing-2" href="#">BUY MOVIE</a></li>
+        </ul>
+        </div>
+        </div>
+        </div>
+        </div>
+        -->
+    }//closing if inner
+}<!-- closing outher-->
+
 
 <section class="owl-slider">
     <div class="container">
@@ -267,9 +328,18 @@
             <div class="col-12 col-md-12 col-lg-6 text-center text-lg-left">
                 <div class="video-box-overlay">
                     <img src="images/index-1.jpg" alt="">
+
                     <div class="video-box">
-                        <div class="video-box-play"><a href="https://youtu.be/20bpjtCbCz0" data-lightgallery="item"><span class="icon icon-white fl-line-ui-play126"></span></a></div>
-                        <div class="video-box-inner"><span class="item-1"><a href="movie-details.html">Deadpool 2</a></span><span class="item-2">The Trailer</span></div>
+                        <div class="video-box-play">
+                            <!--
+
+                                <a href="https://youtu.be/20bpjtCbCz0" data-lightgallery="item">
+                                </a>
+                                <span class="icon icon-white fl-line-ui-play126"></span>
+                            -->
+
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -408,7 +478,10 @@
                                                     <div class="card-body">
                                                         <h5 class="card-title clampTitle">@movie.title</h5>
                                                         <p class="card-text clampOverview">@movie.overview</p>
-                                                        <a asp-action="Details" asp-controller="Movies" asp-route-id="@movie.id" class="btn btn-lg btn-block btn-warning font-weight-bold">Details</a>
+                                                        <a asp-action="Details"
+                                       asp-controller="Movies"
+                                       asp-route-id="@movie.id"
+                                       class="btn btn-lg btn-block btn-warning font-weight-bold">Details</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -533,3 +606,59 @@
     };
 }
 
+<div class="modal fade modal-dialog-centered"
+     id="trailerModalVideo"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="trailerModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"
+         role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe width="760" height="415"
+                            class="embed-responsive-item"
+                            src=""
+                            id="trailerVideo"
+                            allowscriptaccess="always"
+                            allow="autoplay">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+        const url = "https://localhost:44303/movies/GetMovieTrailer/"
+        let watchTrailer = document.getElementsByClassName("trailerlinks");
+    Array.from(watchTrailer).forEach((e) => {
+    e.addEventListener("click", (e) =>{
+    const movieId = e.target.dataset.movieid
+    e.preventDefault();
+
+              fetch(`${url}${movieId}`, {
+      headers : {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       }
+
+    })
+                .then(response =>response.json()
+                )
+                .then(data => {
+                     const start = data.indexOf("=") + 1;
+                     const trlId = data.substring(start, data.length);
+                     $("#trailerVideo").attr('src',`https://www.youtube.com/embed/${trlId}?autoplay=1&amp;modestbranding=1&amp;showinfo=0`);
+                     $('#trailerModalVideo').modal('show');
+                     $('#trailerModalVideo').on('hidden.bs.modal', function (event) {
+                       $("#trailerVideo").attr('src',"");
+                     })
+                })
+                .catch(error => console.error('Unable to get items.', error));
+
+
+    })
+    })
+</script>

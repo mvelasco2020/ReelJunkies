@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using ReelJunkies.Data;
 using ReelJunkies.Models.Database;
 using ReelJunkies.Models.Settings;
@@ -243,6 +244,23 @@ namespace ReelJunkies.Controllers
             return View(movie);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetMovieTrailer(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var movieDetail = await _tmdbMovieService.MovieDetailAsync((int)id);
+            Movie movie = new Movie();
+            movie = await _tmdbMappingService.MapMovieDetailAsync(movieDetail);
+
+            if (movie == null) return NotFound();
+            string url = movie.TrailerUrl;
+            return Ok(url);
+
+        }
         private bool MovieExists(int id)
         {
             return _context.Movie.Any(e => e.Id == id);

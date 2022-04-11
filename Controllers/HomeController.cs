@@ -31,7 +31,7 @@ namespace ReelJunkies.Controllers
 
         public async Task<IActionResult> Index()
         {
-            const int count = 16;
+            const int count = 4;
 
             var data = new VM_LandingPage()
             {
