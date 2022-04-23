@@ -7,8 +7,10 @@ using ReelJunkies.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Web;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
+using System.Text.Encodings.Web;
 
 namespace ReelJunkies.Services
 {
@@ -135,6 +137,58 @@ namespace ReelJunkies.Services
             }
 
 
+            return movieSearch;
+
+        }
+
+        public async Task<MovieSearch> MovieSearchByGenre(string genre, int count)
+        {
+            //setup a default instance of movie search
+            MovieSearch movieSearch = new();
+
+            string encodedGenre = HttpUtility.UrlEncode(genre);
+
+            //assenble full request uri string
+            var query = $"{_appSettings.TmDbSettings.BaseUrl}/discover/movie";
+            var queryParams = new Dictionary<string, string>()
+            {
+                {"api_key", _appSettings.ReelJunkiesSettings.TmDbApiKey },
+                {"language", _appSettings.TmDbSettings.QueryOptions.Language },
+                {"include_adult", "false" },
+                {"include_video", "false" },
+                {"with_genres", $"{genre}" },
+                {"page", _appSettings.TmDbSettings.QueryOptions.Page },
+
+            };
+
+            var requestUri = QueryHelpers.AddQueryString(query, queryParams);
+
+            //create a client and execute request
+            var client = _httpClient.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            try
+            {
+                var response = await client.SendAsync(request);
+
+                //return the  Moviesearch object
+                if (response.IsSuccessStatusCode)
+                {
+                    var deserialize = new DataContractJsonSerializer(typeof(MovieSearch));
+                    using var responseStream = await response.Content.ReadAsStreamAsync();
+                    movieSearch = (MovieSearch)deserialize.ReadObject(responseStream);
+                    movieSearch.results = movieSearch.results.Take(count).ToArray();
+                    movieSearch.results.ToList().ForEach(r =>
+                                         r.poster_path =
+                                         $"{_appSettings.TmDbSettings.BaseImagePath}" +
+                                         $"/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}" +
+                                         $"/{r.poster_path}");
+
+                }
+            }
+            catch (System.Exception)
+            {
+
+            }
             return movieSearch;
 
         }

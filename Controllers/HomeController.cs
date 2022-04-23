@@ -43,7 +43,8 @@ namespace ReelJunkies.Controllers
                 NowPlaying = await _tmdbMovieService.MovieSearchAsync(MovieCategory.now_playing, count),
                 Popular = await _tmdbMovieService.MovieSearchAsync(MovieCategory.popular, count),
                 TopRated = await _tmdbMovieService.MovieSearchAsync(MovieCategory.top_rated, count),
-                Upcomming = await _tmdbMovieService.MovieSearchAsync(MovieCategory.upcoming, count)
+                Upcomming = await _tmdbMovieService.MovieSearchAsync(MovieCategory.upcoming, count),
+                Horror = await _tmdbMovieService.MovieSearchByGenre("27,53")
 
             };
 

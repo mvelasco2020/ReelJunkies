@@ -48,11 +48,74 @@
 </section>
 
 
+@{
+    if (Model.Horror.results is not null)
+    {
+        <section class="section section-inset-2">
+            <div class="container">
+                <h2 class="text-center mb-5">Top Box Office</h2>
+                <div class="row row-45 justify-content-center">
+                    @foreach (var movie in Model.Horror.results)
+                    {
+                        <div class="col-9 col-sm-6 col-lg-3">
+                            <a asp-action="Details"
+                   asp-controller="Movies"
+                   asp-route-id="@movie.id">
+                                <div class="box-office-media">
+                                    <img src="@movie.poster_path" alt="">
+                                </div>
+                            </a>
+                            <div class="caption-1">
+                                <div class="caption-wrapper"></div>
+                            </div>
+                            <div class="poster-blog text-left">
+                                <h6 class="text-gray-900 offset-top-20">
+                                    <a href="shop-product.html"
+                               class="clampTitle">@movie.title</a>
+                                </h6>
+                                <p class="text-gray">@movie.release_date</p>
+                                <!--
+                                <div class="review">
+                                    <span class="icon fa-star icon-waring-2">
+                                    </span><span class="icon fa-star icon-waring-2"></span>
+                                    <span class="icon fa-star icon-waring-2"></span>
+                                    <span class="icon fa-star icon-waring-2"></span>
+                                    <span class="icon fa-star icon-waring-2 text-gray"></span>
+                                </div>
+                                -->
+                        <div class="price text-left pointer">
+                                    <ul>
+                                        <li>Rating: @movie.vote_average</li>
+                                        <li class="trailerlinks"
+                                    role="button">
+                                            <a data-movieid="@movie.id"
+                                       role="button">
+                                                Watch Trailer
+                                            </a>
+                                            <!--
+                                            href="https://youtu.be/20bpjtCbCz0"
+                                            data-lightgallery="item"
+                                                                                        -->
+
+                                </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </section>
+
+
+    }//closing if inner
+}
 
 <!-- show something if result is not null-->
 <!-- TOP Box Office -->
 @{
-    if (Model.NowPlaying.results is not null)
+    if (Model.Popular.results is not null)
     {
         <section class="section section-inset-2">
             <div class="container">
@@ -86,11 +149,13 @@
                                     <span class="icon fa-star icon-waring-2 text-gray"></span>
                                 </div>
                                 -->
-                        <div class="price text-left">
+                        <div class="price text-left pointer">
                                     <ul>
                                         <li>Rating: @movie.vote_average</li>
-                                        <li class="trailerlinks">
-                                            <a data-movieid="@movie.id">
+                                        <li class="trailerlinks"
+                                    role="button">
+                                            <a data-movieid="@movie.id"
+                                       role="button">
                                                 Watch Trailer
                                             </a>
                                             <!--
@@ -631,23 +696,21 @@
 </div>
 
 <script>
-        const url = "https://localhost:44303/movies/GetMovieTrailer/"
-        let watchTrailer = document.getElementsByClassName("trailerlinks");
+    const url = "https://localhost:44303/movies/GetMovieTrailer/"
+    let watchTrailer = document.getElementsByClassName("trailerlinks");
     Array.from(watchTrailer).forEach((e) => {
     e.addEventListener("click", (e) =>{
     const movieId = e.target.dataset.movieid
     e.preventDefault();
 
-              fetch(`${url}${movieId}`, {
+     fetch(`${url}${movieId}`, {
       headers : {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
        }
-
     })
-                .then(response =>response.json()
-                )
-                .then(data => {
+    .then(response =>response.json())
+    .then(data => {
                      const start = data.indexOf("=") + 1;
                      const trlId = data.substring(start, data.length);
                      $("#trailerVideo").attr('src',`https://www.youtube.com/embed/${trlId}?autoplay=1&amp;modestbranding=1&amp;showinfo=0`);
@@ -657,8 +720,6 @@
                      })
                 })
                 .catch(error => console.error('Unable to get items.', error));
-
-
     })
     })
 </script>
