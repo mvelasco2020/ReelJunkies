@@ -12,5 +12,6 @@ namespace ReelJunkies.Models.ViewModels
         public MovieSearch TopRated { get; set; }
         public MovieSearch Upcomming { get; set; }
         public MovieSearch Horror { get; set; }
+        public MovieSearch Indies { get; set; }
     }
 }

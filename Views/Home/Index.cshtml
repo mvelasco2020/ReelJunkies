@@ -22,6 +22,11 @@
     h5.card-title {
         height: 2.5em;
     }
+
+    .owl-img {
+        object-fit: cover;
+        width: 400px;
+    }
 </style>
 
 <!--  Content-->
@@ -48,69 +53,6 @@
 </section>
 
 
-@{
-    if (Model.Horror.results is not null)
-    {
-        <section class="section section-inset-2">
-            <div class="container">
-                <h2 class="text-center mb-5">Top Box Office</h2>
-                <div class="row row-45 justify-content-center">
-                    @foreach (var movie in Model.Horror.results)
-                    {
-                        <div class="col-9 col-sm-6 col-lg-3">
-                            <a asp-action="Details"
-                   asp-controller="Movies"
-                   asp-route-id="@movie.id">
-                                <div class="box-office-media">
-                                    <img src="@movie.poster_path" alt="">
-                                </div>
-                            </a>
-                            <div class="caption-1">
-                                <div class="caption-wrapper"></div>
-                            </div>
-                            <div class="poster-blog text-left">
-                                <h6 class="text-gray-900 offset-top-20">
-                                    <a href="shop-product.html"
-                               class="clampTitle">@movie.title</a>
-                                </h6>
-                                <p class="text-gray">@movie.release_date</p>
-                                <!--
-                                <div class="review">
-                                    <span class="icon fa-star icon-waring-2">
-                                    </span><span class="icon fa-star icon-waring-2"></span>
-                                    <span class="icon fa-star icon-waring-2"></span>
-                                    <span class="icon fa-star icon-waring-2"></span>
-                                    <span class="icon fa-star icon-waring-2 text-gray"></span>
-                                </div>
-                                -->
-                        <div class="price text-left pointer">
-                                    <ul>
-                                        <li>Rating: @movie.vote_average</li>
-                                        <li class="trailerlinks"
-                                    role="button">
-                                            <a data-movieid="@movie.id"
-                                       role="button">
-                                                Watch Trailer
-                                            </a>
-                                            <!--
-                                            href="https://youtu.be/20bpjtCbCz0"
-                                            data-lightgallery="item"
-                                                                                        -->
-
-                                </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-
-            </div>
-        </section>
-
-
-    }//closing if inner
-}
 
 <!-- show something if result is not null-->
 <!-- TOP Box Office -->
@@ -174,162 +116,229 @@
             </div>
         </section>
 
-        <!--
 
-        <div class="row row-45 justify-content-center">
-        <div class="col-9 col-sm-6 col-lg-3">
-        <a href="shop-product.html">
-        <div class="box-office-media"><img src="images/gallery-9.jpg" alt=""></div>
-        </a>
-        <div class="caption-1">
-        <div class="caption-wrapper"></div>
-        </div>
-        <div class="poster-blog text-left">
-        <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Halloween</a></h6>
-        <p class="text-gray">2018, USA, Drama</p>
-        <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2 text-gray"></span></div>
-        <div class="price text-left">
-        <ul>
-        <li>$29.00</li>
-        <li><a class="letter-spacing-2" href="#">BUY MOVIE</a></li>
-        </ul>
-        </div>
-        </div>
-        </div>
-        <div class="col-9 col-sm-6 col-lg-3">
-        <a href="shop-product.html">
-        <div class="box-office-media"><img src="images/gallery-10.jpg" alt=""></div>
-        </a>
-        <div class="caption-1">
-        <div class="caption-wrapper"></div>
-        </div>
-        <div class="poster-blog text-left">
-        <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Venom</a></h6>
-        <p class="text-gray">2018, USA, Action, Fantasy</p>
-        <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
-        <div class="price text-left">
-        <ul>
-        <li>$29.00</li>
-        <li><a class="letter-spacing-2" href="#">BUY MOVIE</a></li>
-        </ul>
-        </div>
-        </div>
-        </div>
-        <div class="col-9 col-sm-6 col-lg-3">
-        <a href="shop-product.html">
-        <div class="box-office-media"><img src="images/gallery-11.jpg" alt=""></div>
-        </a>
-        <div class="caption-1">
-        <div class="caption-wrapper"></div>
-        </div>
-        <div class="poster-blog text-left">
-        <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Hunter Killer</a></h6>
-        <p class="text-gray">2018, USA, Action</p>
-        <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
-        <div class="price text-left">
-        <ul>
-        <li>$29.00</li>
-        <li><a class="letter-spacing-2" href="#">BUY MOVIE</a></li>
-        </ul>
-        </div>
-        </div>
-        </div>
-        <div class="col-9 col-sm-6 col-lg-3">
-        <a href="shop-product.html">
-        <div class="box-office-media"><img src="images/gallery-12.jpg" alt=""></div>
-        </a>
-        <div class="caption-1">
-        <div class="caption-wrapper"></div>
-        </div>
-        <div class="poster-blog text-left">
-        <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">What They Had</a></h6>
-        <p class="text-gray">2018, USA, Adventure, Action</p>
-        <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
-        <div class="price text-left">
-        <ul>
-        <li>$29.00</li>
-        <li><a class="letter-spacing-2" href="#">BUY MOVIE</a></li>
-        </ul>
-        </div>
-        </div>
-        </div>
-        </div>
-        -->
     }//closing if inner
-}<!-- closing outher-->
+}
+<!-- Horror-->
+@{
+    if (@Model.Horror.results is not null)
+    {
+        <section class="owl-slider">
+            <div class="container">
+                <h2 class="text-center text-white mb-5">Not For the Faint Hearted</h2>
+                <div class="row">
+                    <div class="owl-carousel owl-carousel-mod-1 owl-carousel-mod-3"
+                     data-xs-items="1"
+                     data-sm-items="2"
+                     data-md-items="3"
+                     data-xl-items="3"
+                     data-loop="true"
+                     data-margin="15"
+                     data-dots="true"
+                     data-autoplay="true"
+                     data-lg-dots-each="2"
+                     data-xs-stage-padding="15">
 
 
-<section class="owl-slider">
-    <div class="container">
-        <h2 class="text-center text-white mb-5">Not For the Faint Hearted</h2>
-        <div class="row">
+                        @foreach (var movie in Model.Horror.results)
+                        {
+                            <div class="owl-item">
+                                <div class="owl-item-slide-caption">
+                                    <div class="col-12 wow-outer text-left">
+                                        <a asp-action="Details"
+                               asp-controller="Movies"
+                               asp-route-id="@movie.id">
+                                            <img src="@movie.poster_path"
+                                         class="owl-img"
+                                         alt="movie poster for @movie.original_title" />
+                                        </a>
+                                        <h6 class="offset-top-25">
+                                            <a asp-action="Details"
+                                   asp-controller="Movies"
+                                   asp-route-id="@movie.id">
+                                                @movie.original_title
+                                            </a>
+                                        </h6>
+                                        <p>
+                                            Release @movie.release_date
+                                        </p>
 
-            <div class="owl-carousel owl-carousel-mod-1 owl-carousel-mod-3" data-items="1" data-md-items="2" data-xl-items="2" data-loop="true" data-margin="15" data-dots="true" data-autoplay="true" data-lg-dots-each="2" data-xs-stage-padding="15">
-                <div class="owl-item">
-                    <div class="owl-item-slide-caption">
-                        <div class="col-12 wow-outer text-left">
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <!--
+                            <div class="owl-item">
+                                <div class="owl-item-slide-caption">
+                                    <div class="col-12 wow-outer text-left">
+                                        <a href="movie-details.html"><img src="images/slider-1-570x364.jpg" alt="" width="570" height="364" /></a>
+                                        <h6 class="offset-top-25"><a href="movie-details.html">IT (2017)</a></h6>
+                                        <p>2017, USA, Drama, Horror, Thriller</p>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <a href="movie-details.html"><img src="images/slider-1-570x364.jpg" alt="" width="570" height="364" /></a>
-                            <h6 class="offset-top-25"><a href="movie-details.html">IT (2017)</a></h6>
-                            <p>2017, USA, Drama, Horror, Thriller</p>
-                        </div>
-                    </div>
+                            <div class="owl-item">
+                                <div class="owl-item-slide-caption">
+                                    <div class="col-12 wow-outer text-left">
+
+                                        <a href="movie-details.html"><img src="images/slider-2-570x364.jpg" alt="" width="570" height="364" /></a>
+                                        <h6 class="offset-top-25"><a href="movie-details.html">The Haunting of Hill House</a></h6>
+                                        <p>2018, USA, Drama, Horror, Mystery</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-item">
+                                <div class="owl-item-slide-caption">
+                                    <div class="col-12 wow-outer text-left">
+
+                                        <a href="movie-details.html"><img src="images/slider-3-570x364.jpg" alt="" width="570" height="364" /></a>
+                                        <h6 class="offset-top-25"><a href="movie-details.html">First Man (2018)</a></h6>
+                                        <p>2018, USA, Biography, Drama, History</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-item">
+                                <div class="owl-item-slide-caption">
+                                    <div class="col-12 wow-outer text-left">
+
+                                        <a href="movie-details.html"><img src="images/slider-4-570x364.jpg" alt="" width="570" height="364" /></a>
+                                        <h6 class="offset-top-25"><a href="movie-details.html">Black Mirror</a></h6>
+                                        <p>2011, USA, Drama, Sci-Fi, Thriller</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-item">
+                                <div class="owl-item-slide-caption">
+                                    <div class="col-12 wow-outer text-left">
+
+                                        <a href="movie-details.html"><img src="images/slider-5-570x364.jpg" alt="" width="570" height="364" /></a>
+                                        <h6 class="offset-top-25"><a href="movie-details.html">Daredevil</a></h6>
+                                        <p>2015, USA, Drama, Sci-Fi, Thriller</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-item">
+                                <div class="owl-item-slide-caption">
+                                    <div class="col-12 wow-outer text-left">
+
+                                        <a href="movie-details.html"><img src="images/slider-6-570x364.jpg" alt="" width="570" height="364" /></a>
+                                        <h6 class="offset-top-25"><a href="movie-details.html">Stranger Things</a></h6>
+                                        <p>2016, USA, Drama, Fantasy, Horror</p>
+                                    </div>
+                                </div>
+                            </div>
+                        -->
+
                 </div>
-                <div class="owl-item">
-                    <div class="owl-item-slide-caption">
-                        <div class="col-12 wow-outer text-left">
-
-                            <a href="movie-details.html"><img src="images/slider-2-570x364.jpg" alt="" width="570" height="364" /></a>
-                            <h6 class="offset-top-25"><a href="movie-details.html">The Haunting of Hill House</a></h6>
-                            <p>2018, USA, Drama, Horror, Mystery</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-item">
-                    <div class="owl-item-slide-caption">
-                        <div class="col-12 wow-outer text-left">
-
-                            <a href="movie-details.html"><img src="images/slider-3-570x364.jpg" alt="" width="570" height="364" /></a>
-                            <h6 class="offset-top-25"><a href="movie-details.html">First Man (2018)</a></h6>
-                            <p>2018, USA, Biography, Drama, History</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-item">
-                    <div class="owl-item-slide-caption">
-                        <div class="col-12 wow-outer text-left">
-
-                            <a href="movie-details.html"><img src="images/slider-4-570x364.jpg" alt="" width="570" height="364" /></a>
-                            <h6 class="offset-top-25"><a href="movie-details.html">Black Mirror</a></h6>
-                            <p>2011, USA, Drama, Sci-Fi, Thriller</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-item">
-                    <div class="owl-item-slide-caption">
-                        <div class="col-12 wow-outer text-left">
-
-                            <a href="movie-details.html"><img src="images/slider-5-570x364.jpg" alt="" width="570" height="364" /></a>
-                            <h6 class="offset-top-25"><a href="movie-details.html">Daredevil</a></h6>
-                            <p>2015, USA, Drama, Sci-Fi, Thriller</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-item">
-                    <div class="owl-item-slide-caption">
-                        <div class="col-12 wow-outer text-left">
-
-                            <a href="movie-details.html"><img src="images/slider-6-570x364.jpg" alt="" width="570" height="364" /></a>
-                            <h6 class="offset-top-25"><a href="movie-details.html">Stranger Things</a></h6>
-                            <p>2016, USA, Drama, Fantasy, Horror</p>
-                        </div>
-                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
+    }
+}
 
+<!-- Now Playing-->
+@{
+    if (Model.NowPlaying.results is not null)
+    {
+        <section class="section section-inset-2">
+            <div class="container">
+                <h2 class="text-center mb-5">In Theaters Now</h2>
+                <div class="row row-45 justify-content-center">
+                    @foreach (var movie in Model.NowPlaying.results)
+                    {
+                        <div class="col-9 col-sm-6 col-lg-3">
+                            <a asp-action="Details"
+                   asp-controller="Movies"
+                   asp-route-id="@movie.id">
+                                <div class="box-office-media">
+                                    <img src="@movie.poster_path" alt="">
+                                </div>
+                            </a>
+                            <div class="caption-1">
+                                <div class="caption-wrapper"></div>
+                            </div>
+                            <div class="poster-blog text-left">
+                                <h6 class="text-gray-900 offset-top-20">
+                                    <a href="shop-product.html"
+                               class="clampTitle">@movie.title</a>
+                                </h6>
+                                <p class="text-gray">@movie.release_date</p>
+
+                                <div class="price text-left pointer">
+                                    <ul>
+                                        <li>Rating: @movie.vote_average</li>
+                                        <li class="trailerlinks"
+                                    role="button">
+                                            <a data-movieid="@movie.id"
+                                       role="button">
+                                                Watch Trailer
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </section>
+
+
+    }//closing if inner
+}
+
+<!-- UpComming-->
+@{
+    if (Model.Upcomming.results is not null)
+    {
+        <section class="section section-inset-2">
+            <div class="container">
+                <h2 class="text-center mb-5">Latest and Upcoming Movies</h2>
+                <div class="row row-45 justify-content-center">
+                    @foreach (var movie in Model.Upcomming.results)
+                    {
+                        <div class="col-9 col-sm-6 col-lg-3">
+                            <a asp-action="Details"
+                   asp-controller="Movies"
+                   asp-route-id="@movie.id">
+                                <div class="box-office-media">
+                                    <img src="@movie.poster_path" alt="">
+                                </div>
+                            </a>
+                            <div class="caption-1">
+                                <div class="caption-wrapper"></div>
+                            </div>
+                            <div class="poster-blog text-left">
+                                <h6 class="text-gray-900 offset-top-20">
+                                    <a href="shop-product.html"
+                               class="clampTitle">@movie.title</a>
+                                </h6>
+                                <p class="text-gray">@movie.release_date</p>
+
+                                <div class="price text-left pointer">
+                                    <ul>
+                                        <li class="trailerlinks"
+                                    role="button">
+                                            <a data-movieid="@movie.id"
+                                       role="button">
+                                                Watch Trailer
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </section>
+
+
+    }//closing if inner
+}
 <section class="section section-inset-1">
     <div class="container">
         <h2 class="mb-5 text-center">Recent News</h2>
@@ -699,27 +708,27 @@
     const url = "https://localhost:44303/movies/GetMovieTrailer/"
     let watchTrailer = document.getElementsByClassName("trailerlinks");
     Array.from(watchTrailer).forEach((e) => {
-    e.addEventListener("click", (e) =>{
-    const movieId = e.target.dataset.movieid
-    e.preventDefault();
+        e.addEventListener("click", (e) => {
+            const movieId = e.target.dataset.movieid
+            e.preventDefault();
 
-     fetch(`${url}${movieId}`, {
-      headers : {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-       }
-    })
-    .then(response =>response.json())
-    .then(data => {
-                     const start = data.indexOf("=") + 1;
-                     const trlId = data.substring(start, data.length);
-                     $("#trailerVideo").attr('src',`https://www.youtube.com/embed/${trlId}?autoplay=1&amp;modestbranding=1&amp;showinfo=0`);
-                     $('#trailerModalVideo').modal('show');
-                     $('#trailerModalVideo').on('hidden.bs.modal', function (event) {
-                       $("#trailerVideo").attr('src',"");
-                     })
+            fetch(`${url}${movieId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const start = data.indexOf("=") + 1;
+                    const trlId = data.substring(start, data.length);
+                    $("#trailerVideo").attr('src', `https://www.youtube.com/embed/${trlId}?autoplay=1&amp;modestbranding=1&amp;showinfo=0`);
+                    $('#trailerModalVideo').modal('show');
+                    $('#trailerModalVideo').on('hidden.bs.modal', function (event) {
+                        $("#trailerVideo").attr('src', "");
+                    })
                 })
                 .catch(error => console.error('Unable to get items.', error));
-    })
+        })
     })
 </script>

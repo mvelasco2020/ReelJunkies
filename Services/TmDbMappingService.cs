@@ -54,8 +54,6 @@ namespace ReelJunkies.Services
 
             try
             {
-
-
                 newMovie.TmDbMovieId = movie.id;
                 newMovie.Title = movie.title;
                 newMovie.TagLine = movie.tagline;
