@@ -89,6 +89,16 @@ namespace ReelJunkies.Services
                     });
                 });
 
+                var genres = movie.genres.ToList();
+                genres.ForEach(genre =>
+                    newMovie.Genres.Add(
+                    new TmdbGenreDetail()
+                    {
+                        Id = genre.id,
+                        Name = genre.name
+                    })
+                );
+
 
                 var crewMembers = movie.credits.crew
                         .OrderByDescending(c => c.popularity)

@@ -4,6 +4,12 @@
 @model Movie
 
 
+<style>
+
+    .hover-red:hover {
+        color: var(--primary) !important;
+    }
+</style>
 
 <div class="page text-center">
     <div class="preloader">
@@ -64,7 +70,7 @@
                                 <span class="text-gray">2 customer reviews</span>
                             </div>
                             <div class="about-container">
-                                <p class="text-gray"> <span class="text-black">Mervin Townsend</span></p>
+
                                 <p class="text-gray">
                                     Actors:&nbsp;
                                     <span class="text-black">
@@ -72,13 +78,21 @@
                                         {
                                             <a asp-controller="Actors"
                                            asp-action="Details"
-                                           asp-route-id="@actor.CastId">
+                                           asp-route-id="@actor.CastId"
+                                           class="text-black hover-red">
                                                 @actor.Name
                                             </a>
                                         }
                                     </span>
                                 </p>
-                                <p>@Model.Overview</p>
+                                <p>Overview: @Model.Overview</p>
+                                <p class="text-gray">
+                                    @Model.Rating
+                                    @foreach (var genre in Model.Genres)
+                                    {
+                                        <span> @genre.Name</span>
+                                    }
+                                </p>
                                 <ul class="info-box">
                                     <li>HD</li>
                                     <li>16+</li>
@@ -113,15 +127,30 @@
                                 <div class="tabs-custom tabs-horizontal tabs-corporate tabs-shop" id="tabs-3">
                                     <!-- Nav tabs-->
                                     <ul class="nav nav-tabs">
-                                        <li class="nav-item" role="presentation"><a class="nav-link active text-capitalize" href="#tabs-3-1" data-toggle="tab">Description</a></li>
-                                        <li class="nav-item" role="presentation"><a class="nav-link text-capitalize" href="#tabs-3-3" data-toggle="tab">Reviews (2)</a></li>
+                                        <li class="nav-item"
+                                            role="presentation">
+                                            <a class="nav-link text-capitalize"
+                                               href="#tabs-3-3"
+                                               data-toggle="tab">
+                                                Overview
+                                            </a>
+                                        </li>
+                                        <li class="nav-item"
+                                            role="presentation">
+                                            <a class="nav-link text-capitalize active"
+                                               href="#tabs-3-1"
+                                               data-toggle="tab">
+                                                Reviews (2)
+                                            </a>
+                                        </li>
                                     </ul>
                                     <!-- Tab panes-->
                                     <div class="tab-content">
-                                        <div class="tab-pane fade show active" id="tabs-3-1">
-                                            <p>Faucibus et molestie ac feugiat sed lectus. Ut faucibus pulvinar elementum integer enim neque volutpat ac. Faucibus in ornare quam viverra orci sagittis eu volutpat odio. Placerat orci nulla pellentesque dignissim enim sit amet. Nec feugiat in fermentum posuere urna. Mi proin sed libero enim sed faucibus turpis in. Accumsan tortor posuere ac ut consequat semper viverra nam libero. Facilisi etiam dignissim diam quis enim. Viverra accumsan in nisl nisi scelerisque eu. Ultricies integer quis auctor elit.</p>
-                                        </div>
                                         <div class="tab-pane fade" id="tabs-3-3">
+                                            <p>@Model.Overview</p>
+
+                                        </div>
+                                        <div class="tab-pane fade show active" id="tabs-3-1">
                                             <div class="media flex-column flex-md-row text-sm-left comment">
                                                 <div class="media-left"><img class="img-circle" src="images/index-13.jpg" alt="" /></div>
                                                 <div class="media-body media-body-inset-1">
@@ -178,7 +207,7 @@
                                                                 <textarea class="form-input"
                                                                           id="forms-message"
                                                                           name="message">
-                                  </textarea>
+                                                                      </textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-12 text-center">
@@ -202,7 +231,7 @@
     </section>
     <section class="section section-inset-2">
         <div class="container">
-            <h2 class="text-center">People Also Like</h2>
+            <h2 class="text-center">You may also like</h2>
             <hr>
             <div class="row row-45 justify-content-center">
                 <div class="col-9 col-sm-6 col-lg-3">
@@ -357,23 +386,23 @@
 
 @foreach (var actor in Model.Cast.Take(5))
 {
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="card mb-3">
-                                            <div class="row no-gutters">
-                                                <div class="col-md-2">
-                                                    <img src="@actor.ImageUrl" class="img-fluid" style="width: 10rem" alt="...">
-                                                </div>
-                                                <div class="col-md-10">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title"><a asp-action="Details" asp-controller="Actors" asp-route-id="@actor.CastId">Name: @actor.Name</a></h5>
-                                                        <p class="card-text">Character: @actor.Character</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                                                                                                                                                                <div class="row">
+                                                                                                                                                                                    <div class="col">
+                                                                                                                                                                                        <div class="card mb-3">
+                                                                                                                                                                                            <div class="row no-gutters">
+                                                                                                                                                                                                <div class="col-md-2">
+                                                                                                                                                                                                    <img src="@actor.ImageUrl" class="img-fluid" style="width: 10rem" alt="...">
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                                <div class="col-md-10">
+                                                                                                                                                                                                    <div class="card-body">
+                                                                                                                                                                                                        <h5 class="card-title"><a asp-action="Details" asp-controller="Actors" asp-route-id="@actor.CastId">Name: @actor.Name</a></h5>
+                                                                                                                                                                                                        <p class="card-text">Character: @actor.Character</p>
+                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                </div>
 }
 
 -->

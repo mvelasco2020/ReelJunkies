@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using ReelJunkies.Enums;
+using ReelJunkies.Models.TmDb;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,6 +23,7 @@ namespace ReelJunkies.Models.Database
         [Display(Name = "Release Date")]
         public DateTime ReleaseDate { get; set; }
 
+        public ICollection<TmdbGenreDetail> Genres { get; set; } = new HashSet<TmdbGenreDetail>();
 
         public MovieRating Rating { get; set; }
 
@@ -49,6 +51,8 @@ namespace ReelJunkies.Models.Database
         [Display(Name = "Backdrop Image")]
         public IFormFile BackdropFile { get; set; }
 
+
+        public ICollection<DbMovieReview> Reviews { get; set; } = new HashSet<TmdbGenreDetail>();
 
         public ICollection<MovieCollection> Collections { get; set; } = new HashSet<MovieCollection>();
         public ICollection<MovieCast> Cast { get; set; } = new HashSet<MovieCast>();

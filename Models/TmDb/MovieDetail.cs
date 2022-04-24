@@ -31,7 +31,18 @@
         public Images images { get; set; }
         public Videos videos { get; set; }
         public Release_Dates release_dates { get; set; }
+
+        public Reviews reviews { get; set; }
     }
+
+    public class Reviews
+    {
+        public int page { get; set; }
+        public object[] results { get; set; }
+        public int total_pages { get; set; }
+        public int total_results { get; set; }
+    }
+
 
     public class Belongs_To_Collection
     {
@@ -77,6 +88,14 @@
         public string department { get; set; }
         public string job { get; set; }
     }
+
+    public class Genre
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+    }
+
+
 
     public class Images
     {
@@ -124,11 +143,7 @@
         public string note { get; set; }
     }
 
-    public class Genre
-    {
-        public int id { get; set; }
-        public string name { get; set; }
-    }
+
 
     public class Production_Companies
     {
