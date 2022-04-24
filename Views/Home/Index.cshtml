@@ -30,9 +30,17 @@
 </style>
 
 <!--  Content-->
+<!-- Loader
 
-
-
+<div class="preloader">
+    <div class="preloader-body">
+        <div class="cssload-container">
+            <div class="cssload-speeding-wheel"></div>
+        </div>
+        <p>Loading...</p>
+    </div>
+</div>
+-->
 <section class="searchhead">
     <div class="container h-100">
 
@@ -167,70 +175,8 @@
                                 </div>
                             </div>
                         }
-                        <!--
-                            <div class="owl-item">
-                                <div class="owl-item-slide-caption">
-                                    <div class="col-12 wow-outer text-left">
-                                        <a href="movie-details.html"><img src="images/slider-1-570x364.jpg" alt="" width="570" height="364" /></a>
-                                        <h6 class="offset-top-25"><a href="movie-details.html">IT (2017)</a></h6>
-                                        <p>2017, USA, Drama, Horror, Thriller</p>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="owl-item">
-                                <div class="owl-item-slide-caption">
-                                    <div class="col-12 wow-outer text-left">
-
-                                        <a href="movie-details.html"><img src="images/slider-2-570x364.jpg" alt="" width="570" height="364" /></a>
-                                        <h6 class="offset-top-25"><a href="movie-details.html">The Haunting of Hill House</a></h6>
-                                        <p>2018, USA, Drama, Horror, Mystery</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="owl-item">
-                                <div class="owl-item-slide-caption">
-                                    <div class="col-12 wow-outer text-left">
-
-                                        <a href="movie-details.html"><img src="images/slider-3-570x364.jpg" alt="" width="570" height="364" /></a>
-                                        <h6 class="offset-top-25"><a href="movie-details.html">First Man (2018)</a></h6>
-                                        <p>2018, USA, Biography, Drama, History</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="owl-item">
-                                <div class="owl-item-slide-caption">
-                                    <div class="col-12 wow-outer text-left">
-
-                                        <a href="movie-details.html"><img src="images/slider-4-570x364.jpg" alt="" width="570" height="364" /></a>
-                                        <h6 class="offset-top-25"><a href="movie-details.html">Black Mirror</a></h6>
-                                        <p>2011, USA, Drama, Sci-Fi, Thriller</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="owl-item">
-                                <div class="owl-item-slide-caption">
-                                    <div class="col-12 wow-outer text-left">
-
-                                        <a href="movie-details.html"><img src="images/slider-5-570x364.jpg" alt="" width="570" height="364" /></a>
-                                        <h6 class="offset-top-25"><a href="movie-details.html">Daredevil</a></h6>
-                                        <p>2015, USA, Drama, Sci-Fi, Thriller</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="owl-item">
-                                <div class="owl-item-slide-caption">
-                                    <div class="col-12 wow-outer text-left">
-
-                                        <a href="movie-details.html"><img src="images/slider-6-570x364.jpg" alt="" width="570" height="364" /></a>
-                                        <h6 class="offset-top-25"><a href="movie-details.html">Stranger Things</a></h6>
-                                        <p>2016, USA, Drama, Fantasy, Horror</p>
-                                    </div>
-                                </div>
-                            </div>
-                        -->
-
-                </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -441,7 +387,6 @@
     </div>
 </section>
 
-
 <section class="section section-inset-2">
     <div class="container">
         <h2 class="text-center mb-5">Discover Indies</h2>
@@ -526,159 +471,6 @@
     </div>
 </section>
 
-
-
-@{
-    if (Model.NowPlaying.results is not null)
-    {
-        <section class="px-4">
-            <div class="row">
-                <span class="btn btn-lg btn-block btn-warning font-weight-bolder border-dark">UPCOMING</span>
-            </div>
-            <div class="row">
-                <div class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        @{
-                            var classText = "active";
-                            for (var slide = 0; slide <= 3; slide++)
-                            {
-                                <div class="carousel-item @classText">
-                                    <div class="row">
-                                        @foreach (var movie in Model.Upcomming.results.Skip(slide * 4).Take(4))
-                                        {
-                                            <div class="col-sm-3 mb-2">
-                                                <div class="card" style="width: 18rem;">
-                                                    <img src="@movie.poster_path" class="card-img-top" alt="...">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title clampTitle">@movie.title</h5>
-                                                        <p class="card-text clampOverview">@movie.overview</p>
-                                                        <a asp-action="Details"
-                                       asp-controller="Movies"
-                                       asp-route-id="@movie.id"
-                                       class="btn btn-lg btn-block btn-warning font-weight-bold">Details</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                                classText = "";
-                            }
-                        }
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="px-4">
-            <div class="row">
-                <span class="btn btn-lg btn-block btn-warning font-weight-bolder border-dark">NOW PLAYING</span>
-            </div>
-            <div class="row">
-                <div class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        @{
-                            classText = "active";
-                            for (var slide = 0; slide <= 3; slide++)
-                            {
-                                <div class="carousel-item @classText">
-                                    <div class="row">
-                                        @foreach (var movie in Model.NowPlaying.results.Skip(slide * 4).Take(4))
-                                        {
-                                            <div class="col-sm-3 mb-2">
-                                                <div class="card" style="width: 18rem;">
-                                                    <img src="@movie.poster_path" class="card-img-top" alt="...">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title clampTitle">@movie.title</h5>
-                                                        <p class="card-text clampOverview">@movie.overview</p>
-                                                        <a asp-action="Details" asp-controller="Movies" asp-route-id="@movie.id" class="btn btn-lg btn-block btn-warning font-weight-bold">Details</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                                classText = "";
-                            }
-                        }
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="px-4">
-            <div class="row">
-                <span class="btn btn-lg btn-block btn-warning font-weight-bolder border-dark">POPULAR</span>
-            </div>
-            <div class="row">
-                <div class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        @{
-                            classText = "active";
-                            for (var slide = 0; slide <= 3; slide++)
-                            {
-                                <div class="carousel-item @classText">
-                                    <div class="row">
-                                        @foreach (var movie in Model.Popular.results.Skip(slide * 4).Take(4))
-                                        {
-                                            <div class="col-sm-3 mb-2">
-                                                <div class="card" style="width: 18rem;">
-                                                    <img src="@movie.poster_path" class="card-img-top" alt="...">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title clampTitle">@movie.title</h5>
-                                                        <p class="card-text clampOverview">@movie.overview</p>
-                                                        <a asp-action="Details" asp-controller="Movies" asp-route-id="@movie.id" class="btn btn-lg btn-block btn-warning font-weight-bold">Details</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                                classText = "";
-                            }
-                        }
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="px-4">
-            <div class="row">
-                <span class="btn btn-lg btn-block btn-warning font-weight-bolder border-dark">TOP RATED</span>
-            </div>
-            <div class="row">
-                <div class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        @{
-                            classText = "active";
-                            for (var slide = 0; slide <= 3; slide++)
-                            {
-                                <div class="carousel-item @classText">
-                                    <div class="row">
-                                        @foreach (var movie in Model.TopRated.results.Skip(slide * 4).Take(4))
-                                        {
-                                            <div class="col-sm-3 mb-2">
-                                                <div class="card" style="width: 18rem;">
-                                                    <img src="@movie.poster_path" class="card-img-top" alt="...">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title clampTitle">@movie.title</h5>
-                                                        <p class="card-text clampOverview">@movie.overview</p>
-                                                        <a asp-action="Details" asp-controller="Movies" asp-route-id="@movie.id" class="btn btn-lg btn-block btn-warning font-weight-bold">Details</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                                classText = "";
-                            }
-                        }
-                    </div>
-                </div>
-            </div>
-        </section>
-    };
-}
 
 <div class="modal fade modal-dialog-centered"
      id="trailerModalVideo"

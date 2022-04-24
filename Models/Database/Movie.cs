@@ -52,7 +52,7 @@ namespace ReelJunkies.Models.Database
         public IFormFile BackdropFile { get; set; }
 
 
-        public ICollection<DbMovieReview> Reviews { get; set; } = new HashSet<TmdbGenreDetail>();
+        public ICollection<DbMovieReview> Reviews { get; set; } = new HashSet<DbMovieReview>();
 
         public ICollection<MovieCollection> Collections { get; set; } = new HashSet<MovieCollection>();
         public ICollection<MovieCast> Cast { get; set; } = new HashSet<MovieCast>();
