@@ -4,59 +4,347 @@
 @model Movie
 
 
-<div class="row">
-    <div class="col-sm-12 col-md-6">
-        <div class="row">
-            <img src="@_imageService.DecodeImage(Model.Poster, Model.PosterType)" class="w-100" alt="...">
-        </div>
 
-        <div class="row">
-            <button class="btn btn-lg btn-block btn-danger font-weight-bold" data-toggle="modal"
-                    data-target="#trailer">
-                WATCH TRAILER
-            </button>
+<div class="page text-center">
+    <div class="preloader">
+        <div class="preloader-body">
+            <div class="cssload-container">
+                <div class="cssload-speeding-wheel"></div>
+            </div>
+            <p>Loading...</p>
+        </div>
+    </div>
+    <section class="relative text-center bg-blog pt-5">
+        <div class="container pt-5">
+            <div class="jumbotron text-center">
+                <h1>
+                    <small>@Model.ReleaseDate.ToShortDateString()</small>
+                    <span class='font-weight-bold'>
+                        @Model.TagLine
+                    </span>
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-light section-xl text-center">
+        <ol class="breadcrumb">
+            <li>
+                <a asp-controller="Home"
+                   asp-action="index">Home</a>
+            </li>
+            <li class="active">@Model.Title</li>
+        </ol>
+    </section>
+    <section class="section section-inset-1">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-xl-8">
+                    <div class="row row-45 product-item">
+                        <div class="col-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-0 text-center text-md-left">
+                            <a href="images/product-7.jpg"
+                               data-lightgallery="item">
+                                <img src="@_imageService.DecodeImage(Model.Poster, Model.PosterType)"
+                                     alt="@Model.Title movie poster">
+                            </a>
+                        </div>
+                        <div class="col-12 col-lg-6 text-md-left">
+                            <h4>@Model.Title</h4>
+                            <div class="review">
+                                <span class="icon fa-star icon-waring-2">
+                                </span><span class="icon fa-star icon-waring-2">
+
+                                </span>
+                                <span class="icon fa-star icon-waring-2">
+
+                                </span>
+                                <span class="icon fa-star icon-waring-2">
+
+                                </span><span class="icon fa-star icon-waring-2"></span>
+                                <span class="text-gray">2 customer reviews</span>
+                            </div>
+                            <div class="about-container">
+                                <p class="text-gray"> <span class="text-black">Mervin Townsend</span></p>
+                                <p class="text-gray">
+                                    Actors:&nbsp;
+                                    <span class="text-black">
+                                        @foreach (var actor in Model.Cast.Take(10))
+                                        {
+                                            <a asp-controller="Actors"
+                                           asp-action="Details"
+                                           asp-route-id="@actor.CastId">
+                                                @actor.Name
+                                            </a>
+                                        }
+                                    </span>
+                                </p>
+                                <p>@Model.Overview</p>
+                                <ul class="info-box">
+                                    <li>HD</li>
+                                    <li>16+</li>
+                                </ul>
+                            </div>
+                            <div class="btn btn-success btn-sm"
+                                 data-toggle="modal"
+                                 data-target="#trailer">
+
+                                <span class="icon icon-xs fa-film">
+
+                                </span>&nbsp; Watch Trailer
+                            </div>
+                            <div class="blog-post offset-custom-5">
+                                <div class="badge">
+                                    <span>Share:</span>
+                                    <ul class="list-inline">
+                                        <li><a class="fa-facebook" href="#"></a></li>
+                                        <li><a class="fa-twitter" href="#"></a></li>
+                                        <li><a class="fa-pinterest-p" href="#"></a></li>
+                                        <li><a class="fa-vimeo" href="#"></a></li>
+                                        <li><a class="fa-google" href="#"></a></li>
+                                        <li><a class="fa-rss" href="#"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row offset-custom-4">
+                        <div class="col-12">
+                            <div class="responsive-tabs-shop horizontal-tabs offset-custom-5">
+                                <div class="tabs-custom tabs-horizontal tabs-corporate tabs-shop" id="tabs-3">
+                                    <!-- Nav tabs-->
+                                    <ul class="nav nav-tabs">
+                                        <li class="nav-item" role="presentation"><a class="nav-link active text-capitalize" href="#tabs-3-1" data-toggle="tab">Description</a></li>
+                                        <li class="nav-item" role="presentation"><a class="nav-link text-capitalize" href="#tabs-3-3" data-toggle="tab">Reviews (2)</a></li>
+                                    </ul>
+                                    <!-- Tab panes-->
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade show active" id="tabs-3-1">
+                                            <p>Faucibus et molestie ac feugiat sed lectus. Ut faucibus pulvinar elementum integer enim neque volutpat ac. Faucibus in ornare quam viverra orci sagittis eu volutpat odio. Placerat orci nulla pellentesque dignissim enim sit amet. Nec feugiat in fermentum posuere urna. Mi proin sed libero enim sed faucibus turpis in. Accumsan tortor posuere ac ut consequat semper viverra nam libero. Facilisi etiam dignissim diam quis enim. Viverra accumsan in nisl nisi scelerisque eu. Ultricies integer quis auctor elit.</p>
+                                        </div>
+                                        <div class="tab-pane fade" id="tabs-3-3">
+                                            <div class="media flex-column flex-md-row text-sm-left comment">
+                                                <div class="media-left"><img class="img-circle" src="images/index-13.jpg" alt="" /></div>
+                                                <div class="media-body media-body-inset-1">
+                                                    <h6><a href="team-member.html">Jack Wilson</a></h6><span class="text-gray"></span>
+                                                    <div class="blog-post-time">
+                                                        <time datetime="2018-04-24">April 24, 2018 at 10:46 am</time>
+                                                    </div>
+                                                    <p>Quam pellentesque nec nam aliquam. Ornare lectus sit amet est placerat. At lectus urna duis convallis convallis tellus.</p><a class="icon icon-success fa-reply" href="#"></a>
+                                                </div>
+                                            </div>
+                                            <div class="media flex-column flex-md-row text-sm-left preffix-1 comment-reply">
+                                                <div class="media-left"><img class="img-circle" src="images/index-12.jpg" alt="" /></div>
+                                                <div class="media-body media-body-inset-1">
+                                                    <h6><a href="team-member.html">Sharon Willis</a></h6><span class="text-gray"></span>
+                                                    <div class="blog-post-time">
+                                                        <time datetime="2018-04-24">April 24, 2018 at 10:46 am</time><span class="icon fa-reply">Jack Wilson</span>
+                                                    </div>
+                                                    <p>Eu mi bibendum neque egestas. Risus quis varius quam quisque id diam vel. Vulputate odio ut enim blandit volutpat maecenas volutpat blandit aliquam.</p><a class="icon icon-success fa-reply" href="#"></a>
+                                                </div>
+                                            </div>
+                                            <div class="offset-custom-7">
+                                                <h4 class="text-center">Leave your comment</h4>
+                                                <!-- RD Mailform-->
+                                                <form class="rd-mailform text-left" data-form-output="form-output-global" data-form-type="forms" method="post" action="bat/rd-mailform.php">
+                                                    <div class="row row-10">
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-wrap">
+                                                                <label class="form-label"
+                                                                       for="forms-name">Your first name...</label>
+                                                                <input class="form-input"
+                                                                       id="forms-name"
+                                                                       type="text"
+                                                                       name="name">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-wrap">
+                                                                <label class="form-label"
+                                                                       for="forms-email">
+                                                                    Your e-mail...
+                                                                </label>
+                                                                <input class="form-input"
+                                                                       id="forms-email"
+                                                                       type="email"
+                                                                       name="email">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-12">
+                                                            <div class="form-wrap">
+                                                                <label class="form-label"
+                                                                       for="forms-message">
+                                                                    Message:
+                                                                </label>
+                                                                <textarea class="form-input"
+                                                                          id="forms-message"
+                                                                          name="message">
+                                  </textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-success btn-sm"
+                                                                    type="submit">
+                                                                Submit
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section section-inset-2">
+        <div class="container">
+            <h2 class="text-center">People Also Like</h2>
+            <hr>
+            <div class="row row-45 justify-content-center">
+                <div class="col-9 col-sm-6 col-lg-3">
+                    <a href="shop-product.html">
+                        <div class="box-office-media"><img src="images/gallery-5.jpg" alt=""></div>
+                    </a>
+                    <div class="caption-1">
+                        <div class="caption-wrapper"></div>
+                    </div>
+                    <div class="poster-blog text-left">
+                        <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Titans</a></h6>
+                        <p class="text-gray">2018, USA, Drama</p>
+                        <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2 text-gray"></span></div>
+                        <div class="price text-left">
+                            <ul>
+                                <li>$29.00</li>
+                                <li><a href="#">BUY MOVIE</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9 col-sm-6 col-lg-3">
+                    <a href="shop-product.html">
+                        <div class="box-office-media"><img src="images/gallery-2.jpg" alt=""></div>
+                    </a>
+                    <div class="caption-1">
+                        <div class="caption-wrapper"></div>
+                    </div>
+                    <div class="poster-blog text-left">
+                        <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Avengers: Infinity War</a></h6>
+                        <p class="text-gray">2018, USA, Action, Fantasy</p>
+                        <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
+                        <div class="price text-left">
+                            <ul>
+                                <li>$29.00</li>
+                                <li><a href="#">BUY MOVIE</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9 col-sm-6 col-lg-3">
+                    <a href="shop-product.html">
+                        <div class="box-office-media"><img src="images/gallery-3.jpg" alt=""></div>
+                    </a>
+                    <div class="caption-1">
+                        <div class="caption-wrapper"></div>
+                    </div>
+                    <div class="poster-blog text-left">
+                        <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">The Flash</a></h6>
+                        <p class="text-gray">2014, USA, Action</p>
+                        <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
+                        <div class="price text-left">
+                            <ul>
+                                <li>$29.00</li>
+                                <li><a href="#">BUY MOVIE</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9 col-sm-6 col-lg-3">
+                    <a href="shop-product.html">
+                        <div class="box-office-media"><img src="images/gallery-4.jpg" alt=""></div>
+                    </a>
+                    <div class="caption-1">
+                        <div class="caption-wrapper"></div>
+                    </div>
+                    <div class="poster-blog text-left">
+                        <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Game of Thrones</a></h6>
+                        <p class="text-gray">2018, USA, Adventure, Action</p>
+                        <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
+                        <div class="price text-left">
+                            <ul>
+                                <li>$29.00</li>
+                                <li><a href="#">BUY MOVIE</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+
+
+<!--
+
+
+
+<div class="col-sm-12 col-md-6">
+    <div class="row">
+        <img src="@_imageService.DecodeImage(Model.Poster, Model.PosterType)" class="w-100" alt="...">
+    </div>
+
+    <div class="row">
+        <button class="btn btn-lg btn-block btn-danger font-weight-bold" data-toggle="modal"
+                data-target="#trailer">
+            WATCH TRAILER
+        </button>
+    </div>
+</div>
+
+<div class="col-sm-12 col-md-6">
+    <div class="row">
+        <div class="col h5">
+            <span class="font-weight-bolder mr-2">TITLE:</span> @Model.Title
+        </div>
+    </div>
+    <hr />
+
+    <div class="row">
+        <div class="col h5">
+            <span class="font-weight-bolder mr-2">RELEASED:</span> @Model.ReleaseDate.ToString("MMM dd, yyyy")
+        </div>
+    </div>
+    <hr />
+
+    <div class="row">
+        <div class="col h5">
+            <span class="font-weight-bolder mr-2">RATING:</span> @Model.Rating
+        </div>
+    </div>
+    <hr />
+
+    <div class="row">
+        <div class="col h5">
+            <span class="font-weight-bolder mr-2">REVIEWS:</span> @Model.VoteAverage / 10
+        </div>
+    </div>
+    <hr />
+
+    <div class="row mt-3 mb-2">
+        <div class="col">
+            <span class="h5 font-weight-bolder"> OVERVIEW:</span>
         </div>
     </div>
 
-    <div class="col-sm-12 col-md-6">
-        <div class="row">
-            <div class="col h5">
-                <span class="font-weight-bolder mr-2">TITLE:</span> @Model.Title
-            </div>
-        </div>
-        <hr />
-
-        <div class="row">
-            <div class="col h5">
-                <span class="font-weight-bolder mr-2">RELEASED:</span> @Model.ReleaseDate.ToString("MMM dd, yyyy")
-            </div>
-        </div>
-        <hr />
-
-        <div class="row">
-            <div class="col h5">
-                <span class="font-weight-bolder mr-2">RATING:</span> @Model.Rating
-            </div>
-        </div>
-        <hr />
-
-        <div class="row">
-            <div class="col h5">
-                <span class="font-weight-bolder mr-2">REVIEWS:</span> @Model.VoteAverage / 10
-            </div>
-        </div>
-        <hr />
-
-        <div class="row mt-3 mb-2">
-            <div class="col">
-                <span class="h5 font-weight-bolder"> OVERVIEW:</span>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <span class="h5 ml-4">@Model.Overview</span>
-            </div>
+    <div class="row">
+        <div class="col">
+            <span class="h5 ml-4">@Model.Overview</span>
         </div>
     </div>
 </div>
@@ -69,25 +357,26 @@
 
 @foreach (var actor in Model.Cast.Take(5))
 {
-    <div class="row">
-        <div class="col">
-            <div class="card mb-3">
-                <div class="row no-gutters">
-                    <div class="col-md-2">
-                        <img src="@actor.ImageUrl" class="img-fluid" style="width: 10rem" alt="...">
-                    </div>
-                    <div class="col-md-10">
-                        <div class="card-body">
-                            <h5 class="card-title"><a asp-action="Details" asp-controller="Actors" asp-route-id="@actor.CastId">Name: @actor.Name</a></h5>
-                            <p class="card-text">Character: @actor.Character</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card mb-3">
+                                            <div class="row no-gutters">
+                                                <div class="col-md-2">
+                                                    <img src="@actor.ImageUrl" class="img-fluid" style="width: 10rem" alt="...">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title"><a asp-action="Details" asp-controller="Actors" asp-route-id="@actor.CastId">Name: @actor.Name</a></h5>
+                                                        <p class="card-text">Character: @actor.Character</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 }
 
+-->
 <!-- Modal -->
 <div class="modal fade" id="trailer" tabindex="-1" role="dialog" aria-labelledby="trailerLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
