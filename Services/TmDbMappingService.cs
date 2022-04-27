@@ -99,6 +99,26 @@ namespace ReelJunkies.Services
                     })
                 );
 
+                var reviews = movie.reviews.results.ToList();
+                reviews.ForEach(review =>
+                newMovie.Reviews.Add(
+                new DbMovieReview()
+                {
+                    Id = int.Parse(review.id),
+                    AuthorUsername = review.author,
+                    AuthorDetails = new DbReviewAuthor()
+                    {
+                        Name = review.author_details.name,
+                        Username = review.author_details.username,
+                        AvatarPath = review.author_details.avatar_path,
+                    },
+                    Content = review.content,
+                    CreateDate = DateTime.Parse(review.created_at),
+                    UpdateDate = DateTime.Parse(review.updated_at),
+                    Url = review.url
+                }));
+
+
 
                 var crewMembers = movie.credits.crew
                         .OrderByDescending(c => c.popularity)

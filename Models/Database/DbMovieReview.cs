@@ -8,7 +8,8 @@ namespace ReelJunkies.Models.TmDb
 
         public int Id { get; set; }
 
-        public DbReviewAuthor Author { get; set; }
+        public string AuthorUsername { get; set; }
+        public DbReviewAuthor AuthorDetails { get; set; }
 
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
@@ -16,7 +17,5 @@ namespace ReelJunkies.Models.TmDb
         public string Content { get; set; }
 
         public string Url { get; set; }
-
-
     }
 }
