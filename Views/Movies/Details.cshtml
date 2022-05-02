@@ -4,12 +4,6 @@
 @model Movie
 
 
-<style>
-
-    .hover-red:hover {
-        color: var(--primary) !important;
-    }
-</style>
 
 <div class="page text-center">
     <div class="preloader">
@@ -98,9 +92,7 @@
                                     <li>16+</li>
                                 </ul>
                             </div>
-                            <div class="btn btn-success btn-sm"
-                                 data-toggle="modal"
-                                 data-target="#trailer">
+                            <div class="btn btn-success btn-sm watchtrl">
 
                                 <span class="icon icon-xs fa-film">
 
@@ -151,26 +143,37 @@
 
                                         </div>
                                         <div class="tab-pane fade show active" id="tabs-3-1">
-                                            <div class="media flex-column flex-md-row text-sm-left comment">
-                                                <div class="media-left"><img class="img-circle" src="images/index-13.jpg" alt="" /></div>
-                                                <div class="media-body media-body-inset-1">
-                                                    <h6><a href="team-member.html">Jack Wilson</a></h6><span class="text-gray"></span>
-                                                    <div class="blog-post-time">
-                                                        <time datetime="2018-04-24">April 24, 2018 at 10:46 am</time>
+
+                                            @foreach (var review in Model.Reviews)
+                                            {
+                                                <div class="media flex-column flex-md-row text-sm-left comment">
+                                                    <div class="media-left">
+                                                        <img class="img-circle"
+                                                         src="images/index-13.jpg"
+                                                         alt="" />
                                                     </div>
-                                                    <p>Quam pellentesque nec nam aliquam. Ornare lectus sit amet est placerat. At lectus urna duis convallis convallis tellus.</p><a class="icon icon-success fa-reply" href="#"></a>
-                                                </div>
-                                            </div>
-                                            <div class="media flex-column flex-md-row text-sm-left preffix-1 comment-reply">
-                                                <div class="media-left"><img class="img-circle" src="images/index-12.jpg" alt="" /></div>
-                                                <div class="media-body media-body-inset-1">
-                                                    <h6><a href="team-member.html">Sharon Willis</a></h6><span class="text-gray"></span>
-                                                    <div class="blog-post-time">
-                                                        <time datetime="2018-04-24">April 24, 2018 at 10:46 am</time><span class="icon fa-reply">Jack Wilson</span>
+                                                    <div class="media-body media-body-inset-1">
+                                                        <h6>
+                                                            <a href="team-member.html">
+                                                                @review.AuthorUsername
+                                                            </a>
+                                                        </h6>
+                                                        <span class="text-gray">
+                                                        </span>
+                                                        <div class="blog-post-time mt-1">
+                                                            <time>
+                                                                @review.CreateDate
+                                                            </time>
+                                                        </div>
+
+                                                        <div class="review-comment mb-4">
+                                                            <p>
+                                                                @review.Content
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <p>Eu mi bibendum neque egestas. Risus quis varius quam quisque id diam vel. Vulputate odio ut enim blandit volutpat maecenas volutpat blandit aliquam.</p><a class="icon icon-success fa-reply" href="#"></a>
                                                 </div>
-                                            </div>
+                                            }
                                             <div class="offset-custom-7">
                                                 <h4 class="text-center">Leave your comment</h4>
                                                 <!-- RD Mailform-->
@@ -386,54 +389,64 @@
 
 @foreach (var actor in Model.Cast.Take(5))
 {
-                                                                                                                                                                                    <div class="row">
-                                                                                                                                                                                        <div class="col">
-                                                                                                                                                                                            <div class="card mb-3">
-                                                                                                                                                                                                <div class="row no-gutters">
-                                                                                                                                                                                                    <div class="col-md-2">
-                                                                                                                                                                                                        <img src="@actor.ImageUrl" class="img-fluid" style="width: 10rem" alt="...">
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                    <div class="col-md-10">
-                                                                                                                                                                                                        <div class="card-body">
-                                                                                                                                                                                                            <h5 class="card-title"><a asp-action="Details" asp-controller="Actors" asp-route-id="@actor.CastId">Name: @actor.Name</a></h5>
-                                                                                                                                                                                                            <p class="card-text">Character: @actor.Character</p>
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                </div>
-                                                                                                                                                                                            </div>
-                                                                                                                                                                                        </div>
-                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <div class="row">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="col">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="card mb-3">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <div class="row no-gutters">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <div class="col-md-2">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <img src="@actor.ImageUrl" class="img-fluid" style="width: 10rem" alt="...">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <div class="col-md-10">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="card-body">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <h5 class="card-title"><a asp-action="Details" asp-controller="Actors" asp-route-id="@actor.CastId">Name: @actor.Name</a></h5>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="card-text">Character: @actor.Character</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
 }
 
 -->
 <!-- Modal -->
-<div class="modal fade" id="trailer" tabindex="-1" role="dialog" aria-labelledby="trailerLabel" aria-hidden="true">
+<div class="modal fade" id="detailedMovieTrailerModal" tabindex="-1" role="dialog" aria-labelledby="trailerLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">@Model.Title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
             <div class="modal-body">
                 <div class="embed-responsive embed-responsive-16by9">
                     @{
                         //I am isolating a piece of data in order to use it as my embed source
-                        var key = Model.TrailerUrl.Split("=").Last();
-                        var source = $"https://www.youtube.com/embed/{key}";
+                        var key = "";
+                        var source = "";
+                        if (Model.TrailerUrl is not null)
+                        {
+                            key = Model.TrailerUrl.Split("=").Last();
+                            source = $"https://www.youtube.com/embed/{key}";
+                        }
                     }
-
-                    <iframe width="560" height="315" src="@source"
+                    <iframe class="trailer"
+                            width="560"
+                            height="315"
+                            src="@source"
                             title="YouTube video player" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
-
+                            allowscriptaccess="always"
+                            allow="autoplay">
+                    </iframe>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+
+
+<script>
+    document.querySelector(".watchtrl").addEventListener('click', (e)=>{
+    e.preventDefault();
+     $('#detailedMovieTrailerModal').modal('toggle')
+     $('#detailedMovieTrailerModal').on('hidden.bs.modal', function (event) {
+           $("#detailedMovieTrailerModal iframe").attr("src", $("#detailedMovieTrailerModal iframe").attr("src"));
+     })
+    });
+</script>

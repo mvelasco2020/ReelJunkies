@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using ReelJunkies.Enums;
 using ReelJunkies.Models.Database;
 using ReelJunkies.Models.Settings;
@@ -104,7 +105,6 @@ namespace ReelJunkies.Services
                 newMovie.Reviews.Add(
                 new DbMovieReview()
                 {
-                    Id = int.Parse(review.id),
                     AuthorUsername = review.author,
                     AuthorDetails = new DbReviewAuthor()
                     {
