@@ -6,6 +6,7 @@ using ReelJunkies.Models.Settings;
 using ReelJunkies.Models.TmDb;
 using ReelJunkies.Services.Interfaces;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -140,6 +141,20 @@ namespace ReelJunkies.Services
                     });
                 });
 
+                foreach (var similarMovie in movie.similar.results.ToList().Take(4))
+                {
+                    newMovie.Similar.Add(new SimilarMovie()
+                    {
+                        TmDbId = similarMovie.id,
+                        PosterPath = $"{_appSettings.TmDbSettings.BaseImagePath}" +
+                        $"/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}" +
+                        $"/{similarMovie.poster_path}",
+
+                        GenreIds = similarMovie.genre_ids,
+                        Title = similarMovie.title,
+                        ReleaseDate = DateTime.Parse(similarMovie.release_date)
+                    });
+                }
 
             }
             catch (System.Exception ex)

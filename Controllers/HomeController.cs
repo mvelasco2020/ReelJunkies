@@ -35,8 +35,8 @@ namespace ReelJunkies.Controllers
             const int count = 4;
             var Upcomming = await _tmdbMovieService.MovieSearchAsync(MovieCategory.upcoming, 4);
             Upcomming.results = Upcomming.results.OrderByDescending(x => x.release_date).ToArray();
-            var NowPlaying = await _tmdbMovieService.MovieSearchAsync(MovieCategory.now_playing, 8);
 
+            var NowPlaying = await _tmdbMovieService.MovieSearchAsync(MovieCategory.now_playing, 8);
             NowPlaying.results = NowPlaying.results.OrderByDescending(x => x.release_date).ToArray();
 
             var data = new VM_LandingPage()

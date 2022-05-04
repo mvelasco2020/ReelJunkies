@@ -35,13 +35,14 @@
             <li class="active">@Model.Title</li>
         </ol>
     </section>
+
     <section class="section section-inset-1">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-xl-8">
                     <div class="row row-45 product-item">
                         <div class="col-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-0 text-center text-md-left">
-                            <a href="images/product-7.jpg"
+                            <a href="@_imageService.DecodeImage(Model.Poster, Model.PosterType)"
                                data-lightgallery="item">
                                 <img src="@_imageService.DecodeImage(Model.Poster, Model.PosterType)"
                                      alt="@Model.Title movie poster">
@@ -52,18 +53,14 @@
                             <div class="review">
                                 <span class="icon fa-star icon-waring-2">
                                 </span><span class="icon fa-star icon-waring-2">
-
                                 </span>
                                 <span class="icon fa-star icon-waring-2">
-
                                 </span>
                                 <span class="icon fa-star icon-waring-2">
-
                                 </span><span class="icon fa-star icon-waring-2"></span>
                                 <span class="text-gray">2 customer reviews</span>
                             </div>
                             <div class="about-container">
-
                                 <p class="text-gray">
                                     Actors:&nbsp;
                                     <span class="text-black">
@@ -92,9 +89,7 @@
                                 </ul>
                             </div>
                             <div class="btn btn-success btn-sm watchtrl">
-
                                 <span class="icon icon-xs fa-film">
-
                                 </span>&nbsp; Watch Trailer
                             </div>
                             <div class="blog-post offset-custom-5">
@@ -252,94 +247,48 @@
         </div>
     </section>
 
+    <!-- suggested movies-->
     <section class="section section-inset-2">
         <div class="container">
             <h2 class="text-center">You may also like</h2>
             <hr>
             <div class="row row-45 justify-content-center">
-                <div class="col-9 col-sm-6 col-lg-3">
-                    <a href="shop-product.html">
-                        <div class="box-office-media"><img src="images/gallery-5.jpg" alt=""></div>
-                    </a>
-                    <div class="caption-1">
-                        <div class="caption-wrapper"></div>
-                    </div>
-                    <div class="poster-blog text-left">
-                        <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Titans</a></h6>
-                        <p class="text-gray">2018, USA, Drama</p>
-                        <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2 text-gray"></span></div>
-                        <div class="price text-left">
-                            <ul>
-                                <li>$29.00</li>
-                                <li><a href="#">BUY MOVIE</a></li>
-                            </ul>
+
+                @foreach (var suggestedMovie in Model.Similar)
+                {
+                    <div class="col-9 col-sm-6 col-lg-3">
+                        <a href="shop-product.html">
+                            <div class="box-office-media">
+                                <img src="@suggestedMovie.PosterPath" alt="">
+                            </div>
+                        </a>
+                        <div class="caption-1">
+                            <div class="caption-wrapper"></div>
+                        </div>
+                        <div class="poster-blog text-left">
+                            <h6 class="text-gray-900 offset-top-20">
+                                <a href="shop-product.html">
+                                    @suggestedMovie.Title
+                                </a>
+                            </h6>
+                            <p class="text-gray">@suggestedMovie.ReleaseDate.ToShortDateString()</p>
                         </div>
                     </div>
-                </div>
-                <div class="col-9 col-sm-6 col-lg-3">
-                    <a href="shop-product.html">
-                        <div class="box-office-media"><img src="images/gallery-2.jpg" alt=""></div>
-                    </a>
-                    <div class="caption-1">
-                        <div class="caption-wrapper"></div>
-                    </div>
-                    <div class="poster-blog text-left">
-                        <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Avengers: Infinity War</a></h6>
-                        <p class="text-gray">2018, USA, Action, Fantasy</p>
-                        <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
-                        <div class="price text-left">
-                            <ul>
-                                <li>$29.00</li>
-                                <li><a href="#">BUY MOVIE</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-9 col-sm-6 col-lg-3">
-                    <a href="shop-product.html">
-                        <div class="box-office-media"><img src="images/gallery-3.jpg" alt=""></div>
-                    </a>
-                    <div class="caption-1">
-                        <div class="caption-wrapper"></div>
-                    </div>
-                    <div class="poster-blog text-left">
-                        <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">The Flash</a></h6>
-                        <p class="text-gray">2014, USA, Action</p>
-                        <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
-                        <div class="price text-left">
-                            <ul>
-                                <li>$29.00</li>
-                                <li><a href="#">BUY MOVIE</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-9 col-sm-6 col-lg-3">
-                    <a href="shop-product.html">
-                        <div class="box-office-media"><img src="images/gallery-4.jpg" alt=""></div>
-                    </a>
-                    <div class="caption-1">
-                        <div class="caption-wrapper"></div>
-                    </div>
-                    <div class="poster-blog text-left">
-                        <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Game of Thrones</a></h6>
-                        <p class="text-gray">2018, USA, Adventure, Action</p>
-                        <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
-                        <div class="price text-left">
-                            <ul>
-                                <li>$29.00</li>
-                                <li><a href="#">BUY MOVIE</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                }
+
+
             </div>
         </div>
     </section>
 </div>
 <!--
 <!-- Modal -->
-<div class="modal fade" id="detailedMovieTrailerModal" tabindex="-1" role="dialog" aria-labelledby="trailerLabel" aria-hidden="true">
+<div class="modal fade"
+     id="detailedMovieTrailerModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="trailerLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">

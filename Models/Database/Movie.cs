@@ -59,5 +59,7 @@ namespace ReelJunkies.Models.Database
 
         public ICollection<MovieCrew> Crew { get; set; } = new HashSet<MovieCrew>();
 
+        public ICollection<SimilarMovie> Similar { get; set; } = new HashSet<SimilarMovie>();
+
     }
 }
