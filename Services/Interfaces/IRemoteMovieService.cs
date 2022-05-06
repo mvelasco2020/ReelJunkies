@@ -11,5 +11,7 @@ namespace ReelJunkies.Services.Interfaces
 
         Task<MovieSearch> MovieSearchByGenre(string genre, int count = 6);
         Task<ActorDetail> ActorDetailAsync(int id);
+
+        Task<CombinedCredits> ActorCombinedCreditsAsync(int id);
     }
 }

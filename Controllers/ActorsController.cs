@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ReelJunkies.Models.ViewModels;
 using ReelJunkies.Services.Interfaces;
 using System.Threading.Tasks;
 
@@ -19,7 +20,16 @@ namespace ReelJunkies.Controllers
         {
             var actor = await _tmdbMovieService.ActorDetailAsync(id);
             actor = _mappingService.MapActorDetail(actor);
-            return View(actor);
+
+            var combinedCredits = await _tmdbMovieService.ActorCombinedCreditsAsync(id);
+
+            var actorCombinedCredits = new VM_ActorMovies()
+            {
+                ActorDetail = actor,
+                CombinedCredits = combinedCredits,
+            };
+
+            return View(actorCombinedCredits);
         }
     }
 }

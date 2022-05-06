@@ -1,40 +1,109 @@
-﻿@using ReelJunkies.Models.TmDb
-@model ActorDetail
+﻿@using ReelJunkies.Models.ViewModels
+@using ReelJunkies.Services.Interfaces
+@inject IImageService _imageService
+@model VM_ActorMovies
 
-    <div class="media">
-        <img src="@Model.profile_path" class="align-self-center mr-3" alt="...">
-        <div class="media-body">
-            <div class="row">
-                <table class="table table-hover">
-                    <tbody>
-                        <tr>
-                            <td>Name:</td>
-                            <td>
-                                @Model.name
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Biography:</td>
-                            <td>
-                                @Model.biography
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Birthday:</td>
-                            <td>
-                                @Model.birthday
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Place of birth:</td>
-                            <td>
-                                @Model.place_of_birth
-                            </td>
-                        </tr>
 
-                    </tbody>
-                </table>
+<div class="page text-center">
+    <div class="preloader">
+        <div class="preloader-body">
+            <div class="cssload-container">
+                <div class="cssload-speeding-wheel"></div>
             </div>
-
+            <p>Loading...</p>
         </div>
     </div>
+    <section class="relative text-center bg-blog pt-5">
+        <div class="container pt-5">
+            <div class="jumbotron text-center">
+                <h1>
+                    <small>Meet The Star</small>
+                    <span class='font-weight-bold'>
+                        @Model.ActorDetail.name
+                    </span>
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-light section-xl text-center">
+        <ol class="breadcrumb">
+            <li>
+                <a asp-controller="Home"
+                   asp-action="index">Home</a>
+            </li>
+            <li>
+                <a asp-controller="Home"
+                   asp-action="index">Actors</a>
+            </li>
+            <li class="active">@Model.ActorDetail.name</li>
+        </ol>
+    </section>
+
+    <section class="section section-inset-1">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-xl-8">
+                    <div class="">
+                        <span class="col-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-0 float-left">
+                            <a href="@Model.ActorDetail.profile_path"
+                               data-lightgallery="item">
+                                <img src="@Model.ActorDetail.profile_path"
+                                     alt="image of @Model.ActorDetail.name">
+                            </a>
+                        </span>
+                        <div class="text-xs-center text-md-left about-container">
+                            <h4>
+                                @Model.ActorDetail.name
+                            </h4>
+                            <p class="text-gray mt-1">
+                                @Model.ActorDetail.birthday - @Model.ActorDetail.place_of_birth
+                            </p>
+                            <p>@Model.ActorDetail.biography</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- suggested movies-->
+    <section class="section section-inset-2">
+        <div class="container">
+            <h2 class="text-center">@Model.ActorDetail.name's Greatest Hits</h2>
+            <hr>
+            <div class="row row-45 justify-content-center">
+
+                @foreach (var suggestedMovie in Model.CombinedCredits.cast)
+                {
+                    <div class="col-9 col-sm-6 col-lg-3">
+                        <a asp-controller="Movies"
+                       asp-action="Details"
+                       asp-route-id="@suggestedMovie.id">
+                            <div class="box-office-media">
+                                <img src="@suggestedMovie.poster_path"
+                                 alt="Movie poster">
+                            </div>
+                        </a>
+                        <div class="caption-1">
+                            <div class="caption-wrapper"></div>
+                        </div>
+                        <div class="poster-blog text-left">
+                            <h6 class="text-gray-900 offset-top-20">
+                                <a a asp-controller="Movies"
+                               asp-action="Details"
+                               asp-route-id="@suggestedMovie.id">
+                                    @suggestedMovie.title
+                                </a>
+                            </h6>
+                            <p class="text-gray">@suggestedMovie.release_date</p>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </section>
+</div>

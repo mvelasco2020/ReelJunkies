@@ -28,6 +28,63 @@ namespace ReelJunkies.Services
             _httpClient = httpClient;
         }
 
+        public async Task<CombinedCredits> ActorCombinedCreditsAsync(int id)
+        {
+            //setup a default instance of movie search
+            CombinedCredits ActorCombinedCredits = new();
+
+            //assenble full request uri string
+            var query = $"{_appSettings.TmDbSettings.BaseUrl}/person/{id}/combined_credits";
+            var queryParams = new Dictionary<string, string>()
+            {
+                {"api_key", _appSettings.ReelJunkiesSettings.TmDbApiKey },
+                {"language", _appSettings.TmDbSettings.QueryOptions.Language }
+            };
+
+            var requestUri = QueryHelpers.AddQueryString(query, queryParams);
+
+            //create a client and execute request
+            var client = _httpClient.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            try
+            {
+
+                var response = await client.SendAsync(request);
+
+                //return the  Moviesearch object
+                if (response.IsSuccessStatusCode)
+                {
+                    var deserialize = new DataContractJsonSerializer(typeof(CombinedCredits));
+                    using var responseStream = await response.Content.ReadAsStreamAsync();
+                    ActorCombinedCredits = (CombinedCredits)deserialize.ReadObject(responseStream);
+                    ActorCombinedCredits.cast = ActorCombinedCredits.cast.Take(4).ToArray();
+                    ActorCombinedCredits
+                        .cast.ToList()
+                        .ForEach(r =>
+                        r.backdrop_path =
+                        $"{_appSettings.TmDbSettings.BaseImagePath}" +
+                        $"/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}" +
+                        $"/{r.backdrop_path}");
+
+                    ActorCombinedCredits
+                        .cast.ToList()
+                        .ForEach(r =>
+                        r.poster_path =
+                        $"{_appSettings.TmDbSettings.BaseImagePath}" +
+                        $"/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}" +
+                        $"/{r.poster_path}");
+
+                }
+            }
+            catch (System.Exception)
+            {
+
+            }
+
+
+            return ActorCombinedCredits;
+        }
+
         public async Task<ActorDetail> ActorDetailAsync(int id)
         {
             ActorDetail actorDetail = new();

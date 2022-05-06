@@ -32,6 +32,10 @@
                 <a asp-controller="Home"
                    asp-action="index">Home</a>
             </li>
+            <li>
+                <a asp-controller="Home"
+                   asp-action="index">Movies</a>
+            </li>
             <li class="active">@Model.Title</li>
         </ol>
     </section>
@@ -58,7 +62,7 @@
                                 </span>
                                 <span class="icon fa-star icon-waring-2">
                                 </span><span class="icon fa-star icon-waring-2"></span>
-                                <span class="text-gray">2 customer reviews</span>
+                                <span class="text-gray">@Model.Reviews.Count customer reviews</span>
                             </div>
                             <div class="about-container">
                                 <p class="text-gray">
@@ -78,14 +82,14 @@
                                 <p>Overview: @Model.Overview</p>
                                 <p class="text-gray">
                                     @Model.Rating
-                                    @foreach (var genre in Model.Genres)
-                                    {
-                                        <span> @genre.Name</span>
-                                    }
+
                                 </p>
                                 <ul class="info-box">
-                                    <li>HD</li>
-                                    <li>16+</li>
+                                    @foreach (var genre in Model.Genres.Take(3))
+                                    {
+                                        <li>@genre.Name</li>
+                                    }
+
                                 </ul>
                             </div>
                             <div class="btn btn-success btn-sm watchtrl">
@@ -257,7 +261,9 @@
                 @foreach (var suggestedMovie in Model.Similar)
                 {
                     <div class="col-9 col-sm-6 col-lg-3">
-                        <a href="shop-product.html">
+                        <a asp-controller="Movies"
+                       asp-action="Details"
+                       asp-route-id="@suggestedMovie.TmDbId">
                             <div class="box-office-media">
                                 <img src="@suggestedMovie.PosterPath" alt="">
                             </div>
@@ -267,7 +273,9 @@
                         </div>
                         <div class="poster-blog text-left">
                             <h6 class="text-gray-900 offset-top-20">
-                                <a href="shop-product.html">
+                                <a a asp-controller="Movies"
+                               asp-action="Details"
+                               asp-route-id="@suggestedMovie.TmDbId">
                                     @suggestedMovie.Title
                                 </a>
                             </h6>
