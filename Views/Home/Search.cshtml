@@ -1,0 +1,126 @@
+﻿@using ReelJunkies.Models.TmDb
+@using ReelJunkies.Enums
+@model QueryAll
+
+
+
+<section class="relative text-center bg-blog pt-5">
+    <div class="container">
+        <div class="jumbotron text-center">
+            <h1>
+                <small>Here’s what we found on</small>
+                <span class='font-weight-bold'>@ViewData["query"]</span>
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="bg-light section-xl">
+    <ol class="breadcrumb text-center">
+        <li>
+        <a asp-controller="home"
+        asp-action="index"
+        >Home</a>
+    </li>
+        <li class="active">Search Results</li>
+    </ol>
+</section>
+<section class="section section-xxl bg-default">
+    <div class="container">
+        <h2>Search Results</h2>
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <!-- RD Search-->
+                <form 
+                class="rd-form rd-search rd-form-inline" 
+                asp-action="Search"
+                method="get">
+                    <div class="form-wrap">
+                    <label class="form-label" 
+                        for="rd-search-form-input">
+                        Search
+                    </label>
+                        <input class="form-input" 
+                        id="rd-search-form-input" 
+                        type="text" 
+                        name="query"
+                        value="@ViewData["Query"]"
+                        autocomplete="off">
+                    </div>
+                    <div class="form-wrap form-button">
+                        <button class="btn btn-success btn-sm btn-min-width-xs" 
+                        type="submit">
+                        Search
+                    </button>
+                    </div>
+                </form>
+                <div class="rd-search-results"></div>
+            <ul>
+                @foreach (var result in Model.results)
+                {
+                <li>
+                    @if (result.media_type == MediaType.person.ToString())
+               {
+                   <a 
+                   class="row mb-4 justify-content-center"
+                   asp-action="Details"
+                  asp-route-id="@result.id" 
+                  asp-controller="Actors">
+                   <img 
+                   class="col-sm-4 col-md-3 col-lg-2"
+                   src="@result.profile_path"/>
+                   <div class="col-8">
+                       <h6 class="text-capitalize">
+                           @result.media_type</h6>
+                       <h5>@result.name</h5>
+                   </div>
+                   </a>
+                    }
+                    else
+                    {
+                      
+                    <a 
+                   class="row mb-4 justify-content-center"
+                   asp-action="Details"
+                   asp-route-id="@result.id" 
+                   asp-controller="Movies"
+                   >
+                   <img 
+                   class="col-sm-4 col-md-3 col-lg-2 "
+                   src="@result.poster_path"/>
+                   <div class="col-8">
+                       <h6 class="text-capitalize">@result.media_type</h6>
+                       <h5>@result.title</h5>
+                       <div class="text-gray">@result.release_date</div>
+                       <div class="clamp">@result.overview</div>
+                   </div>
+                   </a>
+                   }
+                   </li>
+                }
+            </ul>
+
+
+                       <p>
+            </p>
+            @if (@Model.total_pages > 1)
+          
+           {
+            <ul class="pagination pagination-center mt-5">
+                  <li class="disabled text-center"><span class="page-item"></span></li>
+                  <li class="disabled text-center"><span class="page-item">1</span></li>
+                  @for (var i = @Model.page; i <= @Model.total_pages && i < i+5; i++)
+                 { <li><a class="page-item text-center" href="#">@i</a></li>
+                 }
+            </ul>
+           }
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+
+<script src="/js/pagination.js"
+></script>
+}

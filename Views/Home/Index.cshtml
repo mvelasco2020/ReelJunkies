@@ -26,8 +26,10 @@
                 <p class="fw-l h5 text-white">
                     The most complete database for Movies,TV shows and Events.
                 </p>
-                <form method="post">
-                    <input class="form-control rounded-0"
+                <form method="get"
+                      asp-action="Search">
+                    <input name="query"
+                           class="form-control rounded-0"
                            type="text"
                            placeholder="search for titles, genre, actors etc.." />
                 </form>

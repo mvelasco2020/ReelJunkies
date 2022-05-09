@@ -249,5 +249,43 @@ namespace ReelJunkies.Services
             return movieSearch;
 
         }
+
+        public async Task<QueryAll> QueryAll(string queryString, int page)
+        {
+            QueryAll queryResult = new();
+
+            string encodedQueryString = HttpUtility.UrlEncode(queryString);
+
+            //assenble full request uri string
+            var query = $"{_appSettings.TmDbSettings.BaseUrl}/search/multi";
+            var queryParams = new Dictionary<string, string>()
+            {
+                {"api_key", _appSettings.ReelJunkiesSettings.TmDbApiKey },
+                {"query",encodedQueryString },
+                {"page", page.ToString() }
+            };
+
+            var requestUri = QueryHelpers.AddQueryString(query, queryParams);
+
+            //create a client and execute request
+            var client = _httpClient.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            try
+            {
+                var response = await client.SendAsync(request);
+
+                //return the  Moviesearch object
+                if (response.IsSuccessStatusCode)
+                {
+                    var deserialize = new DataContractJsonSerializer(typeof(QueryAll));
+                    using var responseStream = await response.Content.ReadAsStreamAsync();
+                    queryResult = (QueryAll)deserialize.ReadObject(responseStream);
+                }
+            }
+            catch (System.Exception)
+            {
+            }
+            return queryResult;
+        }
     }
 }

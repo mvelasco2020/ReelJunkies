@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using ReelJunkies.Data;
 using ReelJunkies.Enums;
 using ReelJunkies.Models;
+using ReelJunkies.Models.TmDb;
 using ReelJunkies.Models.ViewModels;
 using ReelJunkies.Services.Interfaces;
 using System.Diagnostics;
@@ -18,15 +19,17 @@ namespace ReelJunkies.Controllers
 
         private readonly ApplicationDbContext _context;
         private readonly IRemoteMovieService _tmdbMovieService;
+        private readonly IDataMappingService _dataMappingService;
 
         public HomeController(ApplicationDbContext context,
                               IRemoteMovieService tmdbMovieService,
-                              ILogger<HomeController> logger
-                              )
+                              ILogger<HomeController> logger,
+                              IDataMappingService dataMappingService)
         {
             _context = context;
             _tmdbMovieService = tmdbMovieService;
             _logger = logger;
+            _dataMappingService = dataMappingService;
         }
 
 
@@ -54,8 +57,20 @@ namespace ReelJunkies.Controllers
                 Indies = await _tmdbMovieService.MovieSearchByGenre("27,53"),
 
             };
-
             return View(data);
+        }
+
+
+        public async Task<IActionResult> Search(string query, int page)
+        {
+            if (page == 0)
+                page = 1;
+
+            QueryAll queryResult = await _tmdbMovieService.QueryAll(query, page);
+            queryResult = _dataMappingService.MapQueryAllDetails(queryResult);
+            ViewData["query"] = query;
+            ViewData["page"] = page;
+            return View(queryResult);
         }
 
         public IActionResult Privacy()

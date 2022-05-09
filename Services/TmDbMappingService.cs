@@ -166,6 +166,44 @@ namespace ReelJunkies.Services
             return newMovie;
         }
 
+        public QueryAll MapQueryAllDetails(QueryAll queryResult)
+
+        {
+            foreach (var result in queryResult.results)
+            {
+                if (result.media_type == MediaType.person.ToString())
+                {
+                    if (result.profile_path is null)
+                    {
+                        result.profile_path = _appSettings.ReelJunkiesSettings.PosterUnavailable;
+                    }
+                    else
+                    {
+                        result.profile_path = BuildCastImage(result.profile_path);
+                    }
+                }
+                else
+                {
+                    if (result.poster_path is null)
+                    {
+                        result.poster_path = _appSettings.ReelJunkiesSettings.PosterUnavailable;
+                        result.backdrop_path = _appSettings.ReelJunkiesSettings.PosterUnavailable;
+                    }
+                    else
+                    {
+
+                        result.poster_path = $"{_appSettings.TmDbSettings.BaseImagePath}" +
+                                         $"/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}" +
+                                         $"/{result.poster_path}";
+                        result.backdrop_path = $"{_appSettings.TmDbSettings.BaseImagePath}" +
+                              $"/{_appSettings.ReelJunkiesSettings.DefaultBackdropSize}" +
+                              $"/{result.backdrop_path}";
+                    }
+                }
+            }
+            return queryResult;
+        }
+
         private string BuildCastImage(string profile_path)
         {
             if (string.IsNullOrEmpty(profile_path))

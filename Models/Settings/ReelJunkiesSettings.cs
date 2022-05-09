@@ -10,6 +10,7 @@
 
         public string DefaultBackdropSize { get; set; }
 
+        public string PosterUnavailable { get; set; }
         public DefaultCollection DefaultCollection { get; set; }
 
         public DefaultCredentials DefaultCredentials { get; set; }
