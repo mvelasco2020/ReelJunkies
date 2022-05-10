@@ -14,5 +14,7 @@ namespace ReelJunkies.Services.Interfaces
         Task<CombinedCredits> ActorCombinedCreditsAsync(int id);
 
         Task<QueryAll> QueryAll(string queryString, int page);
+
+        Task<TvSearch> TVSearchAsync(MovieCategory category, int count);
     }
 }

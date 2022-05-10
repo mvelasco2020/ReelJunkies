@@ -117,7 +117,7 @@
                      data-xs-items="1"
                      data-sm-items="2"
                      data-md-items="3"
-                     data-xl-items="3"
+                     data-xl-items="4"
                      data-loop="true"
                      data-margin="15"
                      data-dots="true"
@@ -213,6 +213,59 @@
     }//closing if inner
 }
 
+<!-- Popular TV shows-->
+@{
+    if (@Model.TvPopular.results is not null)
+    {
+        <section class="owl-slider bg-gray-900">
+            <div class="container">
+                <h2 class="text-center text-white mb-5">Popular TV Shows</h2>
+                <div class="row">
+                    <div class="owl-carousel owl-carousel-mod-1 owl-carousel-mod-3"
+                     data-xs-items="1"
+                     data-sm-items="2"
+                     data-md-items="3"
+                     data-xl-items="4"
+                     data-loop="true"
+                     data-margin="15"
+                     data-dots="true"
+                     data-autoplay="true"
+                     data-lg-dots-each="2"
+                     data-xs-stage-padding="15">
+                        @foreach (var tv in Model.TvPopular.results)
+                        {
+                            <div class="owl-item">
+                                <div class="owl-item-slide-caption">
+                                    <div class="col-12 wow-outer text-left">
+                                        <a asp-action="Details"
+                               asp-controller="Movies"
+                               asp-route-id="@tv.id">
+                                            <img src="@tv.poster_path"
+                                         class="owl-img"
+                                         alt="movie poster for @tv.name" />
+                                        </a>
+                                        <h6 class="offset-top-25">
+                                            <a asp-action="Details"
+                                   asp-controller="Movies"
+                                   asp-route-id="@tv.id">
+                                                @tv.name
+                                            </a>
+                                        </h6>
+                                        <p>
+                                            First Aired @tv.first_air_date
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+}
 <!-- UpComming-->
 @{
     if (Model.Upcomming.results is not null)
@@ -263,6 +316,8 @@
 
     }//closing if inner
 }
+
+
 <section class="section section-inset-1">
     <div class="container">
         <h2 class="mb-5 text-center">Recent News</h2>
