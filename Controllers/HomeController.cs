@@ -60,6 +60,10 @@ namespace ReelJunkies.Controllers
             return View(data);
         }
 
+        public IActionResult About()
+        {
+            return View();
+        }
 
         public async Task<IActionResult> Search(string query, int page)
         {
