@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using ReelJunkies.Data;
+using ReelJunkies.Enums;
 using ReelJunkies.Models.Database;
 using ReelJunkies.Models.Settings;
 using ReelJunkies.Services.Interfaces;
@@ -242,6 +243,11 @@ namespace ReelJunkies.Controllers
             ViewData["Local"] = local;
 
             return View(movie);
+        }
+
+        public  ActionResult GetMovieByCategory(MovieCategory category , int page = 1)
+        {
+            return NotFound();
         }
 
         [HttpGet]
