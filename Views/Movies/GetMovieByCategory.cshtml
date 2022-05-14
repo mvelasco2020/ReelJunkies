@@ -66,8 +66,7 @@
           </div>
                 @if (@Model.total_pages > 1)
                 {
-                   
-                    <ul class="pagination pagination-center mt-5">
+                        <ul class="pagination pagination-center mt-5">
                         @if (@Model.page == 1)
                         {
                         <li class="disabled text-center"><span class="page-item"></span></li>
@@ -81,19 +80,58 @@
                             class="page-item text-center"></a>
                             </li>
                         }
-                        <li class="disabled text-center"><span class="page-item">@Model.page</span></li>
-                        @for (var i = @Model.page +1; i <= @Model.total_pages && i <= @Model.page + 5; i++)
-                        {
+                        
+                        @if (@Model.page > 1)
+                       {
+                          @for (var i = @Model.page - 2 ; i < @Model.page; i++)
+                         {
+                            @if (Model.page == 2)
+                            {
+                            <li><a asp-route-page="1"
+                                   asp-action="GetMovieByCategory"
+                                   asp-route-category="@ViewData["category"]"
+                                class="page-item text-center">1
+                                </a>
+                            </li>  
+                            }
+                             @if (i == 0 || i == @Model.page)
+                            {
+                            break;
+                            }
                             <li><a asp-route-page="@i"
                                    asp-action="GetMovieByCategory"
                                    asp-route-category="@ViewData["category"]"
                                 class="page-item text-center">@i
                                 </a>
-                                </li>
+                            </li>
+                         } 
+                       }
+
+                        @for (var i = @Model.page;  i<= @Model.total_pages && i<@Model.page+3; i++)
+                        {
+                            if (i == @Model.page)
+                            {
+                            <li class="disabled"><a asp-route-page="@i"
+                                   asp-action="GetMovieByCategory"
+                                   asp-route-category="@ViewData["category"]"
+                                class="page-item text-center">@i
+                                </a>
+                          </li>
+                         }
+                           else
+                        { 
+                            <li><a asp-route-page="@i"
+                                   asp-action="GetMovieByCategory"
+                                   asp-route-category="@ViewData["category"]"
+                                class="page-item text-center">@i
+                                </a>
+                            </li>
+                             }
                         }
-                        @if (@Model.page == @Model.total_pages)
+                        
+                          @if (@Model.page >= @Model.total_pages )
                        {
-                        <li><a class="page-item text-center disabled" ></a></li>
+                         <li class="disabled text-center"><span class="page-item"></span></li>
                        }
                         else
                         {
@@ -106,6 +144,9 @@
                         </li>
                         }
                     </ul>
+
+
+
                    
                 }
         </section>
