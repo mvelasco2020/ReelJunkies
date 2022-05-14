@@ -93,10 +93,22 @@
 
                                 <a href="#">Movies</a>
                                 <ul class="rd-navbar-dropdown">
-                                    <li><a href="movie-details.html">Popular</a></li>
-                                    <li><a href="movie-details.html">Now Playing</a></li>
-                                    <li><a href="movie-details.html">Upcoming</a></li>
-                                    <li><a href="movie-details.html">Top Rated</a></li>
+                                    <li>
+                                        <a asp-action="GetMovieByCategory"
+                                           asp-controller="Movies"
+                                           asp-route-category="popular">
+                                            Popular
+                                        </a>
+                                    </li>
+                                    <li><a asp-action="GetMovieByCategory"
+                                           asp-controller="Movies"
+                                           asp-route-category="now_playing">Now Playing</a></li>
+                                    <li><a asp-action="GetMovieByCategory"
+                                           asp-controller="Movies"
+                                           asp-route-category="upcoming">Upcoming</a></li>
+                                    <li><a asp-action="GetMovieByCategory"
+                                           asp-controller="Movies"
+                                           asp-route-category="top_rated">Top Rated</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -112,10 +124,10 @@
                             <li><a href="contact_us.html">Contact</a></li>
                             <li>
                                 <a asp-controller="Home"
-                                    asp-action="About">
+                                   asp-action="About">
                                     About
                                 </a>
-                                </li>
+                            </li>
                         </ul>
                     </div>
                 </div>

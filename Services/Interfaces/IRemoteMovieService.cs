@@ -7,7 +7,7 @@ namespace ReelJunkies.Services.Interfaces
     public interface IRemoteMovieService
     {
         Task<MovieDetail> MovieDetailAsync(int id);
-        Task<MovieSearch> MovieSearchAsync(MovieCategory category, int count);
+        Task<MovieSearch> MovieSearchAsync(MovieCategory category, int count, int page);
 
         Task<MovieSearch> MovieSearchByGenre(string genre, int count = 6);
         Task<ActorDetail> ActorDetailAsync(int id);

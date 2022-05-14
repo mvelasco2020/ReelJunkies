@@ -36,10 +36,11 @@ namespace ReelJunkies.Controllers
         public async Task<IActionResult> Index()
         {
             const int count = 4;
-            var Upcomming = await _tmdbMovieService.MovieSearchAsync(MovieCategory.upcoming, count);
+            const int page = 1;
+            var Upcomming = await _tmdbMovieService.MovieSearchAsync(MovieCategory.upcoming, count, page);
             Upcomming.results = Upcomming.results.OrderByDescending(x => x.release_date).ToArray();
 
-            var NowPlaying = await _tmdbMovieService.MovieSearchAsync(MovieCategory.now_playing, count);
+            var NowPlaying = await _tmdbMovieService.MovieSearchAsync(MovieCategory.now_playing, count, page);
             NowPlaying.results = NowPlaying.results.OrderByDescending(x => x.release_date).ToArray();
 
             var data = new VM_LandingPage()
@@ -50,8 +51,8 @@ namespace ReelJunkies.Controllers
                                            .ThenInclude(m => m.Movie)
                                            .ToListAsync(),
                 NowPlaying = NowPlaying,
-                Popular = await _tmdbMovieService.MovieSearchAsync(MovieCategory.popular, count),
-                TopRated = await _tmdbMovieService.MovieSearchAsync(MovieCategory.top_rated, count),
+                Popular = await _tmdbMovieService.MovieSearchAsync(MovieCategory.popular, count, page),
+                TopRated = await _tmdbMovieService.MovieSearchAsync(MovieCategory.top_rated, count, page),
                 Upcomming = Upcomming,
                 Horror = await _tmdbMovieService.MovieSearchByGenre("27,53", 8),
                 TvPopular = await _tmdbMovieService.TVSearchAsync(MovieCategory.popular, 8)

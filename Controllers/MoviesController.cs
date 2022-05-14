@@ -245,9 +245,11 @@ namespace ReelJunkies.Controllers
             return View(movie);
         }
 
-        public  ActionResult GetMovieByCategory(MovieCategory category , int page = 1)
+        public async Task<ActionResult> GetMovieByCategory(MovieCategory category, int count=16, int page = 1)
         {
-            return NotFound();
+            var movieSearch = await _tmdbMovieService.MovieSearchAsync(category, count, page);
+            ViewData["category"] = category;
+            return View(movieSearch);
         }
 
         [HttpGet]

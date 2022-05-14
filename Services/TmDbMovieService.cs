@@ -147,7 +147,7 @@ namespace ReelJunkies.Services
             return movieDetail;
         }
 
-        public async Task<MovieSearch> MovieSearchAsync(MovieCategory category, int count)
+        public async Task<MovieSearch> MovieSearchAsync(MovieCategory category, int count, int page = 1)
         {
             //setup a default instance of movie search
             MovieSearch movieSearch = new();
@@ -158,7 +158,7 @@ namespace ReelJunkies.Services
             {
                 {"api_key", _appSettings.ReelJunkiesSettings.TmDbApiKey },
                 {"language", _appSettings.TmDbSettings.QueryOptions.Language },
-                {"page", _appSettings.TmDbSettings.QueryOptions.Page }
+                {"page", $"{page}" }
             };
 
             var requestUri = QueryHelpers.AddQueryString(query, queryParams);

@@ -68,32 +68,18 @@
                                class="clampTitle">@movie.title</a>
                                 </h6>
                                 <p class="text-gray">@movie.release_date</p>
-                                <!--
-                                <div class="review">
-                                    <span class="icon fa-star icon-waring-2">
-                                    </span><span class="icon fa-star icon-waring-2"></span>
-                                    <span class="icon fa-star icon-waring-2"></span>
-                                    <span class="icon fa-star icon-waring-2"></span>
-                                    <span class="icon fa-star icon-waring-2 text-gray"></span>
-                                </div>
-                                -->
-                        <div class="price text-left pointer">
-                                    <ul>
-                                        <li>Rating: @movie.vote_average</li>
-                                        <li class="trailerlinks"
-                                    role="button">
-                                            <a data-movieid="@movie.id"
-                                       role="button">
+                                <h6>Rating: @movie.vote_average</h6>
+                                <div class="pointer trailerlinks">
+                                            <p data-movieid="@movie.id">
                                                 Watch Trailer
-                                            </a>
+                                            </p>
+                                </div>
                                             <!--
                                             href="https://youtu.be/20bpjtCbCz0"
                                             data-lightgallery="item"
                                                                                         -->
 
-                                </li>
-                                    </ul>
-                                </div>
+                         
                             </div>
                         </div>
                     }
@@ -189,17 +175,11 @@
                                 </h6>
                                 <p class="text-gray">@movie.release_date</p>
 
-                                <div class="price text-left pointer">
-                                    <ul>
-                                        <li>Rating: @movie.vote_average</li>
-                                        <li class="trailerlinks"
-                                    role="button">
-                                            <a data-movieid="@movie.id"
-                                       role="button">
+                                <h6>Rating: @movie.vote_average</h6>
+                                <div class="pointer trailerlinks">
+                                            <p data-movieid="@movie.id">
                                                 Watch Trailer
-                                            </a>
-                                        </li>
-                                    </ul>
+                                            </p>
                                 </div>
                             </div>
                         </div>
@@ -294,16 +274,11 @@
                                 </h6>
                                 <p class="text-gray">@movie.release_date</p>
 
-                                <div class="price text-left pointer">
-                                    <ul>
-                                        <li class="trailerlinks"
-                                    role="button">
-                                            <a data-movieid="@movie.id"
-                                       role="button">
+                                <h6>Rating: @movie.vote_average</h6>
+                                <div class="pointer trailerlinks">
+                                            <p data-movieid="@movie.id">
                                                 Watch Trailer
-                                            </a>
-                                        </li>
-                                    </ul>
+                                            </p>
                                 </div>
                             </div>
                         </div>
@@ -529,14 +504,18 @@
     </div>
 </div>
 
+@section scripts{
+
 <script>
-    const url = "https://localhost:44303/movies/GetMovieTrailer/"
+    const url = "https://localhost:5001/movies/GetMovieTrailer/"
+    console.log("logon")
     let watchTrailer = document.getElementsByClassName("trailerlinks");
+
     Array.from(watchTrailer).forEach((e) => {
         e.addEventListener("click", (e) => {
             const movieId = e.target.dataset.movieid
             e.preventDefault();
-
+            console.log(movieId)
             fetch(`${url}${movieId}`, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -545,6 +524,7 @@
             })
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data)
                     const start = data.indexOf("=") + 1;
                     const trlId = data.substring(start, data.length);
                     $("#trailerVideo").attr('src', `https://www.youtube.com/embed/${trlId}?autoplay=1&amp;modestbranding=1&amp;showinfo=0`);
@@ -558,3 +538,4 @@
         })
     })
 </script>
+}

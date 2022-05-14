@@ -1,0 +1,111 @@
+﻿@using ReelJunkies.Models.TmDb
+@model MovieSearch
+
+
+<section class="relative text-center bg-blog pt-5">
+    <div class="container pt-5">
+        <div class="jumbotron text-center">
+            <h1>
+                <small>Browse our movies</small><span class='font-weight-bold'>@ViewData["category"]</span>
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="bg-light section-xl text-center">
+    <ol class="breadcrumb">
+        <li><a asp-controller="home"
+        asp-action="index"
+        >Home</a></li>
+        <li class="active text-capitalize">@ViewData["category"]</li>
+    </ol>
+</section>
+
+        <section class="section-inset-1 mt-5">
+          <div class="container ">
+            <div class=" offset-top-10 masonry-gallery row thumbnail-main-section mb-5">
+
+                @foreach (var result in Model.results)
+               {
+                
+              <div class="thumbnail-gallery isotope-item col-9 col-sm-6 col-lg-3 mb-5" >
+                <div class="thumbnail-gallery-wrapper mb-3">
+    
+                  <img src="@result.poster_path" alt="@result.title poster">
+                  <div class="caption-2">
+                    <div class="caption-wrapper d-flex justify-content-center align-items-center">
+                        <a href="@result.video" >
+                        <span class="icon icon-white fl-line-ui-play126"></span>
+                        </a>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="div text-left">
+                  <h6 class="title-block">
+                      <a asp-action="details"
+                      class="clampTitle"
+                  asp-route-id="@result.id"
+                  >@result.title
+                  </a>
+                  </h6>
+                  <p class="text-gray">@result.release_date</p>
+                  <div class="review">
+                      <span class="icon fa-star icon-waring-2">
+                      </span><span class="icon fa-star icon-waring-2"></span>
+                      <span class="icon fa-star icon-waring-2"></span>
+                      <span class="icon fa-star icon-waring-2"></span>
+                      <span class="icon fa-star icon-waring-2 text-gray"></span>
+                  </div>
+                </div>
+              </div>   
+               }
+
+
+            </div>
+          </div>
+                @if (@Model.total_pages > 1)
+                {
+                   
+                    <ul class="pagination pagination-center mt-5">
+                        @if (@Model.page == 1)
+                        {
+                        <li class="disabled text-center"><span class="page-item"></span></li>
+                        }
+                        else
+                        { 
+                        <li class="page-item text-center">
+                            <a asp-route-page="@(Model.page-1)"
+                                   asp-action="GetMovieByCategory"
+                                   asp-route-category="@ViewData["category"]"
+                            class="page-item text-center"></a>
+                            </li>
+                        }
+                        <li class="disabled text-center"><span class="page-item">@Model.page</span></li>
+                        @for (var i = @Model.page +1; i <= @Model.total_pages && i <= @Model.page + 5; i++)
+                        {
+                            <li><a asp-route-page="@i"
+                                   asp-action="GetMovieByCategory"
+                                   asp-route-category="@ViewData["category"]"
+                                class="page-item text-center">@i
+                                </a>
+                                </li>
+                        }
+                        @if (@Model.page == @Model.total_pages)
+                       {
+                        <li><a class="page-item text-center disabled" ></a></li>
+                       }
+                        else
+                        {
+                        <li>
+                            <a asp-route-page="@(Model.page+1)"
+                                   asp-action="GetMovieByCategory"
+                                   asp-route-category="@ViewData["category"]"
+                            class="page-item text-center">
+                        </a>
+                        </li>
+                        }
+                    </ul>
+                   
+                }
+        </section>
