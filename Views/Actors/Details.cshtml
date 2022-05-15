@@ -67,29 +67,65 @@
             <hr>
             <div class="row row-45 justify-content-center">
 
-                @foreach (var suggestedMovie in Model.CombinedCredits.cast)
+                @foreach (var suggestedMedia in Model.CombinedCredits.cast)
                 {
                     <div class="col-9 col-sm-6 col-lg-3">
-                        <a asp-controller="Movies"
+                        @if (suggestedMedia.media_type == "movie")
+                       {
+                      <a asp-controller="Movies"
                        asp-action="Details"
-                       asp-route-id="@suggestedMovie.id">
+                       asp-route-id="@suggestedMedia.id">
                             <div class="box-office-media">
-                                <img src="@suggestedMovie.poster_path"
+                                <img src="@suggestedMedia.poster_path"
                                  alt="Movie poster">
                             </div>
                         </a>
+                       }
+                        else
+                        {
+                       <a asp-controller="TV"
+                       asp-action="Details"
+                       asp-route-id="@suggestedMedia.id">
+                            <div class="box-office-media">
+                                <img src="@suggestedMedia.poster_path"
+                                 alt="Movie poster">
+                            </div>
+                        </a>
+                        }
+
+
                         <div class="caption-1">
                             <div class="caption-wrapper"></div>
                         </div>
                         <div class="poster-blog text-left">
-                            <h6 class="text-gray-900 offset-top-20">
-                                <a a asp-controller="Movies"
-                               asp-action="Details"
-                               asp-route-id="@suggestedMovie.id">
-                                    @suggestedMovie.title
-                                </a>
-                            </h6>
-                            <p class="text-gray">@suggestedMovie.release_date</p>
+                            <h4 class="text-dark offset-top-20">
+                                @if (suggestedMedia.media_type == "movie")
+                               {
+                                <a asp-controller="Movies"
+                                asp-action="Details"
+                               asp-route-id="@suggestedMedia.id"
+                                class="text-dark"
+                                >
+                                    @suggestedMedia.title
+                                    </a>
+                                      <p class="text-gray">@suggestedMedia.release_date</p>
+                                }
+                                else
+                                {
+                                <a asp-controller="TV"
+                                asp-action="Details"
+                                asp-route-id="@suggestedMedia.id"
+                                class="text-dark"
+                                >
+                                    @suggestedMedia.name
+                                    </a> 
+                                      <p class="text-gray">@suggestedMedia.first_air_date</p>
+                                }
+                            </h4>
+                             <h6 class="text-capitalize">
+                             @suggestedMedia.media_type
+                             </h6>
+                          
                         </div>
                     </div>
                 }
