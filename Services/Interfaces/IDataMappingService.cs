@@ -9,6 +9,8 @@ namespace ReelJunkies.Services.Interfaces
         Task<Movie> MapMovieDetailAsync(MovieDetail movie);
         ActorDetail MapActorDetail(ActorDetail actor);
 
+
+        Task<TV> MapTvDetailAsync(TVDetail tv);
         QueryAll MapQueryAllDetails(QueryAll queryResult);
 
     }

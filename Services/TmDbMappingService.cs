@@ -166,6 +166,141 @@ namespace ReelJunkies.Services
             return newMovie;
         }
 
+
+        public async Task<TV> MapTvDetailAsync(TVDetail tv)
+        {
+            TV newTV = new TV();
+
+            try
+            {
+                newTV.TmDbMovieId = tv.id;
+                newTV.Homepage = tv.homepage;
+                newTV.Name = tv.name;
+                newTV.TagLine = tv.tagline;
+                newTV.Overview = tv.overview;
+                newTV.NumberOfEpisodes = tv.number_of_episodes;
+                newTV.NumberOfSeasons = tv.number_of_seasons;
+
+                foreach (var season in tv.seasons.ToList())
+                {
+                    newTV.Seasons.Add(
+                        new TVSeasons()
+                        {
+                            AirDate = season.air_date,
+                            TmDbId = season.id,
+                            Name = season.name,
+                            Overview = season.overview,
+                            PosterPath = await EncodePosterImageAsync(season.poster_path),
+                            SeasonNumber = season.season_number,
+                        }
+                        );
+                }
+                 newTV.VoteAverage = tv.vote_average;
+                 newTV.FirstAirDate = DateTime.Parse(tv.first_air_date);
+                 newTV.LastAirDate = DateTime.Parse(tv.last_air_date);
+                 newTV.NumberOfEpisodes = tv.number_of_episodes;
+                 newTV.NumberOfSeasons = tv.number_of_seasons;
+                 newTV.Backdrop = await EncodeBackdropImageAsync(tv.backdrop_path);
+                 newTV.BackDropType = BuildImageType(tv.poster_path);
+                 newTV.Poster = await EncodePosterImageAsync(tv.poster_path);
+                 newTV.PosterType = BuildImageType(tv.poster_path);
+             
+
+
+                var castMembers = tv.credits
+                                        .cast
+                                        .OrderByDescending(c => c.popularity)
+                                        .GroupBy(c => c.id)
+                                        .Select(g => g.FirstOrDefault())
+                                        .Take(20)
+                                        .ToList();
+
+                castMembers.ForEach(member =>
+                {
+                    newTV.Cast.Add(new MovieCast()
+                    {
+                        CastId = member.id,
+                        Department = member.known_for_department,
+                        Name = member.name,
+                        Character = member.character,
+                        ImageUrl = BuildCastImage(member.profile_path),
+                    });
+                });
+
+                var genres = tv.genres.ToList();
+                genres.ForEach(genre =>
+                    newTV.Genres.Add(
+                    new TmdbGenreDetail()
+                    {
+                        Id = genre.id,
+                        Name = genre.name
+                    })
+                );
+
+                var reviews = tv.reviews.results.ToList();
+                reviews.ForEach(review =>
+                newTV.Reviews.Add(
+                new DbMovieReview()
+                {
+                    AuthorUsername = review.author,
+                    AuthorDetails = new DbReviewAuthor()
+                    {
+                        Name = review.author_details.name,
+                        Username = review.author_details.username,
+                        AvatarPath = review.author_details.avatar_path,
+                    },
+                    Content = review.content,
+                    CreateDate = DateTime.Parse(review.created_at),
+                    UpdateDate = DateTime.Parse(review.updated_at),
+                    Url = review.url
+                }));
+
+
+
+                var crewMembers = tv.credits.crew
+                        .OrderByDescending(c => c.popularity)
+                        .GroupBy(c => c.id)
+                        .Select(g => g.FirstOrDefault())
+                        .Take(20)
+                        .ToList();
+
+
+                crewMembers.ForEach(member =>
+                {
+                    newTV.Crew.Add(new MovieCrew()
+                    {
+                        CrewID = member.id,
+                        Department = member.department,
+                        Name = member.name,
+                        Job = member.job,
+                        ImageUrl = BuildCastImage(member.profile_path),
+                    });
+                });
+
+                foreach (var similarTV in tv.similar.results.ToList().Take(4))
+                {
+                    newTV.Similar.Add(new SimilarMovie()
+                    {
+                        TmDbId = similarTV.id,
+                        PosterPath = $"{_appSettings.TmDbSettings.BaseImagePath}" +
+                        $"/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}" +
+                        $"/{similarTV.poster_path}",
+
+                        GenreIds = similarTV.genre_ids,
+                        Title = similarTV.name,
+                        ReleaseDate = DateTime.Parse(similarTV.first_air_date)
+                    });
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+
+                Console.WriteLine($"Exception in MapMovieDetailAsync: {ex.Message}");
+            }
+            return newTV;
+        }
+
         public QueryAll MapQueryAllDetails(QueryAll queryResult)
 
         {

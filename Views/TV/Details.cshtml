@@ -1,0 +1,341 @@
+﻿@using ReelJunkies.Models.Database
+@using ReelJunkies.Services.Interfaces
+@inject IImageService _imageService
+@model TV
+
+
+<div class="text-center">
+    <section class="relative text-center bg-blog pt-4">
+        <div class="container pt-5">
+            <div class="jumbotron text-center">
+                <h1>
+                    <small>@Model.FirstAirDate.ToShortDateString()</small>
+                    <span class='font-weight-bold'>
+                        @Model.TagLine
+                    </span>
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-light section-xl text-center">
+        <ol class="breadcrumb">
+            <li>
+                <a asp-controller="Home"
+                   asp-action="index">Home</a>
+            </li>
+            <li>
+                <a asp-controller="TV"
+                   asp-action="index">TV</a>
+            </li>
+            <li class="active">@Model.Name</li>
+        </ol>
+    </section>
+
+    <section class="section section-inset-1">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-xl-8">
+                    <div class="row row-45 product-item">
+                        <div class="col-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-0 text-center text-md-left">
+                            <a href="@_imageService.DecodeImage(Model.Poster, Model.PosterType)"
+                               data-lightgallery="item">
+                                <img src="@_imageService.DecodeImage(Model.Poster, Model.PosterType)"
+                                     alt="@Model.Name movie poster">
+                            </a>
+                        </div>
+                        <div class="col-12 col-lg-6 text-md-left">
+                            <h4>@Model.Name</h4>
+                            <div class="review">
+                                <span class="icon fa-star icon-waring-2">
+                                </span><span class="icon fa-star icon-waring-2">
+                                </span>
+                                <span class="icon fa-star icon-waring-2">
+                                </span>
+                                <span class="icon fa-star icon-waring-2">
+                                </span><span class="icon fa-star icon-waring-2"></span>
+                                <span class="text-gray">@Model.Reviews.Count customer reviews</span>
+                            </div>
+                            <div class="about-container">
+                                <p class="text-gray">
+                                    Actors:&nbsp;
+                                    <span class="text-black">
+                                        @foreach (var actor in Model.Cast.Take(10))
+                                        {
+                                            <a asp-controller="Actors"
+                                           asp-action="Details"
+                                           asp-route-id="@actor.CastId"
+                                           class="text-black hover-red">
+                                                @actor.Name
+                                            </a>
+                                        }
+                                    </span>
+                                </p>
+                                <p>Overview: @Model.Overview</p>
+                                <p class="text-gray">
+                                </p>
+                                <ul class="info-box">
+                                    @foreach (var genre in Model.Genres.Take(3))
+                                    {
+                                        <li class="mb-2">@genre.Name</li>
+                                    }
+
+                                </ul>
+                            </div>
+                            <div class="btn btn-success btn-sm watchtrl">
+                                <span class="icon icon-xs fa-film">
+                                </span>&nbsp; Watch Trailer
+                            </div>
+                            <div class="blog-post offset-custom-5">
+                                <div class="badge">
+                                    <span>Share:</span>
+                                    <ul class="list-inline">
+                                        <li><a class="fa-facebook" href="#"></a></li>
+                                        <li><a class="fa-twitter" href="#"></a></li>
+                                        <li><a class="fa-pinterest-p" href="#"></a></li>
+                                        <li><a class="fa-vimeo" href="#"></a></li>
+                                        <li><a class="fa-google" href="#"></a></li>
+                                        <li><a class="fa-rss" href="#"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row offset-custom-4">
+                        <div class="col-12">
+                            <div class="responsive-tabs-shop horizontal-tabs offset-custom-5">
+                                <div class="tabs-custom tabs-horizontal tabs-corporate tabs-shop" id="tabs-3">
+                                    <!-- Nav tabs-->
+                                    <ul class="nav nav-tabs">
+                                        <li class="col-6 col-md-4 nav-item"
+                                            role="presentation">
+                                            <a class="nav-link text-capitalize"
+                                               href="#tabs-3-3"
+                                               data-toggle="tab">
+                                                Cast
+                                            </a>
+                                        </li>
+                                        <li class="col-6 col-md-4 nav-item"
+                                            role="presentation">
+                                            <a class="nav-link text-capitalize active"
+                                               href="#tabs-3-1"
+                                               data-toggle="tab">
+                                                Reviews (@Model.Reviews.Count)
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <!-- Tab panes-->
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade" id="tabs-3-3">
+                                            <div class="container">
+                                                <div class="row">
+                                                    @foreach (var actor in Model.Cast.Take(6))
+                                                    {
+                                                        <a class="actor-img col-sm-6 col-md-4 mb-3"
+                                                       asp-action="Details"
+                                                       asp-controller="Actors"
+                                                       asp-route-id="@actor.CastId">
+                                                            <img src="@actor.ImageUrl"
+                                                             alt="picture of @actor.Name">
+                                                            <div class="actor-text text-center text-white">
+                                                                <h5>@actor.Name</h5>
+                                                                <h6>As</h6>
+                                                                <h6>@actor.Character</h6>
+                                                            </div>
+                                                        </a>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade show active" id="tabs-3-1">
+
+                                            @foreach (var review in Model.Reviews)
+                                            {
+                                                <div class="media flex-column flex-md-row text-sm-left comment">
+                                                    <div class="media-left">
+                                                        <img class="img-circle"
+                                                         src="images/index-13.jpg"
+                                                         alt="" />
+                                                    </div>
+                                                    <div class="media-body media-body-inset-1">
+                                                        <h6>
+                                                            <a href="team-member.html">
+                                                                @review.AuthorUsername
+                                                            </a>
+                                                        </h6>
+                                                        <span class="text-gray">
+                                                        </span>
+                                                        <div class="blog-post-time mt-2">
+                                                            <time>
+                                                                @review.CreateDate
+                                                            </time>
+                                                        </div>
+
+                                                        <div class="review-comment mb-4">
+                                                            <p class="clamp content">
+                                                                @review.Content
+                                                            </p>
+                                                            <p class="readmore pointer text-gray">
+                                                                Read More
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            <div class="offset-custom-7">
+                                                <h4 class="text-center">Leave your comment</h4>
+                                                <!-- RD Mailform-->
+                                                <form class="rd-mailform text-left" data-form-output="form-output-global" data-form-type="forms" method="post" action="bat/rd-mailform.php">
+                                                    <div class="row row-10">
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-wrap">
+                                                                <label class="form-label"
+                                                                       for="forms-name">Your first name...</label>
+                                                                <input class="form-input"
+                                                                       id="forms-name"
+                                                                       type="text"
+                                                                       name="name">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-wrap">
+                                                                <label class="form-label"
+                                                                       for="forms-email">
+                                                                    Your e-mail...
+                                                                </label>
+                                                                <input class="form-input"
+                                                                       id="forms-email"
+                                                                       type="email"
+                                                                       name="email">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-12">
+                                                            <div class="form-wrap">
+                                                                <label class="form-label"
+                                                                       for="forms-message">
+                                                                    Message:
+                                                                </label>
+                                                                <textarea class="form-input"
+                                                                          id="forms-message"
+                                                                          name="message">
+                                                                      </textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 text-center">
+                                                            <button class="btn btn-success btn-sm"
+                                                                    type="submit">
+                                                                Submit
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- suggested movies-->
+    <section class="section section-inset-2">
+        <div class="container">
+            <h2 class="text-center">You may also like</h2>
+            <hr>
+            <div class="row row-45 justify-content-center">
+
+                @foreach (var suggestedMovie in Model.Similar)
+                {
+                    <div class="col-9 col-sm-6 col-lg-3">
+                        <a asp-controller="Movies"
+                       asp-action="Details"
+                       asp-route-id="@suggestedMovie.TmDbId">
+                            <div class="box-office-media">
+                                <img src="@suggestedMovie.PosterPath" alt="">
+                            </div>
+                        </a>
+                        <div class="caption-1">
+                            <div class="caption-wrapper"></div>
+                        </div>
+                        <div class="poster-blog text-left">
+                            <h6 class="text-gray-900 offset-top-20">
+                                <a asp-controller="TV"
+                               asp-action="Details"
+                               asp-route-id="@suggestedMovie.TmDbId">
+                                    @suggestedMovie.Title
+                                </a>
+                            </h6>
+                            <p class="text-gray">@suggestedMovie.ReleaseDate.ToShortDateString()</p>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </section>
+</div>
+<!--
+<!-- Modal -->
+<div class="modal fade"
+     id="detailedMovieTrailerModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="trailerLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="embed-responsive embed-responsive-16by9">
+                    @{
+                        //I am isolating a piece of data in order to use it as my embed source
+                        var key = "";
+                        var source = "";
+                        if (Model.TagLine is not null)
+                        {
+                            key = Model.TagLine.Split("=").Last();
+                            source = $"https://www.youtube.com/embed/{key}";
+                        }
+                    }
+                    <iframe class="trailer"
+                            width="560"
+                            height="315"
+                            src="@source"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowscriptaccess="always"
+                            allow="autoplay">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    const readMore = document.querySelectorAll(".readmore")
+
+    Array.from(readMore).forEach((review) => {
+        review.addEventListener('click', (e) => {
+            let currentRvw = review.parentElement.children[0];
+            console.log(currentRvw)
+            currentRvw.classList.toggle("clamp")
+        })
+    })
+
+
+    document.querySelector(".watchtrl").addEventListener('click', (e) => {
+        e.preventDefault();
+        $('#detailedMovieTrailerModal').modal('toggle')
+        $('#detailedMovieTrailerModal').on('hidden.bs.modal', function (event) {
+            $("#detailedMovieTrailerModal iframe").attr("src", $("#detailedMovieTrailerModal iframe").attr("src"));
+        })
+    });
+
+</script>

@@ -70,17 +70,17 @@
                                 <p class="text-gray">@movie.release_date</p>
                                 <h6>Rating: @movie.vote_average</h6>
                                 <div class="pointer trailerlinks">
-                                            <p data-movieid="@movie.id">
-                                                Watch Trailer
-                                            </p>
+                                    <p data-movieid="@movie.id">
+                                        Watch Trailer
+                                    </p>
                                 </div>
-                                            <!--
-                                            href="https://youtu.be/20bpjtCbCz0"
-                                            data-lightgallery="item"
-                                                                                        -->
+                                <!--
+                                href="https://youtu.be/20bpjtCbCz0"
+                                data-lightgallery="item"
+                                                                            -->
 
-                         
-                            </div>
+
+                    </div>
                         </div>
                     }
                 </div>
@@ -177,9 +177,9 @@
 
                                 <h6>Rating: @movie.vote_average</h6>
                                 <div class="pointer trailerlinks">
-                                            <p data-movieid="@movie.id">
-                                                Watch Trailer
-                                            </p>
+                                    <p data-movieid="@movie.id">
+                                        Watch Trailer
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -218,7 +218,7 @@
                                 <div class="owl-item-slide-caption">
                                     <div class="col-12 wow-outer text-left">
                                         <a asp-action="Details"
-                               asp-controller="Movies"
+                               asp-controller="TV"
                                asp-route-id="@tv.id">
                                             <img src="@tv.poster_path"
                                          class="owl-img"
@@ -226,7 +226,7 @@
                                         </a>
                                         <h6 class="offset-top-25">
                                             <a asp-action="Details"
-                                   asp-controller="Movies"
+                                   asp-controller="TV"
                                    asp-route-id="@tv.id">
                                                 @tv.name
                                             </a>
@@ -276,9 +276,9 @@
 
                                 <h6>Rating: @movie.vote_average</h6>
                                 <div class="pointer trailerlinks">
-                                            <p data-movieid="@movie.id">
-                                                Watch Trailer
-                                            </p>
+                                    <p data-movieid="@movie.id">
+                                        Watch Trailer
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -508,7 +508,6 @@
 
 <script>
     const url = "https://localhost:5001/movies/GetMovieTrailer/"
-    console.log("logon")
     let watchTrailer = document.getElementsByClassName("trailerlinks");
 
     Array.from(watchTrailer).forEach((e) => {

@@ -158,6 +158,7 @@ namespace ReelJunkies.Services
             {
                 {"api_key", _appSettings.ReelJunkiesSettings.TmDbApiKey },
                 {"language", _appSettings.TmDbSettings.QueryOptions.Language },
+                {"append_to_response", _appSettings.TmDbSettings.QueryOptions.AppendToResponse },
                 {"page", $"{page}" }
             };
 
@@ -250,7 +251,7 @@ namespace ReelJunkies.Services
 
         }
 
-        public async Task<TvSearch> TVSearchAsync(MovieCategory category, int count)
+        public async Task<TvSearch> TVSearchAsync(TVCategory category, int count, int page)
         {
             //setup a default instance of movie search
             TvSearch tvSearch = new();
@@ -261,7 +262,7 @@ namespace ReelJunkies.Services
             {
                 {"api_key", _appSettings.ReelJunkiesSettings.TmDbApiKey },
                 {"language", _appSettings.TmDbSettings.QueryOptions.Language },
-                {"page", _appSettings.TmDbSettings.QueryOptions.Page }
+                {"page", page.ToString()}
             };
 
             var requestUri = QueryHelpers.AddQueryString(query, queryParams);
@@ -337,6 +338,38 @@ namespace ReelJunkies.Services
             {
             }
             return queryResult;
+        }
+
+        public async Task<TVDetail> TvDetailAsync(int id)
+        {
+            //setup a default instance of movie search
+            TVDetail tvDetail = new();
+
+            //assenble full request uri string
+            var query = $"{_appSettings.TmDbSettings.BaseUrl}/tv/{id.ToString()}";
+            var queryParams = new Dictionary<string, string>()
+            {
+                {"api_key", _appSettings.ReelJunkiesSettings.TmDbApiKey },
+                {"language", _appSettings.TmDbSettings.QueryOptions.Language },
+                {"append_to_response", "videos,release_dates,credits,reviews,similar" }
+            };
+
+            var requestUri = QueryHelpers.AddQueryString(query, queryParams);
+
+            //create a client and execute request
+            var client = _httpClient.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            var response = await client.SendAsync(request);
+
+            //return the  Moviesearch object
+            if (response.IsSuccessStatusCode)
+            {
+                using var responseStream = await response.Content.ReadAsStreamAsync();
+                var deserialize = new DataContractJsonSerializer(typeof(TVDetail));
+                tvDetail = deserialize.ReadObject(responseStream) as TVDetail;
+            }
+
+            return tvDetail;
         }
     }
 }

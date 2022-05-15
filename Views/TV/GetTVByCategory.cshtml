@@ -1,0 +1,223 @@
+﻿@using ReelJunkies.Models.TmDb
+@model TvSearch
+
+
+<section class="relative text-center bg-blog pt-5">
+    <div class="container pt-5">
+        <div class="jumbotron text-center">
+            <h1>
+                <small>Browse our tv shows</small>
+                <span class='font-weight-bold'>
+                    @{
+                        var title = ViewData["category"].ToString().Replace("_", " ");
+                    }@title
+                </span>
+            </h1>
+        </div>
+    </div>
+</section>
+
+<section class="bg-light section-xl text-center">
+    <ol class="breadcrumb">
+        <li>
+            <a asp-controller="home"
+               asp-action="index">Home</a>
+        </li>
+        <li class="active text-capitalize">@title</li>
+    </ol>
+</section>
+
+<section class="section-inset-1 mt-5">
+    <div class="container ">
+        <div class=" offset-top-10 masonry-gallery row thumbnail-main-section mb-5">
+
+            @foreach (var result in Model.results)
+            {
+
+                <div class="thumbnail-gallery isotope-item col-9 col-sm-6 col-lg-3 mb-5">
+                    <div class="thumbnail-gallery-wrapper mb-3">
+
+                        <img src="@result.poster_path" alt="@result.name poster">
+                        <div class="caption-2">
+                            <div class="caption-wrapper d-flex justify-content-center align-items-center">
+                                <div>
+                                    <span data-id="@result.id"
+                                      class="icon icon-white fl-line-ui-play126 trailerPlay"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="div text-left">
+                        <h6 class="title-block">
+                            <a asp-action="details"
+                           class="clampTitle"
+                           asp-route-id="@result.id">
+                                @result.name
+                            </a>
+                        </h6>
+                        <p class="text-gray">@result.first_air_date</p>
+                        <div class="review">
+                            <span class="icon fa-star icon-waring-2">
+                            </span><span class="icon fa-star icon-waring-2"></span>
+                            <span class="icon fa-star icon-waring-2"></span>
+                            <span class="icon fa-star icon-waring-2"></span>
+                            <span class="icon fa-star icon-waring-2 text-gray"></span>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+    </div>
+    @if (@Model.total_pages > 1)
+    {
+        <ul class="pagination pagination-center mt-5">
+            @if (@Model.page == 1)
+            {
+                <li class="disabled text-center"><span class="page-item"></span></li>
+            }
+            else
+            {
+                <li class="page-item text-center">
+                    <a asp-route-page="@(Model.page-1)"
+               asp-action="GetTVByCategory"
+               asp-route-category="@ViewData["category"]"
+               class="page-item text-center"></a>
+                </li>
+            }
+
+            @if (@Model.page > 1)
+            {
+                @for (var i = @Model.page - 2; i < @Model.page; i++)
+                {
+                    @if (Model.page == 2)
+                    {
+                        <li>
+                            <a asp-route-page="1"
+               asp-action="GetTVByCategory"
+               asp-route-category="@ViewData["category"]"
+               class="page-item text-center">
+                                1
+                            </a>
+                        </li>
+                    }
+                    @if (i == 0 || i == @Model.page)
+                    {
+                        break;
+                    }
+                    <li>
+                        <a asp-route-page="@i"
+               asp-action="GetTVByCategory"
+               asp-route-category="@ViewData["category"]"
+               class="page-item text-center">
+                            @i
+                        </a>
+                    </li>
+                }
+            }
+
+            @for (var i = @Model.page; i <= @Model.total_pages && i < @Model.page + 3; i++)
+            {
+                if (i == @Model.page)
+                {
+                    <li class="disabled">
+                        <a asp-route-page="@i"
+               asp-action="GetTVByCategory"
+               asp-route-category="@ViewData["category"]"
+               class="page-item text-center">
+                            @i
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a asp-route-page="@i"
+               asp-action="GetTVByCategory"
+               asp-route-category="@ViewData["category"]"
+               class="page-item text-center">
+                            @i
+                        </a>
+                    </li>
+                }
+            }
+
+            @if (@Model.page >= @Model.total_pages)
+            {
+                <li class="disabled text-center"><span class="page-item"></span></li>
+            }
+            else
+            {
+                <li>
+                    <a asp-route-page="@(Model.page+1)"
+               asp-action="GetTVByCategory"
+               asp-route-category="@ViewData["category"]"
+               class="page-item text-center">
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+</section>
+
+<div class="modal fade"
+     id="trailerModalVideo"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="trailerModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"
+         role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe width="760" height="415"
+                            class="embed-responsive-item"
+                            src=""
+                            id="trailerVideo"
+                            allowscriptaccess="always"
+                            allow="autoplay">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+<script>
+    const url = "https://localhost:5001/movies/GetMovieTrailer/"
+    let watchTrailer = document.getElementsByClassName("trailerPlay");
+
+    Array.from(watchTrailer).forEach((e) => {
+        e.addEventListener("click", (e) => {
+            const contentId = e.target.dataset["id"];
+            e.preventDefault();
+            console.log(contentId);
+            fetch(`${url}${contentId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    const start = data.indexOf("=") + 1;
+                    const trlId = data.substring(start, data.length);
+                    $("#trailerVideo").attr('src', `https://www.youtube.com/embed/${trlId}?autoplay=1&amp;modestbranding=1&amp;showinfo=0`);
+
+                    $('#trailerModalVideo').modal('show');
+                    $('#trailerModalVideo').on('hidden.bs.modal', function (event) {
+                        $("#trailerVideo").attr('src', "");
+                    })
+                })
+                .catch(error => console.error('Unable to get items.', error));
+        })
+    })
+</script>
+}
+-

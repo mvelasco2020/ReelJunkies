@@ -55,7 +55,7 @@ namespace ReelJunkies.Controllers
                 TopRated = await _tmdbMovieService.MovieSearchAsync(MovieCategory.top_rated, count, page),
                 Upcomming = Upcomming,
                 Horror = await _tmdbMovieService.MovieSearchByGenre("27,53", 8),
-                TvPopular = await _tmdbMovieService.TVSearchAsync(MovieCategory.popular, 8)
+                TvPopular = await _tmdbMovieService.TVSearchAsync(TVCategory.popular, 8, page)
 
             };
             return View(data);

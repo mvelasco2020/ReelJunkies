@@ -115,10 +115,24 @@
 
                                 <a href="#">TV Shows</a>
                                 <ul class="rd-navbar-dropdown">
-                                    <li><a href="shop-catalog.html">Popular</a></li>
-                                    <li><a href="shop-product.html">Airing Today</a></li>
-                                    <li><a href="shop-cart.html">On TV</a></li>
-                                    <li><a href="shop-checkout.html">Top Rated</a></li>
+                                    <li>
+                                        <a asp-action="GetTVByCategory"
+                                           asp-controller="TV"
+                                           asp-route-category="popular">
+                                            Popular
+                                        </a>
+                                    </li>
+                                    <li><a asp-action="GetTVByCategory"
+                                           asp-controller="TV"
+                                           asp-route-category="top_rated">Top Rated</a>
+                                       </li>
+                                    <li><a asp-action="GetTVByCategory"
+                                           asp-controller="TV"
+                                           asp-route-category="airing_today">Airing Today</a></li>
+
+                                            <li><a asp-action="GetTVByCategory"
+                                           asp-controller="TV"
+                                           asp-route-category="on_the_air">On The Air</a></li>
                                 </ul>
                             </li>
                             <li><a href="contact_us.html">Contact</a></li>
