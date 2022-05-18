@@ -35,8 +35,8 @@ namespace ReelJunkies
             // .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
-                                                            options.SignIn.RequireConfirmedEmail = true)
-                    .AddEntityFrameworkStores<ApplicationDbContext>();
+                                                            options.SignIn.RequireConfirmedEmail = false)
+                    .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders().AddDefaultUI();
 
             services.AddControllersWithViews();
 
@@ -57,6 +57,10 @@ namespace ReelJunkies
 
             //register seed service
             services.AddTransient<SeedService>();
+
+            //register mail service
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddScoped<IAppEmailSender, AppEmailSender>();
 
             services.AddRazorPages();
         }
