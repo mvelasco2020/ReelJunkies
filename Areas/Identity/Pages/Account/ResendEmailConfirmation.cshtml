@@ -4,7 +4,26 @@
     ViewData["Title"] = "Resend email confirmation";
 }
 
-<h1>@ViewData["Title"]</h1>
+@{
+    ViewData["HeaderFirstString"] = "Lets try this again";
+    ViewData["HeaderSecondString"] = "Resend email confirmation";
+    <partial name="_PageTitle"
+         view-data="ViewData" />
+}
+
+<section class="bg-light section-xl text-center">
+    <ol class="breadcrumb">
+        <li><a asp-controller="Home"
+                   asp-action="index">Home</a>
+                   </li>
+        <li class="active">Resend Email Confirmation</li>
+    </ol>
+</section>
+<section class="section section-inset-1">
+
+<div class="container">
+    <div class="row">
+
 <h4>Enter your email.</h4>
 <hr />
 <div class="row">
@@ -20,6 +39,9 @@
         </form>
     </div>
 </div>
+    </div>
+</div>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

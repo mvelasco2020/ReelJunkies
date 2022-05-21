@@ -7,13 +7,15 @@
 
 <div class="text-center">
 
+        @{
+        ViewData["HeaderFirstString"] = @Model.ReleaseDate.ToShortDateString();
+        ViewData["HeaderSecondString"] = @Model.TagLine.ToString();
+        <partial name="_PageTitle"
+           view-data="ViewData" />
 
-    <partial name="_PageTitle"
-             model='new VM_PageTitle
-                {
-                FirstString = @Model.ReleaseDate.ToShortDateString(),
-                SecondString = @Model.TagLine
-                }' />
+    }
+
+
 
     <section class="bg-light section-xl text-center">
         <ol class="breadcrumb">
