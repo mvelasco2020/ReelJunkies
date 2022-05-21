@@ -1,22 +1,17 @@
 ﻿@using ReelJunkies.Models.Database
+@using ReelJunkies.Models.ViewModels
 @using ReelJunkies.Services.Interfaces
 @inject IImageService _imageService
 @model TV
 
 
 <div class="text-center">
-    <section class="relative text-center bg-blog pt-4">
-        <div class="container pt-5">
-            <div class="jumbotron text-center">
-                <h1>
-                    <small>@Model.FirstAirDate.ToShortDateString()</small>
-                    <span class='font-weight-bold'>
-                        @Model.TagLine
-                    </span>
-                </h1>
-            </div>
-        </div>
-    </section>
+        <partial name="_PageTitle"
+             model='new VM_PageTitle
+                {
+                FirstString = @Model.FirstAirDate.ToShortDateString(),
+                SecondString = @Model.TagLine
+                }' />
 
     <section class="bg-light section-xl text-center">
         <ol class="breadcrumb">

@@ -5,18 +5,15 @@
 
 
 <div class="text-center">
-    <section class="relative text-center bg-blog pt-4">
-        <div class="container pt-5">
-            <div class="jumbotron text-center">
-                <h1>
-                    <small>Meet The Star</small>
-                    <span class='font-weight-bold'>
-                        @Model.ActorDetail.name
-                    </span>
-                </h1>
-            </div>
-        </div>
-    </section>
+
+        <partial name="_PageTitle"
+             model='new VM_PageTitle
+                {
+                FirstString = "Meet The Star",
+                SecondString = @Model.ActorDetail.name
+                }' />
+
+
 
     <section class="bg-light section-xl text-center">
         <ol class="breadcrumb">

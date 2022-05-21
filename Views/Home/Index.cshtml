@@ -64,7 +64,9 @@
                             </div>
                             <div class="poster-blog text-left">
                                 <h6 class="text-gray-900 offset-top-20">
-                                    <a href="shop-product.html"
+                                    <a asp-action="Details"
+                   asp-controller="Movies"
+                   asp-route-id="@movie.id"
                                class="clampTitle">@movie.title</a>
                                 </h6>
                                 <p class="text-gray">@movie.release_date</p>
@@ -170,7 +172,9 @@
                             </div>
                             <div class="poster-blog text-left">
                                 <h6 class="text-gray-900 offset-top-20">
-                                    <a href="shop-product.html"
+                                    <a asp-action="Details"
+                   asp-controller="Movies"
+                   asp-route-id="@movie.id"
                                class="clampTitle">@movie.title</a>
                                 </h6>
                                 <p class="text-gray">@movie.release_date</p>
@@ -269,7 +273,9 @@
                             </div>
                             <div class="poster-blog text-left">
                                 <h6 class="text-gray-900 offset-top-20">
-                                    <a href="shop-product.html"
+                                    <a asp-action="Details"
+                   asp-controller="Movies"
+                   asp-route-id="@movie.id"
                                class="clampTitle">@movie.title</a>
                                 </h6>
                                 <p class="text-gray">@movie.release_date</p>

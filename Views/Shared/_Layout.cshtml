@@ -75,25 +75,13 @@
                         <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img src="images/logo-default.png" alt=""></a></div>
                     </div>
                     <div class="rd-navbar-nav-wrap">
-                        <!-- RD Navbar Search-->
-                        <div class="rd-navbar-search">
-                            <form class="rd-search rd-navbar-search-form" action="search-results.html" data-search-live="rd-search-results-live" method="GET">
-                                <label class="rd-navbar-search-form-input">
-                                    <input type="text" name="s" placeholder="Search.." autocomplete="off">
-                                </label>
-                                <button class="rd-navbar-search-form-submit fa-shopping-cart" type="submit"></button>
-                            </form>
-                            <div class="rd-search-results-live rd-navbar-live-search-results" id="rd-search-results-live"></div>
-                            <button class="rd-navbar-search-toggle" data-rd-navbar-toggle=".rd-navbar-search, .rd-navbar-live-search-results" type="submit"></button>
-                        </div><a class="fa-shopping-cart" href="shop-cart.html"><span>2</span></a>
+
                         <!-- RD Navbar Nav-->
                         <ul class="rd-navbar-nav">
                             <li class="">
-                                <a 
-                                asp-action="Index"
-                                asp-controller="home"
-                                >Home</a>
-                                </li>
+                                <a asp-action="Index"
+                                   asp-controller="home">Home</a>
+                            </li>
                             <li>
 
                                 <a href="#">Movies</a>
@@ -105,15 +93,21 @@
                                             Popular
                                         </a>
                                     </li>
-                                    <li><a asp-action="GetMovieByCategory"
+                                    <li>
+                                        <a asp-action="GetMovieByCategory"
                                            asp-controller="Movies"
-                                           asp-route-category="now_playing">Now Playing</a></li>
-                                    <li><a asp-action="GetMovieByCategory"
+                                           asp-route-category="now_playing">Now Playing</a>
+                                    </li>
+                                    <li>
+                                        <a asp-action="GetMovieByCategory"
                                            asp-controller="Movies"
-                                           asp-route-category="upcoming">Upcoming</a></li>
-                                    <li><a asp-action="GetMovieByCategory"
+                                           asp-route-category="upcoming">Upcoming</a>
+                                    </li>
+                                    <li>
+                                        <a asp-action="GetMovieByCategory"
                                            asp-controller="Movies"
-                                           asp-route-category="top_rated">Top Rated</a></li>
+                                           asp-route-category="top_rated">Top Rated</a>
+                                    </li>
                                 </ul>
                             </li>
                             <li>
@@ -127,27 +121,36 @@
                                             Popular
                                         </a>
                                     </li>
-                                    <li><a asp-action="GetTVByCategory"
+                                    <li>
+                                        <a asp-action="GetTVByCategory"
                                            asp-controller="TV"
                                            asp-route-category="top_rated">Top Rated</a>
-                                       </li>
-                                    <li><a asp-action="GetTVByCategory"
+                                    </li>
+                                    <li>
+                                        <a asp-action="GetTVByCategory"
                                            asp-controller="TV"
-                                           asp-route-category="airing_today">Airing Today</a></li>
+                                           asp-route-category="airing_today">Airing Today</a>
+                                    </li>
 
-                                            <li><a asp-action="GetTVByCategory"
+                                    <li>
+                                        <a asp-action="GetTVByCategory"
                                            asp-controller="TV"
-                                           asp-route-category="on_the_air">On The Air</a></li>
+                                           asp-route-category="on_the_air">On The Air</a>
+                                    </li>
                                 </ul>
                             </li>
-                            <li><a href="contact_us.html">Contact</a></li>
                             <li>
                                 <a asp-controller="Home"
                                    asp-action="About">
                                     About
                                 </a>
                             </li>
+                            <li>
+                                <partial name="_LoginPartial" />
+                            </li>
+
                         </ul>
+
                     </div>
                 </div>
             </nav>
