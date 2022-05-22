@@ -48,43 +48,51 @@
         <section class="section section-inset-2">
             <div class="container">
                 <h2 class="text-center mb-5">Top Box Office</h2>
-                <div class="row row-45 justify-content-center">
-                    @foreach (var movie in Model.Popular.results)
-                    {
-                        <div class="col-9 col-sm-6 col-lg-3">
-                            <a asp-action="Details"
-                   asp-controller="Movies"
-                   asp-route-id="@movie.id">
-                                <div class="box-office-media">
-                                    <img src="@movie.poster_path" alt="">
-                                </div>
-                            </a>
-                            <div class="caption-1">
-                                <div class="caption-wrapper"></div>
-                            </div>
-                            <div class="poster-blog text-left">
-                                <h6 class="text-gray-900 offset-top-20">
-                                    <a asp-action="Details"
-                   asp-controller="Movies"
-                   asp-route-id="@movie.id"
-                               class="clampTitle">@movie.title</a>
-                                </h6>
-                                <p class="text-gray">@movie.release_date</p>
-                                <h6>Rating: @movie.vote_average</h6>
-                                <div class="pointer trailerlinks">
-                                    <p data-movieid="@movie.id">
+                <div class="row ">
+                <div class="owl-carousel owl-carousel-mod-1 owl-carousel-mod-3"
+                     data-xs-items="1"
+                     data-sm-items="2"
+                     data-md-items="3"
+                     data-xl-items="4"
+                     data-loop="true"
+                     data-margin="15"
+                     data-dots="true"
+                     data-autoplay="true"
+                     data-lg-dots-each="2"
+                     data-xs-stage-padding="15">
+                        @foreach (var result in Model.Popular.results)
+                        {
+                            <div class="owl-item">
+                                <div class="owl-item-slide-caption">
+                                    <div class="col-12 wow-outer text-left">
+                                        <a asp-action="Details"
+                               asp-controller="Movies"
+                               asp-route-id="@result.id">
+                                            <img src="@result.poster_path"
+                                         class="owl-img"
+                                         alt="movie poster for @result.title" />
+                                        </a>
+                                        <h6 class="offset-top-25">
+                                            <a asp-action="Details"
+                                   asp-controller="Movies"
+                                   asp-route-id="@result.id">
+                                                @result.title
+                                            </a>
+                                        </h6>
+                                        <p>
+                                            Release @result.release_date
+                                        </p>
+                                    <div class="pointer trailerlinks">
+                                    <p data-movieid="@result.id">
                                         Watch Trailer
                                     </p>
                                 </div>
-                                <!--
-                                href="https://youtu.be/20bpjtCbCz0"
-                                data-lightgallery="item"
-                                                                            -->
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                </div>
 
-
-                    </div>
-                        </div>
-                    }
                 </div>
 
             </div>
@@ -156,38 +164,50 @@
         <section class="section section-inset-2">
             <div class="container">
                 <h2 class="text-center mb-5">In Theaters Now</h2>
-                <div class="row row-45 justify-content-center">
-                    @foreach (var movie in Model.NowPlaying.results)
-                    {
-                        <div class="col-9 col-sm-6 col-lg-3">
-                            <a asp-action="Details"
-                   asp-controller="Movies"
-                   asp-route-id="@movie.id">
-                                <div class="box-office-media">
-                                    <img src="@movie.poster_path" alt="">
-                                </div>
-                            </a>
-                            <div class="caption-1">
-                                <div class="caption-wrapper"></div>
-                            </div>
-                            <div class="poster-blog text-left">
-                                <h6 class="text-gray-900 offset-top-20">
-                                    <a asp-action="Details"
-                   asp-controller="Movies"
-                   asp-route-id="@movie.id"
-                               class="clampTitle">@movie.title</a>
-                                </h6>
-                                <p class="text-gray">@movie.release_date</p>
-
-                                <h6>Rating: @movie.vote_average</h6>
-                                <div class="pointer trailerlinks">
-                                    <p data-movieid="@movie.id">
+                <div class="row">
+                    <div class="owl-carousel owl-carousel-mod-1 owl-carousel-mod-3"
+                     data-xs-items="1"
+                     data-sm-items="2"
+                     data-md-items="3"
+                     data-xl-items="4"
+                     data-loop="true"
+                     data-margin="15"
+                     data-dots="true"
+                     data-autoplay="true"
+                     data-lg-dots-each="2"
+                     data-xs-stage-padding="15">
+                        @foreach (var result in Model.NowPlaying.results)
+                        {
+                            <div class="owl-item">
+                                <div class="owl-item-slide-caption">
+                                    <div class="col-12 wow-outer text-left">
+                                        <a asp-action="Details"
+                               asp-controller="Movies"
+                               asp-route-id="@result.id">
+                                            <img src="@result.poster_path"
+                                         class="owl-img"
+                                         alt="movie poster for @result.title" />
+                                        </a>
+                                        <h6 class="offset-top-25 clampTitle">
+                                            <a asp-action="Details"
+                                   asp-controller="Movies"
+                                   asp-route-id="@result.id">
+                                                @result.title
+                                            </a>
+                                        </h6>
+                                        <p>
+                                            Release @result.release_date
+                                        </p>
+                                    <div class="pointer trailerlinks">
+                                    <p data-movieid="@result.id">
                                         Watch Trailer
                                     </p>
                                 </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    }
+                        }
+                </div>
                 </div>
 
             </div>
@@ -257,38 +277,167 @@
         <section class="section section-inset-2">
             <div class="container">
                 <h2 class="text-center mb-5">Latest and Upcoming Movies</h2>
-                <div class="row row-45 justify-content-center">
-                    @foreach (var movie in Model.Upcomming.results)
-                    {
-                        <div class="col-9 col-sm-6 col-lg-3">
-                            <a asp-action="Details"
-                   asp-controller="Movies"
-                   asp-route-id="@movie.id">
-                                <div class="box-office-media">
-                                    <img src="@movie.poster_path" alt="">
-                                </div>
-                            </a>
-                            <div class="caption-1">
-                                <div class="caption-wrapper"></div>
-                            </div>
-                            <div class="poster-blog text-left">
-                                <h6 class="text-gray-900 offset-top-20">
-                                    <a asp-action="Details"
-                   asp-controller="Movies"
-                   asp-route-id="@movie.id"
-                               class="clampTitle">@movie.title</a>
-                                </h6>
-                                <p class="text-gray">@movie.release_date</p>
-
-                                <h6>Rating: @movie.vote_average</h6>
-                                <div class="pointer trailerlinks">
-                                    <p data-movieid="@movie.id">
+                <div class="row ">
+                <div class="owl-carousel owl-carousel-mod-1 owl-carousel-mod-3"
+                     data-xs-items="1"
+                     data-sm-items="2"
+                     data-md-items="3"
+                     data-xl-items="4"
+                     data-loop="true"
+                     data-margin="15"
+                     data-dots="true"
+                     data-autoplay="true"
+                     data-lg-dots-each="2"
+                     data-xs-stage-padding="15">
+                        @foreach (var result in Model.Upcomming.results)
+                        {
+                            <div class="owl-item">
+                                <div class="owl-item-slide-caption">
+                                    <div class="col-12 wow-outer text-left">
+                                        <a asp-action="Details"
+                               asp-controller="Movies"
+                               asp-route-id="@result.id">
+                                            <img src="@result.poster_path"
+                                         class="owl-img"
+                                         alt="movie poster for @result.title" />
+                                        </a>
+                                        <h6 class="offset-top-25">
+                                            <a asp-action="Details"
+                                   asp-controller="Movies"
+                                   asp-route-id="@result.id">
+                                                @result.title
+                                            </a>
+                                        </h6>
+                                        <p>
+                                            Release @result.release_date
+                                        </p>
+                                    <div class="pointer trailerlinks">
+                                    <p data-movieid="@result.id">
                                         Watch Trailer
                                     </p>
                                 </div>
+                                    </div>
+                                </div>
                             </div>
+                        }
+                </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+    }//closing if inner
+}
+<!-- Netflix Originals-->
+@{
+    if (@Model.NetflixOriginals is not null)
+    {
+        <section class="owl-slider owl-slider-horrorbg">
+            <div class="container">
+                <h2 class="text-center text-white mb-5">Top Netflix Originals</h2>
+                <div class="row">
+                    <div class="owl-carousel owl-carousel-mod-1 owl-carousel-mod-3"
+                     data-xs-items="1"
+                     data-sm-items="2"
+                     data-md-items="3"
+                     data-xl-items="4"
+                     data-loop="true"
+                     data-margin="15"
+                     data-dots="true"
+                     data-autoplay="true"
+                     data-lg-dots-each="2"
+                     data-xs-stage-padding="15">
+                        @foreach (var result in Model.NetflixOriginals.results)
+                        {
+                            <div class="owl-item">
+                                <div class="owl-item-slide-caption">
+                                    <div class="col-12 wow-outer text-left">
+                                        <a asp-action="Details"
+                               asp-controller="TV"
+                               asp-route-id="@result.id">
+                                            <img src="@result.poster_path"
+                                         class="owl-img"
+                                         alt="movie poster for @result.name" />
+                                        </a>
+                                        <h6 class="offset-top-25">
+                                            <a asp-action="Details"
+                                   asp-controller="TV"
+                                   asp-route-id="@result.id">
+                                                @result.name
+                                            </a>
+                                        </h6>
+                                        <p>
+                                            Release @result.first_air_date
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+}
+
+
+
+
+<!-- Netflix  -->
+@{
+    if (Model.NetflixGems is not null)
+    {
+        <section class="section section-inset-2">
+            <div class="container">
+                <h2 class="text-center mb-5">Netflix Gems</h2>
+                <div class="row">
+
+                     <div class="owl-carousel owl-carousel-mod-1 owl-carousel-mod-3"
+                     data-xs-items="1"
+                     data-sm-items="2"
+                     data-md-items="3"
+                     data-xl-items="4"
+                     data-loop="true"
+                     data-margin="15"
+                     data-dots="true"
+                     data-autoplay="true"
+                     data-lg-dots-each="2"
+                     data-xs-stage-padding="15">
+
+
+                        @foreach (var result in Model.NetflixGems.results)
+                        {
+                            <div class="owl-item">
+                                <div class="owl-item-slide-caption">
+                                    <div class="col-12 wow-outer text-left">
+                                        <a asp-action="Details"
+                               asp-controller="TV"
+                               asp-route-id="@result.id">
+                                            <img src="@result.poster_path"
+                                         class="owl-img"
+                                         alt="movie poster for @result.name" />
+                                        </a>
+                                        <h6 class="offset-top-25">
+                                            <a asp-action="Details"
+                                   asp-controller="TV"
+                                   asp-route-id="@result.id">
+                                                @result.name
+                                            </a>
+                                        </h6>
+                                        <p>
+                                            Release @result.first_air_date
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
                         </div>
-                    }
+
                 </div>
 
             </div>
@@ -299,193 +448,7 @@
 }
 
 
-<section class="section section-inset-1">
-    <div class="container">
-        <h2 class="mb-5 text-center">Recent News</h2>
-        <div class="row row-45 text-md-left">
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="blog-post thumbnail-1 thumbnail-mod-2">
-                    <img src="images/index-8.jpg" alt="">
-                    <div class="caption">
-                        <div class="blog-post-title">
-                            <h4 class="text-success-custom text-transform-none"><a href="blog_post.html">"Better Call Saul" Writer Offers<br>Advice</a></h4>
-                        </div>
-                        <div class="blog-post-time">
-                            <time datetime="2018-12-26">December 26, 2018</time>
-                        </div>
-                        <div class="blog-post-body">
-                            <p>“Better Call Saul” writer Gennifer Hutchison offered some advice to Jason Blum after the Blumhouse Productions chief said in an interview that he’s “trying” to hire a woman...</p><a class="badge fa-comment text-success-custom" href="blog_post.html">2</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="blog-post thumbnail-1 thumbnail-mod-2">
-                    <img src="images/index-9.jpg" alt="">
-                    <div class="caption">
-                        <div class="blog-post-title">
-                            <h4 class="text-success-custom text-transform-none"><a href="blog_post.html">"Single Parents" Lands Full-Season Order From ABC</a></h4>
-                        </div>
-                        <div class="blog-post-time">
-                            <time datetime="2018-12-26">December 26, 2018</time>
-                        </div>
-                        <div class="blog-post-body">
-                            <p>ABC has given a full-season order to the freshman comedy “Single Parents.” Three episodes into its run, the comedy created...</p><a class="badge fa-comment text-success-custom" href="blog_post.html">2</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-12 col-lg-4">
-                <div class="blog-post thumbnail-1 thumbnail-mod-2">
-                    <img src="images/index-10.jpg" alt="">
-                    <div class="caption">
-                        <div class="blog-post-title">
-                            <h4 class="text-success-custom text-transform-none"><a href="blog_post.html">"Animals" Canceled After Three Seasons at HBO</a></h4>
-                        </div>
-                        <div class="blog-post-time">
-                            <time datetime="2018-12-26">December 26, 2018</time>
-                        </div>
-                        <div class="blog-post-body">
-                            <p>HBO has canceled the animated series “Animals” after three seasons, Variety has confirmed. The series was created by executive producers Phil Matarese and Mike Luciano...</p><a class="badge fa-comment text-success-custom" href="blog_post.html">2</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div><a class="btn btn-success-mod-1 btn-sm btn-min-width" href="blog_default.html">view all blog posts</a>
-    </div>
-</section>
-
-<section class="section section-inset-1 bg-gray-900">
-    <div class="container">
-        <h2 class="text-center text-white mb-5">Million Dollar Movie</h2>
-        <div class="row row-45">
-            <div class="col-12 col-md-12 col-lg-6 text-center text-lg-left">
-                <div class="video-box-overlay">
-                    <img src="images/index-1.jpg" alt="">
-
-                    <div class="video-box">
-                        <div class="video-box-play">
-                            <!--
-
-                                <a href="https://youtu.be/20bpjtCbCz0" data-lightgallery="item">
-                                </a>
-                                <span class="icon icon-white fl-line-ui-play126"></span>
-                            -->
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-12 col-lg-6 text-lg-left well1">
-                <div class="text-box-overlay">
-                    <h3 class="font-weight-normal text"><a href="movie-details.html">Deadpool 2</a></h3>
-                    <ul class="text-box-inners">
-                        <li class="item-1">1h 59min</li>
-                        <li class="item-2">
-                            <ul>
-                                <li><a href="#">Action,</a></li>
-                                <li><a href="#">Adventure,</a></li>
-                                <li><a href="#">Comedy</a></li>
-                            </ul>
-                        </li>
-                        <li class="item-3">May 18, 2018 (USA)</li>
-                    </ul>
-                    <p>After losing Vanessa (Morena Baccarin), the love of his life, 4th-wall breaking mercenary Wade Wilson aka Deadpool (Ryan Reynolds) must assemble a team and protect a young, full-figured mutant Russell Collins aka Firefist (Julian Dennison) from Cable (Josh Brolin).</p>
-                    <p class="font-weight-bold offset-top-10">Director: &nbsp;<span class="font-weight-light">David Leitch</span></p>
-                    <p class="font-weight-bold">Writers: &nbsp;<span class="font-weight-light">Rhett Reese, Paul Wernick</span></p>
-                    <p class="font-weight-bold">Stars: &nbsp;<span class="font-weight-light">Ryan Reynolds, Josh Brolin, Morena Baccarin</span></p>
-                </div>
-            </div>
-        </div><a class="btn btn-primary btn-sm btn-min-width" href="#">Add To Watchlist</a>
-    </div>
-</section>
-
-<section class="section section-inset-2">
-    <div class="container">
-        <h2 class="text-center mb-5">Discover Indies</h2>
-        <div class="row row-45 justify-content-center">
-            <div class="col-9 col-sm-6 col-lg-3">
-                <a href="shop-product.html">
-                    <div class="box-office-media"><img src="images/gallery-9.jpg" alt=""></div>
-                </a>
-                <div class="caption-1">
-                    <div class="caption-wrapper"></div>
-                </div>
-                <div class="poster-blog text-left">
-                    <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Halloween</a></h6>
-                    <p class="text-gray">2018, USA, Drama</p>
-                    <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2 text-gray"></span></div>
-                    <div class="price text-left">
-                        <ul>
-                            <li>$29.00</li>
-                            <li><a class="letter-spacing-2" href="#">BUY MOVIE</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-9 col-sm-6 col-lg-3">
-                <a href="shop-product.html">
-                    <div class="box-office-media"><img src="images/gallery-10.jpg" alt=""></div>
-                </a>
-                <div class="caption-1">
-                    <div class="caption-wrapper"></div>
-                </div>
-                <div class="poster-blog text-left">
-                    <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Venom</a></h6>
-                    <p class="text-gray">2018, USA, Action, Fantasy</p>
-                    <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
-                    <div class="price text-left">
-                        <ul>
-                            <li>$29.00</li>
-                            <li><a class="letter-spacing-2" href="#">BUY MOVIE</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-9 col-sm-6 col-lg-3">
-                <a href="shop-product.html">
-                    <div class="box-office-media"><img src="images/gallery-11.jpg" alt=""></div>
-                </a>
-                <div class="caption-1">
-                    <div class="caption-wrapper"></div>
-                </div>
-                <div class="poster-blog text-left">
-                    <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">Hunter Killer</a></h6>
-                    <p class="text-gray">2018, USA, Action</p>
-                    <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
-                    <div class="price text-left">
-                        <ul>
-                            <li>$29.00</li>
-                            <li><a class="letter-spacing-2" href="#">BUY MOVIE</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-9 col-sm-6 col-lg-3">
-                <a href="shop-product.html">
-                    <div class="box-office-media"><img src="images/gallery-12.jpg" alt=""></div>
-                </a>
-                <div class="caption-1">
-                    <div class="caption-wrapper"></div>
-                </div>
-                <div class="poster-blog text-left">
-                    <h6 class="text-gray-900 offset-top-20"><a href="shop-product.html">What They Had</a></h6>
-                    <p class="text-gray">2018, USA, Adventure, Action</p>
-                    <div class="review"><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span><span class="icon fa-star icon-waring-2"></span></div>
-                    <div class="price text-left">
-                        <ul>
-                            <li>$29.00</li>
-                            <li><a class="letter-spacing-2" href="#">BUY MOVIE</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
+<!-- Modal  -->
 <div class="modal fade"
      id="trailerModalVideo"
      tabindex="-1"
@@ -509,6 +472,8 @@
         </div>
     </div>
 </div>
+
+
 
 @section scripts{
 

@@ -35,7 +35,7 @@ namespace ReelJunkies.Controllers
 
         public async Task<IActionResult> Index()
         {
-            const int count = 4;
+            const int count = 12;
             const int page = 1;
             var Upcomming = await _tmdbMovieService.MovieSearchAsync(MovieCategory.upcoming, count, page);
             Upcomming.results = Upcomming.results.OrderByDescending(x => x.release_date).ToArray();
@@ -54,8 +54,10 @@ namespace ReelJunkies.Controllers
                 Popular = await _tmdbMovieService.MovieSearchAsync(MovieCategory.popular, count, page),
                 TopRated = await _tmdbMovieService.MovieSearchAsync(MovieCategory.top_rated, count, page),
                 Upcomming = Upcomming,
-                Horror = await _tmdbMovieService.MovieSearchByGenre("27,53", 8),
-                TvPopular = await _tmdbMovieService.TVSearchAsync(TVCategory.popular, 8, page)
+                Horror = await _tmdbMovieService.MovieSearchByGenre("27,53", count),
+                TvPopular = await _tmdbMovieService.TVSearchAsync(TVCategory.popular, count, page),
+                NetflixOriginals = await _tmdbMovieService.TvDiscoverAsync("&with_networks=213", 1, count),
+                NetflixGems = await _tmdbMovieService.TvDiscoverAsync("&sort_by=vote_average.desc&timezone=America%2FNew_York&vote_average.gte=7&vote_count.gte=5&with_networks=213&include_null_first_air_dates=false&with_watch_monetization_types=flatrate&with_status=0&with_type=0", 1, 8)
 
             };
             return View(data);

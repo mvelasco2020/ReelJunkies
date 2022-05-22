@@ -302,6 +302,7 @@ namespace ReelJunkies.Services
 
         }
 
+
         public async Task<QueryAll> QueryAll(string queryString, int page)
         {
             QueryAll queryResult = new();
@@ -370,6 +371,56 @@ namespace ReelJunkies.Services
             }
 
             return tvDetail;
+        }
+
+        public async Task<TvSearch> TvDiscoverAsync(string queryStrings, int page, int count)
+        {
+            TvSearch tvSearch = new();
+
+            //assenble full request uri string
+            var query = $"{_appSettings.TmDbSettings.BaseUrl}/discover/tv";
+            var queryParams = new Dictionary<string, string>()
+            {
+                {"api_key", _appSettings.ReelJunkiesSettings.TmDbApiKey },
+                {"language", _appSettings.TmDbSettings.QueryOptions.Language },
+                {"page", page.ToString()}
+            };
+
+            var requestUri = QueryHelpers.AddQueryString(query, queryParams);
+            requestUri += queryStrings;
+
+            //create a client and execute request
+            var client = _httpClient.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            try
+            {
+
+                var response = await client.SendAsync(request);
+
+                //return the  Moviesearch object
+                if (response.IsSuccessStatusCode)
+                {
+                    var deserialize = new DataContractJsonSerializer(typeof(TvSearch));
+                    using var responseStream = await response.Content.ReadAsStreamAsync();
+                    tvSearch = (TvSearch)deserialize.ReadObject(responseStream);
+                    tvSearch.results = tvSearch.results.Take(count).ToArray();
+                    tvSearch
+                        .results.ToList()
+                        .ForEach(r =>
+                        r.poster_path =
+                        $"{_appSettings.TmDbSettings.BaseImagePath}" +
+                        $"/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}" +
+                        $"/{r.poster_path}");
+
+                }
+            }
+            catch (System.Exception)
+            {
+
+            }
+
+
+            return tvSearch;
         }
     }
 }

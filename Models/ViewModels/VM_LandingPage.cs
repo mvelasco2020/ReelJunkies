@@ -13,5 +13,8 @@ namespace ReelJunkies.Models.ViewModels
         public MovieSearch Upcomming { get; set; }
         public MovieSearch Horror { get; set; }
         public TvSearch TvPopular { get; set; }
+
+        public TvSearch NetflixOriginals { get; set; }
+        public TvSearch NetflixGems { get; set; }
     }
 }

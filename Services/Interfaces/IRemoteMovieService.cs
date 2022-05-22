@@ -16,7 +16,9 @@ namespace ReelJunkies.Services.Interfaces
         Task<QueryAll> QueryAll(string queryString, int page);
 
         Task<TvSearch> TVSearchAsync(TVCategory category, int count, int page);
+        Task<TvSearch> TvDiscoverAsync(string queryStrings, int page, int count);
 
         Task<TVDetail> TvDetailAsync(int id);
+
     }
 }

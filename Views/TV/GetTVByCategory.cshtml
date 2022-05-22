@@ -2,20 +2,18 @@
 @model TvSearch
 
 
-<section class="relative text-center bg-blog pt-5">
-    <div class="container pt-5">
-        <div class="jumbotron text-center">
-            <h1>
-                <small>Browse our tv shows</small>
-                <span class='font-weight-bold'>
-                    @{
-                        var title = ViewData["category"].ToString().Replace("_", " ");
-                    }@title
-                </span>
-            </h1>
-        </div>
-    </div>
-</section>
+
+
+
+@{
+    var title = ViewData["category"].ToString().Replace("_", " ");
+    ViewData["HeaderFirstString"] = "Browsing TV Shows";
+    ViewData["HeaderSecondString"] = title;
+    <partial name="_PageTitle"
+         view-data="ViewData" />
+}
+
+
 
 <section class="bg-light section-xl text-center">
     <ol class="breadcrumb">

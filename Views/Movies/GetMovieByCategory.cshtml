@@ -2,15 +2,16 @@
 @model MovieSearch
 
 
-<section class="relative text-center bg-blog pt-5">
-    <div class="container pt-5">
-        <div class="jumbotron text-center">
-            <h1>
-                <small>Browse our movies</small><span class='font-weight-bold'>@ViewData["category"]</span>
-            </h1>
-        </div>
-    </div>
-</section>
+
+@{
+    var title = ViewData["category"].ToString().Replace("_", " ");
+    ViewData["HeaderFirstString"] = "Browsing Movies";
+    ViewData["HeaderSecondString"] = title;
+    <partial name="_PageTitle"
+         view-data="ViewData" />
+}
+
+
 
 <section class="bg-light section-xl text-center">
     <ol class="breadcrumb">
