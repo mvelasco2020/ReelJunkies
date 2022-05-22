@@ -4,5 +4,32 @@
     ViewData["Title"] = "Confirm email change";
 }
 
-<h1>@ViewData["Title"]</h1>
-<partial name="_StatusMessage" model="Model.StatusMessage" />
+@{
+    ViewData["HeaderFirstString"] = "Account Change";
+    ViewData["HeaderSecondString"] = "Email";
+    <partial name="_PageTitle"
+         view-data="ViewData" />
+}
+
+
+
+<section class="bg-light section-xl">
+    <ol class="breadcrumb">
+        <li><a asp-controller="Home"
+                   asp-action="index">Home</a>
+                   </li>
+        <li class="active">Password Reset</li>
+    </ol>
+</section>
+
+<section class="section section-inset-1 container">
+<h4>Enter your email.</h4>
+<hr />
+<div class="row justify-content-center">
+    <div class="col-xl-8 col-xl offset-custom-3">
+    <partial name="_StatusMessage" model="Model.StatusMessage" />
+    </div>
+</div>
+</section>
+
+

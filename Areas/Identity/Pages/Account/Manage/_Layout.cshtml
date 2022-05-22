@@ -8,21 +8,39 @@
         Layout = "/Areas/Identity/Pages/_Layout.cshtml";
     }
 }
+@{
+    ViewData["HeaderFirstString"] = "Manage";
+    ViewData["HeaderSecondString"] = "Account";
+    <partial name="_PageTitle"
+         view-data="ViewData" />
+}
 
-<h2>Manage your account</h2>
+<div class="text-center">
+    <section class="bg-light section-xl">
+        <ol class="breadcrumb">
+            <li>
+                <a asp-controller="Home"
+                   asp-action="index">Home</a>
+            </li>
+            <li class="active">Password Reset</li>
+        </ol>
+    </section>
 
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            <partial name="_ManageNav" />
+    <section class="section section-inset-1 container">
+        <h4>Change your Account Settings</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-3">
+                <partial name="_ManageNav" />
+            </div>
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
         </div>
-        <div class="col-md-9">
-            @RenderBody()
-        </div>
-    </div>
+    </section>
 </div>
+
+
 
 @section Scripts {
     @RenderSection("Scripts", required: false)

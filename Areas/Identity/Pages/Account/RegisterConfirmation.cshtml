@@ -4,12 +4,23 @@
     ViewData["Title"] = "Register confirmation";
 }
 
-<div class="container">
-    <div class="row">
-        <div class="col-10">
 
-<h1>@ViewData["Title"]</h1>
-@{
+<div class="text-center">
+<section class="bg-light section-xl">
+    <ol class="breadcrumb">
+        <li><a asp-controller="Email Confirmation"
+                   asp-action="index">Register</a>
+                   </li>
+        <li class="active">Password Reset</li>
+    </ol>
+</section>
+
+<section class="section section-inset-1 container">
+<h4>Enter your email.</h4>
+<hr />
+<div class="row justify-content-center">
+    <div class="col-xl-8 col-xl offset-custom-3">
+        @{
     if (@Model.DisplayConfirmAccountLink)
     {
 <p>
@@ -24,6 +35,13 @@
 </p>
     }
 }
-        </div>
     </div>
 </div>
+</section>
+</div>
+
+
+
+
+
+

@@ -4,7 +4,36 @@
     ViewData["Title"] = "Locked out";
 }
 
-<header>
-    <h1 class="text-danger">@ViewData["Title"]</h1>
+
+
+@{
+    ViewData["HeaderFirstString"] = "account";
+    ViewData["HeaderSecondString"] = "Lockout";
+    <partial name="_PageTitle"
+         view-data="ViewData" />
+}
+
+
+<div class="text-center">
+<section class="bg-light section-xl">
+    <ol class="breadcrumb">
+        <li><a asp-controller="Home"
+                   asp-action="index">Home</a>
+                   </li>
+        <li class="active">Account</li>
+    </ol>
+</section>
+
+<section class="section section-inset-1 container">
+<h4>Enter your email.</h4>
+<hr />
+<div class="row justify-content-center">
+    <div class="col-xl-8 col-xl offset-custom-3">
+        <h1 class="text-danger">@ViewData["Title"]</h1>
     <p class="text-danger">This account has been locked out, please try again later.</p>
-</header>
+    </div>
+</div>
+</section>
+
+
+
