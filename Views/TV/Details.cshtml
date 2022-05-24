@@ -1,12 +1,14 @@
 ﻿@using ReelJunkies.Models.Database
 @using ReelJunkies.Models.ViewModels
 @using ReelJunkies.Services.Interfaces
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 @inject IImageService _imageService
 @model TV
 
 
 <div class="text-center">
-
     @{
         ViewData["HeaderFirstString"] = @Model.FirstAirDate.ToShortDateString();
         ViewData["HeaderSecondString"] = @Model.TagLine.ToString();
@@ -183,47 +185,40 @@
                                                 </div>
                                             }
                                             <div class="offset-custom-7">
-                                                <h4 class="text-center">Leave your comment</h4>
+
+                                                @{
+                                                    if (SignInManager.IsSignedIn(User))
+                                                    {
+                                                        <h4 class="text-center"> Leave your review </h4>
+                                                    }
+                                                    else
+                                                    {
+                                                        <h4 class="text-center"> You need to sign in to leave your review</h4>
+                                                    }
+                                                }
+
+
                                                 <!-- RD Mailform-->
                                                 <form class="rd-mailform text-left" data-form-output="form-output-global" data-form-type="forms" method="post" action="bat/rd-mailform.php">
                                                     <div class="row row-10">
-                                                        <div class="col-12 col-md-6">
-                                                            <div class="form-wrap">
-                                                                <label class="form-label"
-                                                                       for="forms-name">Your first name...</label>
-                                                                <input class="form-input"
-                                                                       id="forms-name"
-                                                                       type="text"
-                                                                       name="name">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12 col-md-6">
-                                                            <div class="form-wrap">
-                                                                <label class="form-label"
-                                                                       for="forms-email">
-                                                                    Your e-mail...
-                                                                </label>
-                                                                <input class="form-input"
-                                                                       id="forms-email"
-                                                                       type="email"
-                                                                       name="email">
-                                                            </div>
-                                                        </div>
                                                         <div class="col-12 col-md-12">
                                                             <div class="form-wrap">
                                                                 <label class="form-label"
                                                                        for="forms-message">
-                                                                    Message:
+                                                                    Reviews:
                                                                 </label>
                                                                 <textarea class="form-input"
                                                                           id="forms-message"
-                                                                          name="message">
+                                                                          name="message"
+                                                                          disabled=@(!SignInManager.IsSignedIn(User))
+                                                                          >
                                                                       </textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-12 text-center">
                                                             <button class="btn btn-success btn-sm"
-                                                                    type="submit">
+                                                                    type="submit"
+                                                                    disabled=@(!SignInManager.IsSignedIn(User))>
                                                                 Submit
                                                             </button>
                                                         </div>
