@@ -33,34 +33,32 @@ namespace ReelJunkies.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetMovieTrailer(int? id)
+        public async Task<IActionResult> GetTvTrailer([FromQuery]int? id, [FromQuery] int page, [FromQuery] int count)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tvDetail = await _tmdbMovieService.TvDetailAsync((int)id);
-            if (tvDetail == null) return NotFound();
+            var tvVideo = await _tmdbMovieService.GetTvVideos((int)id, page, count);
+            if (tvVideo == null) return NotFound();
 
-            TV tv = new TV();
-            tv = await _tmdbMappingService.MapTvDetailAsync(tvDetail);
-            return Ok(tv);
 
+            return Ok(tvVideo);
         }
 
 
         public async Task<IActionResult> Details(int id)
         {
             TVDetail tVDetail = new TVDetail();
-             tVDetail = await _tmdbMovieService.TvDetailAsync(id);
+            tVDetail = await _tmdbMovieService.TvDetailAsync(id);
             try
             {
 
             }
             catch
             {
-            return NotFound();
+                return NotFound();
 
             }
             TV tv = new TV();
@@ -72,80 +70,9 @@ namespace ReelJunkies.Controllers
 
         }
 
-        // GET: TVController1
-        //      public ActionResult Index()
-        //      {
-        //          return View();
-        //      }
-        //
-        //      // GET: TVController1/Details/5
-        //      public ActionResult Details(int id)
-        //   {
-        //       return View();
-        //   }
-        // //
-        // //     // GET: TVController1/Create
-        // //     public ActionResult Create()
-        //   {
-        //       return View();
-        //   }
-        //
-        //      // POST: TVController1/Create
-        //      [HttpPost]
-        //      [ValidateAntiForgeryToken]
-        //      public ActionResult Create(IFormCollection collection)
-        //     {
-        //         try
-        //         {
-        //             return RedirectToAction(nameof(Index));
-        //         }
-        //         catch
-        //         {
-        //             return View();
-        //         }
-        //     }
-        ////
-        ////      // GET: TVController1/Edit/5
-        ////      public ActionResult Edit(int id)
-        //     {
-        //         return View();
-        //     }
-        ////
-        ////      // POST: TVController1/Edit/5
-        ////      [HttpPost]
-        ////      [ValidateAntiForgeryToken]
-        ////      public ActionResult Edit(int id, IFormCollection collection)
-        ////      {
-        ////          try
-        ////          {
-        ////              return RedirectToAction(nameof(Index));
-        ////          }
-        ////          catch
-        ////          {
-        ////              return View();
-        ////          }
-        ////      }
-        ////
-        ////      // GET: TVController1/Delete/5
-        ////      public ActionResult Delete(int id)
-        //     {
-        //         return View();
-        //     }
-        //
-        //      // POST: TVController1/Delete/5
-        //      [HttpPost]
-        //      [ValidateAntiForgeryToken]
-        //      public ActionResult Delete(int id, IFormCollection collection)
-        //      {
-        //          try
-        //          {
-        //              return RedirectToAction(nameof(Index));
-        //          }
-        //          catch
-        //          {
-        //              return View();
-        //          }
-        //      }
-        //  }
+
     }
 }
+
+
+

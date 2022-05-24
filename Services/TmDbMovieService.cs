@@ -251,56 +251,6 @@ namespace ReelJunkies.Services
 
         }
 
-        public async Task<TvSearch> TVSearchAsync(TVCategory category, int count, int page)
-        {
-            //setup a default instance of movie search
-            TvSearch tvSearch = new();
-
-            //assenble full request uri string
-            var query = $"{_appSettings.TmDbSettings.BaseUrl}/tv/{category}";
-            var queryParams = new Dictionary<string, string>()
-            {
-                {"api_key", _appSettings.ReelJunkiesSettings.TmDbApiKey },
-                {"language", _appSettings.TmDbSettings.QueryOptions.Language },
-                {"page", page.ToString()}
-            };
-
-            var requestUri = QueryHelpers.AddQueryString(query, queryParams);
-
-            //create a client and execute request
-            var client = _httpClient.CreateClient();
-            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
-            try
-            {
-
-                var response = await client.SendAsync(request);
-
-                //return the  Moviesearch object
-                if (response.IsSuccessStatusCode)
-                {
-                    var deserialize = new DataContractJsonSerializer(typeof(TvSearch));
-                    using var responseStream = await response.Content.ReadAsStreamAsync();
-                    tvSearch = (TvSearch)deserialize.ReadObject(responseStream);
-                    tvSearch.results = tvSearch.results.Take(count).ToArray();
-                    tvSearch
-                        .results.ToList()
-                        .ForEach(r =>
-                        r.poster_path =
-                        $"{_appSettings.TmDbSettings.BaseImagePath}" +
-                        $"/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}" +
-                        $"/{r.poster_path}");
-
-                }
-            }
-            catch (System.Exception)
-            {
-
-            }
-
-
-            return tvSearch;
-
-        }
 
 
         public async Task<QueryAll> QueryAll(string queryString, int page)
@@ -372,6 +322,56 @@ namespace ReelJunkies.Services
 
             return tvDetail;
         }
+        public async Task<TvSearch> TVSearchAsync(TVCategory category, int count, int page)
+        {
+            //setup a default instance of movie search
+            TvSearch tvSearch = new();
+
+            //assenble full request uri string
+            var query = $"{_appSettings.TmDbSettings.BaseUrl}/tv/{category}";
+            var queryParams = new Dictionary<string, string>()
+            {
+                {"api_key", _appSettings.ReelJunkiesSettings.TmDbApiKey },
+                {"language", _appSettings.TmDbSettings.QueryOptions.Language },
+                {"page", page.ToString()}
+            };
+
+            var requestUri = QueryHelpers.AddQueryString(query, queryParams);
+
+            //create a client and execute request
+            var client = _httpClient.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            try
+            {
+
+                var response = await client.SendAsync(request);
+
+                //return the  Moviesearch object
+                if (response.IsSuccessStatusCode)
+                {
+                    var deserialize = new DataContractJsonSerializer(typeof(TvSearch));
+                    using var responseStream = await response.Content.ReadAsStreamAsync();
+                    tvSearch = (TvSearch)deserialize.ReadObject(responseStream);
+                    tvSearch.results = tvSearch.results.Take(count).ToArray();
+                    tvSearch
+                        .results.ToList()
+                        .ForEach(r =>
+                        r.poster_path =
+                        $"{_appSettings.TmDbSettings.BaseImagePath}" +
+                        $"/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}" +
+                        $"/{r.poster_path}");
+
+                }
+            }
+            catch (System.Exception)
+            {
+
+            }
+
+
+            return tvSearch;
+
+        }
 
         public async Task<TvSearch> TvDiscoverAsync(string queryStrings, int page, int count)
         {
@@ -422,5 +422,47 @@ namespace ReelJunkies.Services
 
             return tvSearch;
         }
+
+        public async Task<TvVideos> GetTvVideos(int tvId, int page, int count)
+        {
+            TvVideos tvVideos = new();
+
+            //assenble full request uri string
+            var query = $"{_appSettings.TmDbSettings.BaseUrl}/tv/{tvId}/videos";
+            var queryParams = new Dictionary<string, string>()
+            {
+                {"api_key", _appSettings.ReelJunkiesSettings.TmDbApiKey },
+                {"language", _appSettings.TmDbSettings.QueryOptions.Language },
+                {"page", page.ToString()}
+            };
+
+            var requestUri = QueryHelpers.AddQueryString(query, queryParams);
+
+            //create a client and execute request
+            var client = _httpClient.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            try
+            {
+                var response = await client.SendAsync(request);
+
+                //return the  Moviesearch object
+                if (response.IsSuccessStatusCode)
+                {
+                    var deserialize = new DataContractJsonSerializer(typeof(TvVideos));
+                    using var responseStream = await response.Content.ReadAsStreamAsync();
+                    tvVideos = (TvVideos)deserialize.ReadObject(responseStream);
+                    tvVideos.results = tvVideos.results.Take(count).ToArray();
+
+                }
+            }
+            catch (System.Exception)
+            {
+
+            }
+
+
+            return tvVideos;
+        }
+
     }
 }

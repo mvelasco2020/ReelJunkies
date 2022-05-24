@@ -80,7 +80,7 @@
 
                                 </ul>
                             </div>
-                            <div class="btn btn-success btn-sm watchtrl">
+                            <div class="btn btn-success btn-sm watchtrl" data-id="@Model.TmDbMovieId">
                                 <span class="icon icon-xs fa-film">
                                 </span>&nbsp; Watch Trailer
                             </div>
@@ -150,10 +150,12 @@
                                             @foreach (var review in Model.Reviews)
                                             {
                                                 <div class="media flex-column flex-md-row text-sm-left comment">
-                                                    <div class="media-left">
+                                                <div class="media-left">
+                                                <!-- 
                                                         <img class="img-circle"
                                                          src="images/index-13.jpg"
                                                          alt="" />
+                                                -->    
                                                     </div>
                                                     <div class="media-body media-body-inset-1">
                                                         <h6>
@@ -280,7 +282,7 @@
 <!--
 <!-- Modal -->
 <div class="modal fade"
-     id="detailedMovieTrailerModal"
+     id="trailerModalVideo"
      tabindex="-1"
      role="dialog"
      aria-labelledby="trailerLabel"
@@ -289,22 +291,10 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="embed-responsive embed-responsive-16by9">
-                    @{
-                        //I am isolating a piece of data in order to use it as my embed source
-                        var key = "";
-                        var source = "";
-                        if (Model.TagLine is not null)
-                        {
-                            key = Model.TagLine.Split("=").Last();
-                            source = $"https://www.youtube.com/embed/{key}";
-                        }
-                    }
-                    <iframe class="trailer"
-                            width="560"
-                            height="315"
-                            src="@source"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                <iframe width="760" height="415"
+                            class="embed-responsive-item"
+                            src=""
+                            id="trailerVideo"
                             allowscriptaccess="always"
                             allow="autoplay">
                     </iframe>
@@ -314,11 +304,13 @@
     </div>
 </div>
 
+@section scripts {
+
 
 <script>
 
+    //Review Section
     const readMore = document.querySelectorAll(".readmore")
-
     Array.from(readMore).forEach((review) => {
         review.addEventListener('click', (e) => {
             let currentRvw = review.parentElement.children[0];
@@ -327,13 +319,34 @@
         })
     })
 
-
+    //Modal Section
+    const url = "https://localhost:5001/TV/GetTVTrailer"
     document.querySelector(".watchtrl").addEventListener('click', (e) => {
         e.preventDefault();
-        $('#detailedMovieTrailerModal').modal('toggle')
-        $('#detailedMovieTrailerModal').on('hidden.bs.modal', function (event) {
-            $("#detailedMovieTrailerModal iframe").attr("src", $("#detailedMovieTrailerModal iframe").attr("src"));
-        })
-    });
+        const TvId = e.target.dataset.id;
+        
+        fetch(`${url}?id=${TvId}&page=1&count=1`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(data => data.json())
+            .then(r => 
+                { 
+                     $("#trailerVideo").attr('src', `https://www.youtube.com/embed/${r.results[0].key}?autoplay=1&amp;modestbranding=1&amp;showinfo=0`);
+                     $('#trailerModalVideo').modal('show')
+                     $('#trailerModalVideo').on('hidden.bs.modal', function (event) {
+                     $("#trailerVideo").attr("src", "");
+                     })
+                })
+            .catch(error =>
+             console.error('Unable to get items.', error));
+             })
 
+
+
+
+    //
 </script>
+}
