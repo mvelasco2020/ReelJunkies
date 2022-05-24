@@ -155,12 +155,12 @@
                                                 <div class="media flex-column flex-md-row text-sm-left comment">
                                                     <div class="media-left">
                                                         <img class="img-circle"
-                                                         src="images/index-13.jpg"
-                                                         alt="" />
+                                                         src=""
+                                                         alt="">
                                                     </div>
                                                     <div class="media-body media-body-inset-1">
                                                         <h6>
-                                                            <a href="team-member.html">
+                                                            <a href="#">
                                                                 @review.AuthorUsername
                                                             </a>
                                                         </h6>
@@ -317,11 +317,12 @@
     </div>
 </div>
 
+@section scripts{
+
 
 <script>
 
     const readMore = document.querySelectorAll(".readmore")
-
     Array.from(readMore).forEach((review) => {
         review.addEventListener('click', (e) => {
             let currentRvw = review.parentElement.children[0];
@@ -329,8 +330,6 @@
             currentRvw.classList.toggle("clamp")
         })
     })
-
-
     document.querySelector(".watchtrl").addEventListener('click', (e) => {
         e.preventDefault();
         $('#detailedMovieTrailerModal').modal('toggle')
@@ -340,3 +339,4 @@
     });
 
 </script>
+}

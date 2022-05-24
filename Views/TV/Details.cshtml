@@ -159,7 +159,7 @@
                                                     </div>
                                                     <div class="media-body media-body-inset-1">
                                                         <h6>
-                                                            <a href="team-member.html">
+                                                            <a href="#">
                                                                 @review.AuthorUsername
                                                             </a>
                                                         </h6>
@@ -279,7 +279,7 @@
         </div>
     </section>
 </div>
-<!--
+
 <!-- Modal -->
 <div class="modal fade"
      id="trailerModalVideo"
@@ -305,8 +305,6 @@
 </div>
 
 @section scripts {
-
-
 <script>
 
     //Review Section
@@ -324,25 +322,11 @@
     document.querySelector(".watchtrl").addEventListener('click', (e) => {
         e.preventDefault();
         const TvId = e.target.dataset.id;
-        
-        fetch(`${url}?id=${TvId}&page=1&count=1`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(data => data.json())
-            .then(r => 
-                { 
-                     $("#trailerVideo").attr('src', `https://www.youtube.com/embed/${r.results[0].key}?autoplay=1&amp;modestbranding=1&amp;showinfo=0`);
-                     $('#trailerModalVideo').modal('show')
-                     $('#trailerModalVideo').on('hidden.bs.modal', function (event) {
-                     $("#trailerVideo").attr("src", "");
-                     })
-                })
-            .catch(error =>
-             console.error('Unable to get items.', error));
-             })
+        GetTVVideo(url,TvId);
+        $('#trailerModalVideo').on('hidden.bs.modal', function (event) {
+        $("#trailerVideo").attr("src", "");})
+
+         })
 
 
 

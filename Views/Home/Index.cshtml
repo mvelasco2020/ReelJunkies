@@ -49,7 +49,7 @@
             <div class="container">
                 <h2 class="text-center mb-5">Top Box Office</h2>
                 <div class="row ">
-                <div class="owl-carousel owl-carousel-mod-1 owl-carousel-mod-3"
+                    <div class="owl-carousel owl-carousel-mod-1 owl-carousel-mod-3"
                      data-xs-items="1"
                      data-sm-items="2"
                      data-md-items="3"
@@ -82,16 +82,16 @@
                                         <p>
                                             Release @result.release_date
                                         </p>
-                                    <div class="pointer trailerlinks">
-                                    <p data-movieid="@result.id">
-                                        Watch Trailer
-                                    </p>
-                                </div>
+                                        <div class="pointer trailerlinks">
+                                            <p data-movieid="@result.id">
+                                                Watch Trailer
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         }
-                </div>
+                    </div>
 
                 </div>
 
@@ -198,16 +198,16 @@
                                         <p>
                                             Release @result.release_date
                                         </p>
-                                    <div class="pointer trailerlinks">
-                                    <p data-movieid="@result.id">
-                                        Watch Trailer
-                                    </p>
-                                </div>
+                                        <div class="pointer trailerlinks">
+                                            <p data-movieid="@result.id">
+                                                Watch Trailer
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         }
-                </div>
+                    </div>
                 </div>
 
             </div>
@@ -278,7 +278,7 @@
             <div class="container">
                 <h2 class="text-center mb-5">Latest and Upcoming Movies</h2>
                 <div class="row ">
-                <div class="owl-carousel owl-carousel-mod-1 owl-carousel-mod-3"
+                    <div class="owl-carousel owl-carousel-mod-1 owl-carousel-mod-3"
                      data-xs-items="1"
                      data-sm-items="2"
                      data-md-items="3"
@@ -311,16 +311,16 @@
                                         <p>
                                             Release @result.release_date
                                         </p>
-                                    <div class="pointer trailerlinks">
-                                    <p data-movieid="@result.id">
-                                        Watch Trailer
-                                    </p>
-                                </div>
+                                        <div class="pointer trailerlinks">
+                                            <p data-movieid="@result.id">
+                                                Watch Trailer
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         }
-                </div>
+                    </div>
 
                 </div>
 
@@ -396,7 +396,7 @@
                 <h2 class="text-center mb-5">Netflix Gems</h2>
                 <div class="row">
 
-                     <div class="owl-carousel owl-carousel-mod-1 owl-carousel-mod-3"
+                    <div class="owl-carousel owl-carousel-mod-1 owl-carousel-mod-3"
                      data-xs-items="1"
                      data-sm-items="2"
                      data-md-items="3"
@@ -436,7 +436,7 @@
                                 </div>
                             </div>
                         }
-                        </div>
+                    </div>
 
                 </div>
 
@@ -476,35 +476,17 @@
 
 
 @section scripts{
-
 <script>
     const url = "https://localhost:5001/movies/GetMovieTrailer/"
     let watchTrailer = document.getElementsByClassName("trailerlinks");
-
     Array.from(watchTrailer).forEach((e) => {
         e.addEventListener("click", (e) => {
             const movieId = e.target.dataset.movieid
             e.preventDefault();
-            console.log(movieId)
-            fetch(`${url}${movieId}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    const start = data.indexOf("=") + 1;
-                    const trlId = data.substring(start, data.length);
-                    $("#trailerVideo").attr('src', `https://www.youtube.com/embed/${trlId}?autoplay=1&amp;modestbranding=1&amp;showinfo=0`);
-
-                    $('#trailerModalVideo').modal('show');
-                    $('#trailerModalVideo').on('hidden.bs.modal', function (event) {
-                        $("#trailerVideo").attr('src', "");
-                    })
-                })
-                .catch(error => console.error('Unable to get items.', error));
+            GetMovieTrailer(url,movieId)
+           $('#trailerModalVideo').on('hidden.bs.modal', function (event) {
+           $("#trailerVideo").attr('src', "");
+           })
         })
     })
 </script>

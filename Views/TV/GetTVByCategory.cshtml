@@ -160,14 +160,14 @@
     }
 </section>
 
+<!-- Modal -->
 <div class="modal fade"
      id="trailerModalVideo"
      tabindex="-1"
      role="dialog"
-     aria-labelledby="trailerModal"
+     aria-labelledby="trailerLabel"
      aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered"
-         role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="embed-responsive embed-responsive-16by9">
@@ -187,35 +187,18 @@
 @section scripts{
 
 <script>
-    const url = "https://localhost:5001/movies/GetMovieTrailer/"
-    let watchTrailer = document.getElementsByClassName("trailerPlay");
-
-    Array.from(watchTrailer).forEach((e) => {
-        e.addEventListener("click", (e) => {
-            const contentId = e.target.dataset["id"];
-            e.preventDefault();
-            console.log(contentId);
-            fetch(`${url}${contentId}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    const start = data.indexOf("=") + 1;
-                    const trlId = data.substring(start, data.length);
-                    $("#trailerVideo").attr('src', `https://www.youtube.com/embed/${trlId}?autoplay=1&amp;modestbranding=1&amp;showinfo=0`);
-
-                    $('#trailerModalVideo').modal('show');
-                    $('#trailerModalVideo').on('hidden.bs.modal', function (event) {
-                        $("#trailerVideo").attr('src', "");
-                    })
+        const url = "https://localhost:5001/TV/GetTVTrailer"
+        let watchTrailer = document.getElementsByClassName("trailerPlay");
+        Array.from(watchTrailer).forEach((e) => {
+            e.addEventListener("click", (e) => {
+                const TvId = e.target.dataset["id"];
+                e.preventDefault();
+                GetTVVideo(url,TvId);
+                $('#trailerModalVideo').on('hidden.bs.modal', function (event) {
+                $("#trailerVideo").attr("src", "");
                 })
-                .catch(error => console.error('Unable to get items.', error));
+            })
         })
-    })
 </script>
 }
 -
