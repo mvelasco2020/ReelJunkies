@@ -22,8 +22,8 @@ namespace ReelJunkies.Services
         private readonly ApplicationDbContext _dbContext;
 
         //needs to be ioptions bec we are using configured instance
-        public TmDbMappingService(IOptions<AppSettings> appSettings, 
-                                          IImageService imageService, 
+        public TmDbMappingService(IOptions<AppSettings> appSettings,
+                                          IImageService imageService,
                                           ApplicationDbContext dbContext)
         {
             _appSettings = appSettings.Value;
@@ -113,19 +113,22 @@ namespace ReelJunkies.Services
                 new DbMovieReview()
                 {
                     AuthorUsername = review.author,
-                    AuthorDetails = new DbReviewAuthor()
-                    {
-                        Name = review.author_details.name,
-                        Username = review.author_details.username,
-                        AvatarPath = review.author_details.avatar_path,
-                    },
                     Content = review.content,
                     CreateDate = DateTime.Parse(review.created_at),
                     UpdateDate = DateTime.Parse(review.updated_at),
                     Url = review.url
                 }));
 
-
+                var tvReviewsFromDb = await _dbContext
+                        .DbMovieReview
+                        .Where(r => r.MovieId == movie.id).ToListAsync();
+                if (tvReviewsFromDb != null)
+                {
+                    tvReviewsFromDb.ForEach(review =>
+                    {
+                        newMovie.Reviews.Add(review);
+                    });
+                }
 
                 var crewMembers = movie.credits.crew
                         .OrderByDescending(c => c.popularity)
@@ -258,7 +261,7 @@ namespace ReelJunkies.Services
                 var tvReviewsFromDb = await _dbContext
                                         .DbTVReview
                                         .Where(r => r.TVId == tv.id).ToListAsync();
-                if(tvReviewsFromDb != null) 
+                if (tvReviewsFromDb != null)
                 {
                     tvReviewsFromDb.ForEach(review =>
                     {

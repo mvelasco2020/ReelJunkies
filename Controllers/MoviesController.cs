@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -7,6 +9,7 @@ using ReelJunkies.Data;
 using ReelJunkies.Enums;
 using ReelJunkies.Models.Database;
 using ReelJunkies.Models.Settings;
+using ReelJunkies.Models.TmDb;
 using ReelJunkies.Services.Interfaces;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,17 +23,21 @@ namespace ReelJunkies.Controllers
         private readonly IImageService _imageService;
         private readonly IRemoteMovieService _tmdbMovieService;
         private readonly IDataMappingService _tmdbMappingService;
+        private readonly UserManager<IdentityUser> _userManager;
+
         public MoviesController(IOptions<AppSettings> appsettings,
                     ApplicationDbContext context,
                     IImageService imageService,
                     IDataMappingService tmdbMappingService,
-                    IRemoteMovieService tmdbMovieService)
+                    IRemoteMovieService tmdbMovieService,
+                    UserManager<IdentityUser> userManager)
         {
             _appsettings = appsettings.Value;
             _context = context;
             _imageService = imageService;
             _tmdbMappingService = tmdbMappingService;
             _tmdbMovieService = tmdbMovieService;
+            _userManager = userManager;
         }
         public async Task<IActionResult> Import()
         {
@@ -211,6 +218,28 @@ namespace ReelJunkies.Controllers
         }
 
 
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PostReview([Bind("Content,MovieId")] DbMovieReview review)
+        {
+            review.Content.Trim();
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("",
+                   "Something went wrong while posting a review ");
+                TempData["ErrorMessage"] = "Review must be between 20 to 5000 characters";
+                return RedirectToAction("Details", "Movie", new { id = review.MovieId });
+            }
+            var userID = _userManager.GetUserId(User);
+            var user = await _userManager.FindByIdAsync(userID);
+            review.AuthorUsername = user.UserName;
+            review.AuthorDetailsId = userID;
+            review.CreateDate = System.DateTime.Now;
+            await _context.AddAsync(review);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", "TV", new { id = review.MovieId });
+        }
+
         public async Task<IActionResult> Details(int? id, bool local = false)
         {
             if (id == null)
@@ -245,7 +274,7 @@ namespace ReelJunkies.Controllers
             return View(movie);
         }
 
-        public async Task<ActionResult> GetMovieByCategory(MovieCategory category, int count=16, int page = 1)
+        public async Task<ActionResult> GetMovieByCategory(MovieCategory category, int count = 16, int page = 1)
         {
             var movieSearch = await _tmdbMovieService.MovieSearchAsync(category, count, page);
             ViewData["category"] = category;

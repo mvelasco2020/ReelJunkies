@@ -10,11 +10,11 @@
 
 <div class="text-center">
 
-        @{
+    @{
         ViewData["HeaderFirstString"] = @Model.ReleaseDate.ToShortDateString();
         ViewData["HeaderSecondString"] = @Model.TagLine.ToString();
         <partial name="_PageTitle"
-           view-data="ViewData" />
+             view-data="ViewData" />
 
     }
 
@@ -187,7 +187,7 @@
                                                 </div>
                                             }
                                             <div class="offset-custom-7">
-                                               @{
+                                                @{
                                                     if (SignInManager.IsSignedIn(User))
                                                     {
                                                         <h4 class="text-center"> Leave your review </h4>
@@ -197,20 +197,20 @@
                                                         <h4 class="text-center"> You need to sign in to leave your review</h4>
                                                     }
                                                 }
-                                               
-                                               
-                                                <!-- RD Mailform-->
-                                                <form class="rd-mailform text-left" data-form-output="form-output-global" data-form-type="forms" method="post" action="bat/rd-mailform.php">
+
+
+                                                <!--form-->
+                                                <h6 class="text-danger">@ViewData["ErrorMessage"]</h6>
+                                                <form asp-controller="Movies" asp-action="PostReview" method="post">
+                                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                                     <div class="row row-10">
                                                         <div class="col-12 col-md-12">
                                                             <div class="form-wrap">
-                                                                <label class="form-label"
-                                                                       for="forms-message">
-                                                                    Review:
-                                                                </label>
-                                                                <textarea class="form-input"
+                                                                <input type="hidden" value="@Model.TmDbMovieId" name="MovieId" />
+                                                                <textarea class="form-input text-black"
                                                                           id="forms-message"
-                                                                          name="message"
+                                                                          name="Content"
+                                                                          placeholder="Leave your review"
                                                                           disabled=@(!SignInManager.IsSignedIn(User))>
                                                                       </textarea>
                                                             </div>
@@ -218,8 +218,7 @@
                                                         <div class="col-12 text-center">
                                                             <button class="btn btn-success btn-sm"
                                                                     type="submit"
-                                                                    disabled=@(!SignInManager.IsSignedIn(User))
-                                                                    >
+                                                                    disabled=@(!SignInManager.IsSignedIn(User))>
                                                                 Submit
                                                             </button>
                                                         </div>
