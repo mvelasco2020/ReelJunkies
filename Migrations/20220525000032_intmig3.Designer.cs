@@ -2,21 +2,23 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ReelJunkies.Data;
 
-namespace ReelJunkies.Data.Migrations
+namespace ReelJunkies.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220525000032_intmig3")]
+    partial class intmig3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.12")
+                .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -233,10 +235,8 @@ namespace ReelJunkies.Data.Migrations
 
             modelBuilder.Entity("ReelJunkies.Models.Database.DbReviewAuthor", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
                     b.Property<string>("AvatarPath")
                         .HasColumnType("text");
@@ -392,6 +392,38 @@ namespace ReelJunkies.Data.Migrations
                     b.ToTable("MovieCrew");
                 });
 
+            modelBuilder.Entity("ReelJunkies.Models.Database.SimilarMovie", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int[]>("GenreIds")
+                        .HasColumnType("integer[]");
+
+                    b.Property<int?>("MovieId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("PosterPath")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
+
+                    b.Property<int>("TmDbId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("SimilarMovie");
+                });
+
             modelBuilder.Entity("ReelJunkies.Models.TmDb.DbMovieReview", b =>
                 {
                     b.Property<int>("Id")
@@ -399,8 +431,8 @@ namespace ReelJunkies.Data.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("AuthorDetailsId")
-                        .HasColumnType("integer");
+                    b.Property<string>("AuthorDetailsId")
+                        .HasColumnType("text");
 
                     b.Property<string>("AuthorUsername")
                         .HasColumnType("text");
@@ -427,6 +459,39 @@ namespace ReelJunkies.Data.Migrations
                     b.HasIndex("MovieId");
 
                     b.ToTable("DbMovieReview");
+                });
+
+            modelBuilder.Entity("ReelJunkies.Models.TmDb.DbTVReview", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("AuthorDetailsId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("AuthorUsername")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("TVId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DbTVReview");
                 });
 
             modelBuilder.Entity("ReelJunkies.Models.TmDb.TmdbGenreDetail", b =>
@@ -541,6 +606,13 @@ namespace ReelJunkies.Data.Migrations
                     b.Navigation("Movie");
                 });
 
+            modelBuilder.Entity("ReelJunkies.Models.Database.SimilarMovie", b =>
+                {
+                    b.HasOne("ReelJunkies.Models.Database.Movie", null)
+                        .WithMany("Similar")
+                        .HasForeignKey("MovieId");
+                });
+
             modelBuilder.Entity("ReelJunkies.Models.TmDb.DbMovieReview", b =>
                 {
                     b.HasOne("ReelJunkies.Models.Database.DbReviewAuthor", "AuthorDetails")
@@ -577,6 +649,8 @@ namespace ReelJunkies.Data.Migrations
                     b.Navigation("Genres");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("Similar");
                 });
 #pragma warning restore 612, 618
         }

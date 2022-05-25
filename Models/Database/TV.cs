@@ -11,7 +11,7 @@ namespace ReelJunkies.Models.Database
     public class TV
     {
         public int Id { get; set; }
-        public int TmDbMovieId { get; set; }
+        public int TmDbTVId { get; set; }
 
         public string Homepage { get; set; }
         public string Name { get; set; }
@@ -22,6 +22,7 @@ namespace ReelJunkies.Models.Database
 
         public int? NumberOfSeasons { get; set; }
 
+        [NotMapped]
         public ICollection<TVSeasons> Seasons { get; set; } = new HashSet<TVSeasons>();
         public ICollection<TmdbGenreDetail> Genres { get; set; } = new HashSet<TmdbGenreDetail>();
 
@@ -56,7 +57,7 @@ namespace ReelJunkies.Models.Database
         [Display(Name = "Backdrop Image")]
         public IFormFile BackdropFile { get; set; }
 
-        public ICollection<DbMovieReview> Reviews { get; set; } = new HashSet<DbMovieReview>();
+        public ICollection<DbTVReview> Reviews { get; set; } = new HashSet<DbTVReview>();
 
         public ICollection<MovieCast> Cast { get; set; } = new HashSet<MovieCast>();
 

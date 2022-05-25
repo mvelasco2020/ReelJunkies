@@ -2,7 +2,7 @@
 {
     public class TVSeasons
     {
-
+        public int Id { get; set; }
         public int? TmDbId { get; set; }
         public string AirDate { get; set; }
         public TVEpisodes[] Episodes { get; set; }

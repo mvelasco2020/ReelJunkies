@@ -41,7 +41,7 @@
                             <a href="@_imageService.DecodeImage(Model.Poster, Model.PosterType)"
                                data-lightgallery="item">
                                 <img src="@_imageService.DecodeImage(Model.Poster, Model.PosterType)"
-                                     alt="@Model.Name movie poster">
+                                     alt="@Model.Name TV poster">
                             </a>
                         </div>
                         <div class="col-12 col-lg-6 text-md-left">
@@ -82,7 +82,7 @@
 
                                 </ul>
                             </div>
-                            <div class="btn btn-success btn-sm watchtrl" data-id="@Model.TmDbMovieId">
+                            <div class="btn btn-success btn-sm watchtrl" data-id="@Model.TmDbTVId">
                                 <span class="icon icon-xs fa-film">
                                 </span>&nbsp; Watch Trailer
                             </div>
@@ -152,13 +152,13 @@
                                             @foreach (var review in Model.Reviews)
                                             {
                                                 <div class="media flex-column flex-md-row text-sm-left comment">
-                                                <div class="media-left">
-                                                <!-- 
-                                                        <img class="img-circle"
-                                                         src="images/index-13.jpg"
-                                                         alt="" />
-                                                -->    
-                                                    </div>
+                                                    <div class="media-left">
+                                                        <!--
+                                                                <img class="img-circle"
+                                                                 src="images/index-13.jpg"
+                                                                 alt="" />
+                                                        -->
+                                                </div>
                                                     <div class="media-body media-body-inset-1">
                                                         <h6>
                                                             <a href="#">
@@ -198,32 +198,31 @@
                                                 }
 
 
-                                                <!-- RD Mailform-->
-                                                <form class="rd-mailform text-left" data-form-output="form-output-global" data-form-type="forms" method="post" action="bat/rd-mailform.php">
-                                                    <div class="row row-10">
+                                                <!--  form-->
+                                                     <h6 class="text-danger">@ViewData["ErrorMessage"]</h6>
+                                                        <form asp-controller="TV" asp-action="PostReview" method="post">
+                                                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                         <div class="row row-10">
                                                         <div class="col-12 col-md-12">
                                                             <div class="form-wrap">
-                                                                <label class="form-label"
-                                                                       for="forms-message">
-                                                                    Reviews:
-                                                                </label>
-                                                                <textarea class="form-input"
+                                                                <input type="hidden" value="@Model.TmDbTVId" name="TVId" />
+                                                                <textarea class="form-input text-black"
                                                                           id="forms-message"
-                                                                          name="message"
-                                                                          disabled=@(!SignInManager.IsSignedIn(User))
-                                                                          >
+                                                                          name="Content"
+                                                                          placeholder="Leave your review"
+                                                                          disabled=@(!SignInManager.IsSignedIn(User))>
                                                                       </textarea>
-                                                            </div>
-                                                        </div>
+                                                                      </div>
+                                                                      </div>
                                                         <div class="col-12 text-center">
                                                             <button class="btn btn-success btn-sm"
                                                                     type="submit"
                                                                     disabled=@(!SignInManager.IsSignedIn(User))>
                                                                 Submit
                                                             </button>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </form>
+                                                      </form>
                                             </div>
                                         </div>
                                     </div>
@@ -236,21 +235,26 @@
         </div>
     </section>
 
-    <!-- suggested movies-->
+
+    <section>
+
+
+    </section>
+    <!-- suggested content-->
     <section class="section section-inset-2">
         <div class="container">
             <h2 class="text-center">You may also like</h2>
             <hr>
             <div class="row row-45 justify-content-center">
 
-                @foreach (var suggestedMovie in Model.Similar)
+                @foreach (var suggestedContent in Model.Similar)
                 {
                     <div class="col-9 col-sm-6 col-lg-3">
                         <a asp-controller="TV"
                        asp-action="Details"
-                       asp-route-id="@suggestedMovie.TmDbId">
+                       asp-route-id="@suggestedContent.TmDbId">
                             <div class="box-office-media">
-                                <img src="@suggestedMovie.PosterPath" alt="">
+                                <img src="@suggestedContent.PosterPath" alt="">
                             </div>
                         </a>
                         <div class="caption-1">
@@ -260,11 +264,11 @@
                             <h6 class="text-gray-900 offset-top-20">
                                 <a asp-controller="TV"
                                asp-action="Details"
-                               asp-route-id="@suggestedMovie.TmDbId">
-                                    @suggestedMovie.Title
+                               asp-route-id="@suggestedContent.TmDbId">
+                                    @suggestedContent.Title
                                 </a>
                             </h6>
-                            <p class="text-gray">@suggestedMovie.ReleaseDate.ToShortDateString()</p>
+                            <p class="text-gray">@suggestedContent.ReleaseDate.ToShortDateString()</p>
                         </div>
                     </div>
                 }
@@ -286,7 +290,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="embed-responsive embed-responsive-16by9">
-                <iframe width="760" height="415"
+                    <iframe width="760" height="415"
                             class="embed-responsive-item"
                             src=""
                             id="trailerVideo"

@@ -173,7 +173,7 @@ namespace ReelJunkies.Services
 
             try
             {
-                newTV.TmDbMovieId = tv.id;
+                newTV.TmDbTVId = tv.id;
                 newTV.Homepage = tv.homepage;
                 newTV.Name = tv.name;
                 newTV.TagLine = tv.tagline;
@@ -195,16 +195,16 @@ namespace ReelJunkies.Services
                         }
                         );
                 }
-                 newTV.VoteAverage = tv.vote_average;
-                 newTV.FirstAirDate = DateTime.Parse(tv.first_air_date);
-                 newTV.LastAirDate = DateTime.Parse(tv.last_air_date);
-                 newTV.NumberOfEpisodes = tv.number_of_episodes;
-                 newTV.NumberOfSeasons = tv.number_of_seasons;
-                 newTV.Backdrop = await EncodeBackdropImageAsync(tv.backdrop_path);
-                 newTV.BackDropType = BuildImageType(tv.poster_path);
-                 newTV.Poster = await EncodePosterImageAsync(tv.poster_path);
-                 newTV.PosterType = BuildImageType(tv.poster_path);
-             
+                newTV.VoteAverage = tv.vote_average;
+                newTV.FirstAirDate = DateTime.Parse(tv.first_air_date);
+                newTV.LastAirDate = DateTime.Parse(tv.last_air_date);
+                newTV.NumberOfEpisodes = tv.number_of_episodes;
+                newTV.NumberOfSeasons = tv.number_of_seasons;
+                newTV.Backdrop = await EncodeBackdropImageAsync(tv.backdrop_path);
+                newTV.BackDropType = BuildImageType(tv.poster_path);
+                newTV.Poster = await EncodePosterImageAsync(tv.poster_path);
+                newTV.PosterType = BuildImageType(tv.poster_path);
+
 
 
                 var castMembers = tv.credits
@@ -240,15 +240,9 @@ namespace ReelJunkies.Services
                 var reviews = tv.reviews.results.ToList();
                 reviews.ForEach(review =>
                 newTV.Reviews.Add(
-                new DbMovieReview()
+                new DbTVReview()
                 {
                     AuthorUsername = review.author,
-                    AuthorDetails = new DbReviewAuthor()
-                    {
-                        Name = review.author_details.name,
-                        Username = review.author_details.username,
-                        AvatarPath = review.author_details.avatar_path,
-                    },
                     Content = review.content,
                     CreateDate = DateTime.Parse(review.created_at),
                     UpdateDate = DateTime.Parse(review.updated_at),

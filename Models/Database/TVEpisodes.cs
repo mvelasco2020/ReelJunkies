@@ -5,6 +5,8 @@
 
         public class Episode
         {
+
+            public int Id { get; set; }
             public string AirDate { get; set; }
             public int EpisodeNumber { get; set; }
             public int TmDbEpisodeid { get; set; }
