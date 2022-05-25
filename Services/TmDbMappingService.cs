@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using ReelJunkies.Data;
 using ReelJunkies.Enums;
 using ReelJunkies.Models.Database;
 using ReelJunkies.Models.Settings;
@@ -17,12 +19,16 @@ namespace ReelJunkies.Services
     {
         private readonly AppSettings _appSettings;
         private readonly IImageService _imageService;
+        private readonly ApplicationDbContext _dbContext;
 
         //needs to be ioptions bec we are using configured instance
-        public TmDbMappingService(IOptions<AppSettings> appSettings, IImageService imageService)
+        public TmDbMappingService(IOptions<AppSettings> appSettings, 
+                                          IImageService imageService, 
+                                          ApplicationDbContext dbContext)
         {
             _appSettings = appSettings.Value;
             _imageService = imageService;
+            _dbContext = dbContext;
         }
         public ActorDetail MapActorDetail(ActorDetail actor)
         {
@@ -248,6 +254,17 @@ namespace ReelJunkies.Services
                     UpdateDate = DateTime.Parse(review.updated_at),
                     Url = review.url
                 }));
+
+                var tvReviewsFromDb = await _dbContext
+                                        .DbTVReview
+                                        .Where(r => r.TVId == tv.id).ToListAsync();
+                if(tvReviewsFromDb != null) 
+                {
+                    tvReviewsFromDb.ForEach(review =>
+                    {
+                        newTV.Reviews.Add(review);
+                    });
+                }
 
 
 
