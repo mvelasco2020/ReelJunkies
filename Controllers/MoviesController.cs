@@ -222,7 +222,6 @@ namespace ReelJunkies.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostReview([Bind("Content,MovieId")] DbMovieReview review)
         {
-            review.Content.Trim();
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("",
@@ -230,6 +229,7 @@ namespace ReelJunkies.Controllers
                 TempData["ErrorMessage"] = "Review must be between 20 to 5000 characters";
                 return RedirectToAction("Details", "Movie", new { id = review.MovieId });
             }
+            review.Content.Trim();
             var userID = _userManager.GetUserId(User);
             var user = await _userManager.FindByIdAsync(userID);
             review.AuthorUsername = user.UserName;
@@ -237,7 +237,7 @@ namespace ReelJunkies.Controllers
             review.CreateDate = System.DateTime.Now;
             await _context.AddAsync(review);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Details", "TV", new { id = review.MovieId });
+            return RedirectToAction("Details", "Movies", new { id = review.MovieId });
         }
 
         public async Task<IActionResult> Details(int? id, bool local = false)

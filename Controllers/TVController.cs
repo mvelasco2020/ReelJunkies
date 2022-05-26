@@ -59,7 +59,6 @@ namespace ReelJunkies.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostReview([Bind("Content,TVId")] DbTVReview review)
         {
-            review.Content.Trim();
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("",
@@ -67,6 +66,7 @@ namespace ReelJunkies.Controllers
                 TempData["ErrorMessage"] = "Review must be between 20 to 5000 characters";
                 return RedirectToAction("Details", "TV", new { id = review.TVId });
             }
+            review.Content.Trim();
             var userID = _userManager.GetUserId(User);
             var user = await _userManager.FindByIdAsync(userID);
 

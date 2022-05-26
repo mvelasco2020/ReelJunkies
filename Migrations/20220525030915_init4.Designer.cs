@@ -10,8 +10,8 @@ using ReelJunkies.Data;
 namespace ReelJunkies.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220525000032_intmig3")]
-    partial class intmig3
+    [Migration("20220525030915_init4")]
+    partial class init4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -438,12 +438,14 @@ namespace ReelJunkies.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Content")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(5000)
+                        .HasColumnType("character varying(5000)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("MovieId")
+                    b.Property<int>("MovieId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdateDate")
@@ -453,8 +455,6 @@ namespace ReelJunkies.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorDetailsId");
 
                     b.HasIndex("MovieId");
 
@@ -475,7 +475,9 @@ namespace ReelJunkies.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Content")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(5000)
+                        .HasColumnType("character varying(5000)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp without time zone");
@@ -615,15 +617,11 @@ namespace ReelJunkies.Migrations
 
             modelBuilder.Entity("ReelJunkies.Models.TmDb.DbMovieReview", b =>
                 {
-                    b.HasOne("ReelJunkies.Models.Database.DbReviewAuthor", "AuthorDetails")
-                        .WithMany()
-                        .HasForeignKey("AuthorDetailsId");
-
                     b.HasOne("ReelJunkies.Models.Database.Movie", null)
                         .WithMany("Reviews")
-                        .HasForeignKey("MovieId");
-
-                    b.Navigation("AuthorDetails");
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ReelJunkies.Models.TmDb.TmdbGenreDetail", b =>
