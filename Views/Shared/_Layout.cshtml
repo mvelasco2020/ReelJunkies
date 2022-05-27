@@ -69,14 +69,24 @@
                                     <img class="brandlogo" src="~/images/ReelJunkiesLogo.png" alt="">
                                 </a>
                             </li>
+                            <li class="d-lg-none ">
+                                <form asp-action="Search" method="get" asp-controller="Home">
+
+                                <input class="form-input pt-0 pb-0 text-black border-0 searchbar" 
+                                name="query"
+                                type="text" 
+                                placeholder="Search.."
+                                >
+                                </form>
+                            </li>
                             <li>
                                 <a asp-action="Index"
                                    asp-controller="home">Home</a>
                             </li>
 
-
+        
                             <li>
-
+            
                                 <a href="#">Movies</a>
                                 <ul class="rd-navbar-dropdown">
                                     <li>
