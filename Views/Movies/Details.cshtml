@@ -245,7 +245,7 @@
 
 
                                                 <!--form-->
-                                                <h6 class="text-danger">@ViewData["ErrorMessage"]</h6>
+                                                <h6 class="text-danger">@TempData["ErrorMessage"]</h6>
                                                 <form asp-controller="Movies" asp-action="PostReview" method="post">
                                                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                                     <div class="row row-10">
