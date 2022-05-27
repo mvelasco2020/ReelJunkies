@@ -28,6 +28,15 @@ namespace ReelJunkies.Controllers
             _dbContext = dbContext;
             _userManager = userManager;
         }
+
+
+
+        public async Task<IActionResult> Index(int page = 1)
+        {
+            string queryStrings = "&sort_by=popularity.desc&include_adult=false&include_video=false&vote_average.gte=8&with_watch_monetization_types=flatrate";
+            var tvs = await _tmdbMovieService.TvDiscoverAsync(queryStrings, page, 20);
+            return View(tvs);
+        }
         public async Task<ActionResult> GetTVByCategory(TVCategory category,
                                                          int count = 16,
                                                          int page = 1)
@@ -77,7 +86,7 @@ namespace ReelJunkies.Controllers
             await _dbContext.AddAsync(review);
             await _dbContext.SaveChangesAsync();
 
-            return RedirectToAction("Details", "TV", new {id = review.TVId });
+            return RedirectToAction("Details", "TV", new { id = review.TVId });
         }
 
 
@@ -94,7 +103,7 @@ namespace ReelJunkies.Controllers
             }
 
             DbTVReview findReview = await _dbContext.DbTVReview.FindAsync(review.Id);
-                                               
+
 
 
             if (_userManager.GetUserId(User) != findReview.AuthorDetailsId) return Unauthorized();

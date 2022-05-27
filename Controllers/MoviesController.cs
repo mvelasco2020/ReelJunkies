@@ -85,9 +85,10 @@ namespace ReelJunkies.Controllers
         }
 
 
-        public async Task<IActionResult> Library()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var movies = await _context.Movie.ToListAsync();
+            string queryStrings = "&sort_by=vote_count.desc&include_adult=false&include_video=false&vote_average.gte=7&with_watch_monetization_types=flatrate";
+            var movies = await _tmdbMovieService.MovieDiscoverAsync(queryStrings, page, 30);
             return View(movies);
         }
 

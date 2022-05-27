@@ -372,6 +372,46 @@ namespace ReelJunkies.Services
             return tvSearch;
 
         }
+        public async Task<TvVideos> GetTvVideos(int tvId, int page, int count)
+        {
+            TvVideos tvVideos = new();
+
+            //assenble full request uri string
+            var query = $"{_appSettings.TmDbSettings.BaseUrl}/tv/{tvId}/videos";
+            var queryParams = new Dictionary<string, string>()
+            {
+                {"api_key", _appSettings.ReelJunkiesSettings.TmDbApiKey },
+                {"language", _appSettings.TmDbSettings.QueryOptions.Language },
+                {"page", page.ToString()}
+            };
+
+            var requestUri = QueryHelpers.AddQueryString(query, queryParams);
+
+            //create a client and execute request
+            var client = _httpClient.CreateClient();
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            try
+            {
+                var response = await client.SendAsync(request);
+
+                //return the  Moviesearch object
+                if (response.IsSuccessStatusCode)
+                {
+                    var deserialize = new DataContractJsonSerializer(typeof(TvVideos));
+                    using var responseStream = await response.Content.ReadAsStreamAsync();
+                    tvVideos = (TvVideos)deserialize.ReadObject(responseStream);
+                    tvVideos.results = tvVideos.results.Take(count).ToArray();
+
+                }
+            }
+            catch (System.Exception)
+            {
+
+            }
+
+
+            return tvVideos;
+        }
 
         public async Task<TvSearch> TvDiscoverAsync(string queryStrings, int page, int count)
         {
@@ -423,12 +463,13 @@ namespace ReelJunkies.Services
             return tvSearch;
         }
 
-        public async Task<TvVideos> GetTvVideos(int tvId, int page, int count)
+
+        public async Task<MovieSearch> MovieDiscoverAsync(string queryStrings, int page, int count)
         {
-            TvVideos tvVideos = new();
+            MovieSearch movieSearch = new();
 
             //assenble full request uri string
-            var query = $"{_appSettings.TmDbSettings.BaseUrl}/tv/{tvId}/videos";
+            var query = $"{_appSettings.TmDbSettings.BaseUrl}/discover/movie";
             var queryParams = new Dictionary<string, string>()
             {
                 {"api_key", _appSettings.ReelJunkiesSettings.TmDbApiKey },
@@ -437,21 +478,30 @@ namespace ReelJunkies.Services
             };
 
             var requestUri = QueryHelpers.AddQueryString(query, queryParams);
+            requestUri += queryStrings;
 
             //create a client and execute request
             var client = _httpClient.CreateClient();
             var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
             try
             {
+
                 var response = await client.SendAsync(request);
 
                 //return the  Moviesearch object
                 if (response.IsSuccessStatusCode)
                 {
-                    var deserialize = new DataContractJsonSerializer(typeof(TvVideos));
+                    var deserialize = new DataContractJsonSerializer(typeof(MovieSearch));
                     using var responseStream = await response.Content.ReadAsStreamAsync();
-                    tvVideos = (TvVideos)deserialize.ReadObject(responseStream);
-                    tvVideos.results = tvVideos.results.Take(count).ToArray();
+                    movieSearch = (MovieSearch)deserialize.ReadObject(responseStream);
+                    movieSearch.results = movieSearch.results.Take(count).ToArray();
+                    movieSearch
+                        .results.ToList()
+                        .ForEach(r =>
+                        r.poster_path =
+                        $"{_appSettings.TmDbSettings.BaseImagePath}" +
+                        $"/{_appSettings.ReelJunkiesSettings.DefaultPosterSize}" +
+                        $"/{r.poster_path}");
 
                 }
             }
@@ -461,8 +511,7 @@ namespace ReelJunkies.Services
             }
 
 
-            return tvVideos;
+            return movieSearch;
         }
-
     }
 }

@@ -1,0 +1,142 @@
+﻿@using ReelJunkies.Models.TmDb
+@model MovieSearch
+
+
+
+
+    @{
+        ViewData["HeaderFirstString"] = "Discover";
+        ViewData["HeaderSecondString"] = "Best Movies";
+        <partial name="_PageTitle"
+             view-data="ViewData" />
+
+    }
+
+    <section class="bg-light section-xl text-center">
+        <ol class="breadcrumb">
+            <li>
+                <a asp-controller="Home"
+                   asp-action="index">Home</a>
+            </li>
+            <li class="active">Movies</li>
+        </ol>
+    </section>
+
+<section class="section section-inset-1">
+    <div class="container-fluid isotope-wrap container">
+    <div class="text-center">
+        <h2>Movies with Highest votes</h2>
+        <hr>
+    </div>
+        <div class="row">
+        <div class="col-12">
+                <div class="btn-group-isotope isotope-filters d-none">
+                    <button class="btn btn-success-mod-1 btn-sm active" data-isotope-filter="*" data-isotope-group="gallery">All</button>
+                </div>
+        <div class="isotope offset-custom-1 isotope-no-gutter cobbles-gallery" data-isotope-layout="masonry" data-isotope-group="gallery" >
+            @foreach (var item in @Model.results)
+            {
+                
+        
+            <div class="thumbnail-gallery thumbnail-gallery-gird isotope-item" data-filter="type-1">
+                <a asp-route-id=@item.id asp-action="Details">
+                    <img src="@item.poster_path" alt="@item.title poster">
+                    <div class="caption">
+                        <div class="caption-wrapper">
+                            <span class="icon icon-md icon-white fa-search-plus"></span>
+                            <h4 class="text-white text-center">@item.title</h4>
+                            <p class="text-white text-center">@item.release_date</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+           
+            }
+
+            </div>
+
+        </div>
+    </div>
+
+            <ul class="pagination pagination-center mt-5">
+            @if (@Model.page == 1)
+            {
+                <li class="disabled text-center"><span class="page-item"></span></li>
+            }
+            else
+            {
+                <li class="page-item text-center">
+                    <a asp-route-page="@(Model.page-1)"
+               asp-action="index"
+               class="page-item text-center"></a>
+                </li>
+            }
+
+            @if (@Model.page > 1)
+            {
+                @for (var i = @Model.page - 2; i < @Model.page; i++)
+                {
+                    @if (Model.page == 2)
+                    {
+                        <li>
+                            <a asp-route-page="1"
+               asp-action="index"
+               class="page-item text-center">
+                                1
+                            </a>
+                        </li>
+                    }
+                    @if (i == 0 || i == @Model.page)
+                    {
+                        break;
+                    }
+                    <li>
+                        <a asp-route-page="@i"
+               asp-action="index"
+               class="page-item text-center">
+                            @i
+                        </a>
+                    </li>
+                }
+            }
+
+            @for (var i = @Model.page; i <= @Model.total_pages && i < @Model.page + 3; i++)
+            {
+                if (i == @Model.page)
+                {
+                    <li class="disabled">
+                        <a asp-route-page="@i"
+               asp-action="index"
+               class="page-item text-center">
+                            @i
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a asp-route-page="@i"
+               asp-action="index"
+               class="page-item text-center">
+                            @i
+                        </a>
+                    </li>
+                }
+            }
+
+            @if (@Model.page >= @Model.total_pages)
+            {
+                <li class="disabled text-center"><span class="page-item"></span></li>
+            }
+            else
+            {
+                <li>
+                    <a asp-route-page="@(Model.page+1)"
+               asp-action="index"
+               class="page-item text-center">
+                    </a>
+                </li>
+            }
+        </ul>
+       </div>
+</section>

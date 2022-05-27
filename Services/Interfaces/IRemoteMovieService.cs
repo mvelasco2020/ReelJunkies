@@ -21,5 +21,7 @@ namespace ReelJunkies.Services.Interfaces
         Task<TVDetail> TvDetailAsync(int id);
         Task<TvVideos> GetTvVideos(int tvId, int page, int count);
 
+        Task<MovieSearch> MovieDiscoverAsync(string queryStrings, int page, int count);
+
     }
 }
