@@ -80,7 +80,70 @@ namespace ReelJunkies.Controllers
             return RedirectToAction("Details", "TV", new {id = review.TVId });
         }
 
-    
+
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditReview([Bind("Content", "TVId", "Id")] DbTVReview review)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("",
+                   "Something went wrong while editing a review ");
+                TempData["ErrorMessage"] = "Review must be between 20 to 5000 characters";
+                return RedirectToAction("Details", "TV", new { id = review.TVId });
+            }
+
+            DbTVReview findReview = await _dbContext.DbTVReview.FindAsync(review.Id);
+                                               
+
+
+            if (_userManager.GetUserId(User) != findReview.AuthorDetailsId) return Unauthorized();
+
+            if (findReview == null)
+            {
+                return RedirectToAction("Details", "TV", new { id = review.TVId });
+            }
+
+            try
+            {
+                findReview.Content = review.Content;
+                findReview.UpdateDate = System.DateTime.Now;
+                await _dbContext.SaveChangesAsync();
+
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+            return RedirectToAction("Details", "Tv", new { id = review.TVId });
+        }
+
+
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteReview(int id)
+        {
+            if (id == 0 || id == null)
+                return BadRequest();
+
+
+            DbTVReview review = await _dbContext
+                                     .DbTVReview
+                                     .FindAsync(id);
+
+            if (review is null)
+                return NotFound();
+
+            if (review.AuthorDetailsId != _userManager.GetUserId(User))
+                return Unauthorized();
+
+            _dbContext.DbTVReview.Remove(review);
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction("Details", "TV", new { id = review.TVId });
+        }
+
+
         public async Task<IActionResult> Details(int id)
         {
 

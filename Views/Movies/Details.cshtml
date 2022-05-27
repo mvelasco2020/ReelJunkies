@@ -183,7 +183,7 @@
                                                                     </span>
 
                                                                     <time>
-                                                                        @review.CreateDate
+                                                                        @review.UpdateDate
                                                                     </time>
                                                                 }
                                                             </p>
@@ -319,7 +319,7 @@
         </div>
     </section>
 </div>
-<!-- Modal -->
+<!-- trailer Modal -->
 <div class="modal fade"
      id="detailedMovieTrailerModal"
      tabindex="-1"
@@ -354,8 +354,9 @@
         </div>
     </div>
 </div>
+<!-- trailer Modal -->
 
-
+<!--- delete Modal --->
 <div class="modal fade"
      tabindex="-1"
      role="dialog"
@@ -383,8 +384,9 @@
         </div>
     </div>
 </div>
+<!--- delete Modal --->
 
-
+<!--- Edit Modal --->
 <div class="modal fade"
      tabindex="-1"
      role="dialog"
@@ -420,61 +422,29 @@
         </div>
     </div>
 </div>
-
+<!--- Edit Modal --->
 
 <!-- -->
 @section scripts{
 <script>
 
-    const readMore = document.querySelectorAll(".readmore")
-        Array.from(readMore).forEach((review) => {
-            review.addEventListener('click', (e) => {
-                let currentRvw = review.parentElement.children[0];
-                currentRvw.classList.toggle("clamp")
-                review.parentNode.children[1].classList.toggle("d-none");
-                review.parentNode.children[2].classList.toggle("d-none");
-            })
-        })
-        document.querySelector(".watchtrl").addEventListener('click', (e) => {
-            e.preventDefault();
-            $('#detailedMovieTrailerModal').modal('toggle')
-            $('#detailedMovieTrailerModal').on('hidden.bs.modal', function (event) {
-                $("#detailedMovieTrailerModal iframe").attr("src", $("#detailedMovieTrailerModal iframe").attr("src"));
-            })
-        });
-
-    //Edit Review
-     const editReviewBtn = document.querySelectorAll(".editReviewBtn")
-     Array.from(editReviewBtn).forEach(editReview => {
-         editReview.addEventListener("click", (edit)=>{
-           const reviewId = edit.target.dataset.reviewid
-           const hiddenInputReviewId = document.getElementById("hiddenEditReviewId")
-           console.log(reviewId)
-           hiddenInputReviewId.setAttribute("value",`${reviewId}`)
-
-           console.log(hiddenInputReviewId)
-           const reviewContent = edit.target.parentElement.parentElement.parentElement.children[0].innerText
-
-         $('#editReviewModal').modal('toggle')
-         const textArea = document.getElementById("editReviewModalTextArea")
-         textArea.value  = reviewContent
-         })
-     });
-     //
-
-
-     //Delete Review
-          const deleteReviewBtn = document.querySelectorAll(".deleteReviewBtn")
-         Array.from(deleteReviewBtn).forEach(deleteReview => {
-         deleteReview.addEventListener("click", (d)=>{
-             const reviewId = d.target.dataset.reviewid;
-             const hiddenInputReviewId = document.getElementById("hiddenReviewId");
-             console.log(hiddenInputReviewId)
-             hiddenInputReviewId.setAttribute("value",`${reviewId}`);
-             $('#deleteReviewModal').modal('toggle');
-         })
-         })
-     //
+       const readMore = document.querySelectorAll(".readmore")
+           Array.from(readMore).forEach((review) => {
+               review.addEventListener('click', (e) => {
+                   let currentRvw = review.parentElement.children[0];
+                   currentRvw.classList.toggle("clamp")
+                   review.parentNode.children[1].classList.toggle("d-none");
+                   review.parentNode.children[2].classList.toggle("d-none");
+               })
+           })
+           document.querySelector(".watchtrl").addEventListener('click', (e) => {
+               e.preventDefault();
+               $('#detailedMovieTrailerModal').modal('toggle')
+               $('#detailedMovieTrailerModal').on('hidden.bs.modal', function (event) {
+                   $("#detailedMovieTrailerModal iframe").attr("src", $("#detailedMovieTrailerModal iframe").attr("src"));
+               })
+           });
 
 </script>
+<script src="~/js/editdeletereview.js"></script>
 }
