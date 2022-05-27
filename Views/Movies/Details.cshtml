@@ -153,6 +153,7 @@
                                         </div>
                                         <div class="tab-pane fade show active" id="tabs-3-1">
 
+
                                             @foreach (var review in Model.Reviews)
                                             {
                                                 <div class="media flex-column flex-md-row text-sm-left comment">
@@ -170,20 +171,64 @@
                                                         <span class="text-gray">
                                                         </span>
                                                         <div class="blog-post-time mt-2">
-                                                            <time>
-                                                                @review.CreateDate
-                                                            </time>
+                                                            <p class="font-italic">
+                                                                <time>
+                                                                    @review.CreateDate
+                                                                </time>
+
+                                                                @if (@review.UpdateDate > @review.CreateDate)
+                                                                {
+                                                                    <span class="ml-2">
+                                                                        updated on
+                                                                    </span>
+
+                                                                    <time>
+                                                                        @review.CreateDate
+                                                                    </time>
+                                                                }
+                                                            </p>
                                                         </div>
 
                                                         <div class="review-comment mb-4">
                                                             <p class="clamp content">
                                                                 @review.Content
                                                             </p>
-                                                            <p class="readmore pointer text-gray">
-                                                                Read More
-                                                            </p>
+
+                                                            @if (review.Content.Length >= 400)
+                                                            {
+
+                                                                <p class="readmore pointer text-gray">
+                                                                    Read More
+                                                                </p>
+
+                                                                <p class="readmore d-none pointer text-gray">
+                                                                    Read less
+                                                                </p>
+                                                            }
+                                                            @if (UserManager.GetUserId(User) == review.AuthorDetailsId)
+                                                            {
+
+                                                                <span class="d-flex justify-content-end">
+                                                                    <span class="editReviewBtn">
+                                                                        <i class="fa-solid fa-pen-to-square btn"
+                                                                   data-reviewid="@review.Id"
+                                                                   data-movieid=@Model.TmDbMovieId>
+                                                                        </i>
+                                                                    </span>
+                                                                    <span class="deleteReviewBtn">
+                                                                        <i class="fa-solid fa-trash-can text-danger btn"
+                                                                   data-reviewid="@review.Id"
+                                                                   data-movieid=@Model.TmDbMovieId>
+                                                                        </i>
+                                                                    </span>
+                                                                </span>
+                                                            }
+
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <div class="text-center">
+                                                    <hr class="col-11" />
                                                 </div>
                                             }
                                             <div class="offset-custom-7">
@@ -258,7 +303,7 @@
                         </div>
                         <div class="poster-blog text-left">
                             <h6 class="text-gray-900 offset-top-20">
-                                <a a asp-controller="Movies"
+                                <a asp-controller="Movies"
                                asp-action="Details"
                                asp-route-id="@suggestedMovie.TmDbId">
                                     @suggestedMovie.Title
@@ -274,7 +319,6 @@
         </div>
     </section>
 </div>
-<!--
 <!-- Modal -->
 <div class="modal fade"
      id="detailedMovieTrailerModal"
@@ -311,26 +355,126 @@
     </div>
 </div>
 
+
+<div class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     id="deleteReviewModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center pt-5 pb-5">
+                <p>Are you sure you want to delete this review?</p>
+            </div>
+            <div class="modal-footer">
+                <form asp-controller="Movies" asp-action="DeleteReview" method="post">
+                    <input type="hidden" id="hiddenReviewId" name="Id" value="" />
+                    <input type="hidden" id="hiddenReviewAuthorId" name="AuthorDetailsId" value="@UserManager.GetUserId(User)" />
+
+                    <button type="submit" class="btn btn-outline-primary mt-0">Delete</button>
+                    <button type="button" class="btn btn-outline-primary mt-0" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     id="editReviewModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center">Edit Review</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <h6 class="text-danger">@ViewData["ErrorMessage"]</h6>
+            <form asp-controller="Movies" asp-action="EditReview" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="modal-body text-center pt-5 pb-5">
+                    <input type="hidden" ggg="this" id="hiddenEditReviewId" name="Id" value="" />
+                    <input type="hidden" id="hiddenReviewMovieId" name="MovieId" value="@Model.TmDbMovieId" />
+                    <input type="hidden" id="hiddenReviewAuthorId" name="AuthorDetailsId" value="@UserManager.GetUserId(User)" />
+                    <textarea class="form-input text-black"
+                              id="editReviewModalTextArea"
+                              name="Content"
+                              placeholder="Leave your review"
+                              disabled=@(!SignInManager.IsSignedIn(User))>
+                asfasfasfasf
+            </textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-primary">Save Changes</button>
+                    <button type="button" class="btn btn-outline-primary mt-0" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- -->
 @section scripts{
-
-
 <script>
 
     const readMore = document.querySelectorAll(".readmore")
-    Array.from(readMore).forEach((review) => {
-        review.addEventListener('click', (e) => {
-            let currentRvw = review.parentElement.children[0];
-            console.log(currentRvw)
-            currentRvw.classList.toggle("clamp")
+        Array.from(readMore).forEach((review) => {
+            review.addEventListener('click', (e) => {
+                let currentRvw = review.parentElement.children[0];
+                currentRvw.classList.toggle("clamp")
+                review.parentNode.children[1].classList.toggle("d-none");
+                review.parentNode.children[2].classList.toggle("d-none");
+            })
         })
-    })
-    document.querySelector(".watchtrl").addEventListener('click', (e) => {
-        e.preventDefault();
-        $('#detailedMovieTrailerModal').modal('toggle')
-        $('#detailedMovieTrailerModal').on('hidden.bs.modal', function (event) {
-            $("#detailedMovieTrailerModal iframe").attr("src", $("#detailedMovieTrailerModal iframe").attr("src"));
-        })
-    });
+        document.querySelector(".watchtrl").addEventListener('click', (e) => {
+            e.preventDefault();
+            $('#detailedMovieTrailerModal').modal('toggle')
+            $('#detailedMovieTrailerModal').on('hidden.bs.modal', function (event) {
+                $("#detailedMovieTrailerModal iframe").attr("src", $("#detailedMovieTrailerModal iframe").attr("src"));
+            })
+        });
+
+    //Edit Review
+     const editReviewBtn = document.querySelectorAll(".editReviewBtn")
+     Array.from(editReviewBtn).forEach(editReview => {
+         editReview.addEventListener("click", (edit)=>{
+           const reviewId = edit.target.dataset.reviewid
+           const hiddenInputReviewId = document.getElementById("hiddenEditReviewId")
+           console.log(reviewId)
+           hiddenInputReviewId.setAttribute("value",`${reviewId}`)
+
+           console.log(hiddenInputReviewId)
+           const reviewContent = edit.target.parentElement.parentElement.parentElement.children[0].innerText
+
+         $('#editReviewModal').modal('toggle')
+         const textArea = document.getElementById("editReviewModalTextArea")
+         textArea.value  = reviewContent
+         })
+     });
+     //
+
+
+     //Delete Review
+          const deleteReviewBtn = document.querySelectorAll(".deleteReviewBtn")
+         Array.from(deleteReviewBtn).forEach(deleteReview => {
+         deleteReview.addEventListener("click", (d)=>{
+             const reviewId = d.target.dataset.reviewid;
+             const hiddenInputReviewId = document.getElementById("hiddenReviewId");
+             console.log(hiddenInputReviewId)
+             hiddenInputReviewId.setAttribute("value",`${reviewId}`);
+             $('#deleteReviewModal').modal('toggle');
+         })
+         })
+     //
 
 </script>
 }

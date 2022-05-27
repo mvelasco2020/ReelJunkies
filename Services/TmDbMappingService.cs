@@ -113,6 +113,7 @@ namespace ReelJunkies.Services
                 new DbMovieReview()
                 {
                     AuthorUsername = review.author,
+                    AuthorDetailsId = review.author_details.username,
                     Content = review.content,
                     CreateDate = DateTime.Parse(review.created_at),
                     UpdateDate = DateTime.Parse(review.updated_at),
@@ -252,6 +253,7 @@ namespace ReelJunkies.Services
                 new DbTVReview()
                 {
                     AuthorUsername = review.author,
+                    AuthorDetailsId = review.author_details.username,
                     Content = review.content,
                     CreateDate = DateTime.Parse(review.created_at),
                     UpdateDate = DateTime.Parse(review.updated_at),

@@ -227,7 +227,7 @@ namespace ReelJunkies.Controllers
                 ModelState.AddModelError("",
                    "Something went wrong while posting a review ");
                 TempData["ErrorMessage"] = "Review must be between 20 to 5000 characters";
-                return RedirectToAction("Details", "Movie", new { id = review.MovieId });
+                return RedirectToAction("Details", "Movies", new { id = review.MovieId });
             }
             review.Content.Trim();
             var userID = _userManager.GetUserId(User);
@@ -236,6 +236,71 @@ namespace ReelJunkies.Controllers
             review.AuthorDetailsId = userID;
             review.CreateDate = System.DateTime.Now;
             await _context.AddAsync(review);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", "Movies", new { id = review.MovieId });
+        }
+
+
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditReview([Bind("Content", "MovieId", "Id")] DbMovieReview review)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("",
+                   "Something went wrong while editing a review ");
+                TempData["ErrorMessage"] = "Review must be between 20 to 5000 characters";
+                return RedirectToAction("Details", "Movies", new { id = review.MovieId });
+            }
+
+            DbMovieReview findReview = await _context
+                                                .DbMovieReview
+                                                .FirstOrDefaultAsync(r =>
+                                               r.Id == review.Id);
+
+
+            if (_userManager.GetUserId(User) != findReview.AuthorDetailsId) return Unauthorized();
+
+            if (findReview == null)
+            {
+                return RedirectToAction("Details", "Movies", new { id = review.MovieId });
+            }
+
+            try
+            {
+                findReview.Content = review.Content;
+                findReview.UpdateDate = System.DateTime.Now;
+                await _context.SaveChangesAsync();
+
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+            return RedirectToAction("Details", "Movies", new { id = review.MovieId });
+        }
+
+
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteReview(int id)
+        {
+            if (id == 0 || id == null)
+                return BadRequest();
+
+
+            DbMovieReview review = await _context
+                                     .DbMovieReview
+                                     .FindAsync(id);
+
+            if (review is null)
+                return NotFound();
+
+            if (review.AuthorDetailsId != _userManager.GetUserId(User))
+                return Unauthorized();
+
+            _context.DbMovieReview.Remove(review);
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", "Movies", new { id = review.MovieId });
         }
@@ -274,6 +339,7 @@ namespace ReelJunkies.Controllers
             return View(movie);
         }
 
+
         public async Task<ActionResult> GetMovieByCategory(MovieCategory category, int count = 16, int page = 1)
         {
             var movieSearch = await _tmdbMovieService.MovieSearchAsync(category, count, page);
@@ -298,6 +364,7 @@ namespace ReelJunkies.Controllers
             return Ok(url);
 
         }
+
         private bool MovieExists(int id)
         {
             return _context.Movie.Any(e => e.Id == id);
