@@ -1,4 +1,7 @@
 ﻿@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
+
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
@@ -10,12 +13,26 @@
         Profile
     </a>
     </li>
+
+    @{
+        var username = _httpContextAccessor.HttpContext.User.Identity.Name;
+
+if (username.ToLower() != "eren.yeager@aot.com")
+{
+     
     <li class="nav-item">
         <a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" 
         id="email" asp-page="./Email">Email
-    </a>
+        </a>
     </li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
+
+            <li class="nav-item">
+            <a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a>
+            </li>
+
+        }
+    }  
+    
     @if (hasExternalLogins)
     {
         <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>

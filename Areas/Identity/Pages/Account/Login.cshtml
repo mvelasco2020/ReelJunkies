@@ -68,6 +68,44 @@
                 </div>
               </div>
             </div>
+
+
+        <div class="jumbotron text-center">
+            <h1 class="text-black">
+                <small class="blackhr" >OR</small>
+            </h1>
+        </div>
+        <h2>Login with a demo account</h2>
+        <div class="row justify-content-center text-left">
+              <div class="col-12 col-xl-10">
+                <div class="row justify-content-center offset-custom-5">
+                  <div class="col-xl-8 col-xl offset-custom-3">
+            <form  method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                      <div class="form-wrap mb-4">
+                        <input class="form-input disabled"
+                        type="hidden"
+                               asp-for="Input.Email"
+                            
+                            value="eren.yeager@aot.com"/>
+                      </div>
+                      <div class="form-wrap mb-4">
+                        <input class="form-input disabled"
+                        asp-for="Input.Password"
+                        value="DevEnvTempPW1#" 
+                        type="hidden"
+                        />
+                      </div>
+                      <div class="button-wrap text-center">
+                        <button class="btn btn-success btn-sm btn-min-width-lg col-12" type="submit">Use Demo Account</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </section>
 

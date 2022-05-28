@@ -61,16 +61,24 @@ namespace ReelJunkies.Services
                 return;
             }
 
-            var credentials = _appSettings.ReelJunkiesSettings.DefaultCredentials;
+            var credentials = _appSettings.ReelJunkiesSettings;
             var newUser = new IdentityUser()
             {
-                Email = credentials.Email,
-                UserName = credentials.Email,
+                Email = credentials.DefaultCredentials.Email,
+                UserName = credentials.DefaultCredentials.Email,
                 EmailConfirmed = true
             };
 
-            await _userManager.CreateAsync(newUser, credentials.Password);
-            await _userManager.AddToRoleAsync(newUser, credentials.Role);
+            var demoUser = new IdentityUser()
+            {
+                Email = credentials.DemoUser.Email,
+                UserName = credentials.DemoUser.Email,
+                EmailConfirmed = true
+
+            };
+            await _userManager.CreateAsync(newUser, credentials.DefaultCredentials.Password);
+            await _userManager.CreateAsync(demoUser, credentials.DemoUser.Password);
+            await _userManager.AddToRoleAsync(newUser, credentials.DefaultCredentials.Role);
         }
 
 

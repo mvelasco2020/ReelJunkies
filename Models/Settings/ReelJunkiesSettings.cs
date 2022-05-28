@@ -15,6 +15,7 @@
 
         public DefaultCredentials DefaultCredentials { get; set; }
 
+        public DefaultCredentials DemoUser { get; set; }
 
     }
 }
