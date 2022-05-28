@@ -21,7 +21,7 @@
             <a asp-controller="home"
                asp-action="index">Home</a>
         </li>
-                <li>
+        <li>
             <a asp-controller="TV"
                asp-action="index">TV</a>
         </li>
@@ -191,18 +191,18 @@
 @section scripts{
 
 <script>
-        const url = "https://localhost:5001/TV/GetTVTrailer"
-        let watchTrailer = document.getElementsByClassName("trailerPlay");
-        Array.from(watchTrailer).forEach((e) => {
-            e.addEventListener("click", (e) => {
-                const TvId = e.target.dataset["id"];
-                e.preventDefault();
-                GetTVVideo(url,TvId);
-                $('#trailerModalVideo').on('hidden.bs.modal', function (event) {
-                $("#trailerVideo").attr("src", "");
-                })
+    const url = "https://reeljunkies.herokuapp.com/TV/GetTVTrailer"
+    let watchTrailer = document.getElementsByClassName("trailerPlay");
+    Array.from(watchTrailer).forEach((e) => {
+        e.addEventListener("click", (e) => {
+            const TvId = e.target.dataset["id"];
+            e.preventDefault();
+            GetTVVideo(url,TvId);
+            $('#trailerModalVideo').on('hidden.bs.modal', function (event) {
+            $("#trailerVideo").attr("src", "");
             })
         })
+    })
 </script>
 }
 -

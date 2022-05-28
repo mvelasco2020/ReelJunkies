@@ -241,10 +241,10 @@
 
 
                                                 <!--  form-->
-                                                     <h6 class="text-danger">@ViewData["ErrorMessage"]</h6>
-                                                        <form asp-controller="TV" asp-action="PostReview" method="post">
-                                                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                                         <div class="row row-10">
+                                                <h6 class="text-danger">@ViewData["ErrorMessage"]</h6>
+                                                <form asp-controller="TV" asp-action="PostReview" method="post">
+                                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                    <div class="row row-10">
                                                         <div class="col-12 col-md-12">
                                                             <div class="form-wrap">
                                                                 <input type="hidden" value="@Model.TmDbTVId" name="TVId" />
@@ -254,17 +254,17 @@
                                                                           placeholder="Leave your review"
                                                                           disabled=@(!SignInManager.IsSignedIn(User))>
                                                                       </textarea>
-                                                                      </div>
-                                                                      </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="col-12 text-center">
                                                             <button class="btn btn-success btn-sm"
                                                                     type="submit"
                                                                     disabled=@(!SignInManager.IsSignedIn(User))>
                                                                 Submit
                                                             </button>
-                                                            </div>
                                                         </div>
-                                                      </form>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -279,8 +279,6 @@
 
 
     <section>
-
-
     </section>
     <!-- suggested content-->
     <section class="section section-inset-2">
@@ -345,8 +343,6 @@
     </div>
 </div>
 <!--Trailer Modal -->
-
-
 <!--- delete Modal --->
 <div class="modal fade"
      tabindex="-1"
@@ -376,7 +372,6 @@
     </div>
 </div>
 <!--- delete Modal --->
-
 <!--- Edit Modal --->
 <div class="modal fade"
      tabindex="-1"
@@ -414,7 +409,6 @@
     </div>
 </div>
 <!--- Edit Modal --->
-
 @section scripts {
 <script>
 
@@ -429,7 +423,7 @@
     })
 
     //Modal Section
-    const url = "https://localhost:5001/TV/GetTVTrailer"
+    const url = "https://reeljunkies.herokuapp.com/TV/GetTVTrailer"
     document.querySelector(".watchtrl").addEventListener('click', (e) => {
         e.preventDefault();
         const TvId = e.target.dataset.id;
